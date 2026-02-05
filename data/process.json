@@ -1,0 +1,34 @@
+[
+  {
+    "id": "step-01",
+    "phase": "01",
+    "title": "DISCOVERY",
+    "duration": "1-2 WEEKS",
+    "description": "We audit your current systems, analyze requirements, and map the technical landscape. Every project begins with understanding the problem space completely.",
+    "deliverables": ["Technical Audit", "Architecture Map", "Scope Document"]
+  },
+  {
+    "id": "step-02",
+    "phase": "02",
+    "title": "ARCHITECTURE",
+    "duration": "1 WEEK",
+    "description": "We design the system blueprint — database schemas, API contracts, infrastructure topology. Nothing is built until the foundation is mathematically sound.",
+    "deliverables": ["System Blueprint", "API Contracts", "Tech Stack Decision"]
+  },
+  {
+    "id": "step-03",
+    "phase": "03",
+    "title": "ENGINEERING",
+    "duration": "4-8 WEEKS",
+    "description": "Sprint-based development with weekly deployments. You see progress in real-time. Every commit is tested, every deployment is automated.",
+    "deliverables": ["Working Product", "CI/CD Pipeline", "Test Coverage"]
+  },
+  {
+    "id": "step-04",
+    "phase": "04",
+    "title": "DEPLOYMENT",
+    "duration": "1 WEEK",
+    "description": "Production launch with monitoring, alerting, and documentation. We don't disappear after launch — we ensure the system is battle-tested.",
+    "deliverables": ["Production Deploy", "Monitoring Setup", "Handover Docs"]
+  }
+]

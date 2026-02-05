@@ -1,0 +1,26 @@
+[
+  {
+    "id": "stat-01",
+    "value": "50+",
+    "label": "PROJECTS DELIVERED",
+    "sublabel": "Since 2024"
+  },
+  {
+    "id": "stat-02",
+    "value": "99.9%",
+    "label": "UPTIME GUARANTEED",
+    "sublabel": "SLA Compliance"
+  },
+  {
+    "id": "stat-03",
+    "value": "<200ms",
+    "label": "AVG RESPONSE TIME",
+    "sublabel": "Edge-deployed"
+  },
+  {
+    "id": "stat-04",
+    "value": "24/7",
+    "label": "SYSTEM MONITORING",
+    "sublabel": "Automated alerts"
+  }
+]

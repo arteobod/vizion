@@ -1,0 +1,34 @@
+[
+  {
+    "id": "01",
+    "title": "WEB\nDEVELOPMENT",
+    "description": "Full-stack engineering with Next.js, React, and Node. Server-rendered, edge-optimized, built to scale from day one.",
+    "tags": ["NEXT.JS", "REACT", "TYPESCRIPT", "SSR"],
+    "metric": "99.9%",
+    "metricLabel": "UPTIME SLA"
+  },
+  {
+    "id": "02",
+    "title": "BUSINESS\nUTILITIES",
+    "description": "Admin panels, dashboards, CRM systems, and internal tools. Engineered for operational efficiency and data clarity.",
+    "tags": ["DASHBOARDS", "CRM", "ANALYTICS", "APIs"],
+    "metric": "40%",
+    "metricLabel": "OPS EFFICIENCY"
+  },
+  {
+    "id": "03",
+    "title": "SYSTEM\nARCHITECTURE",
+    "description": "Cloud infrastructure, CI/CD pipelines, database design. We architect systems that perform under pressure.",
+    "tags": ["AWS", "CLOUDFLARE", "DOCKER", "POSTGRES"],
+    "metric": "<200",
+    "metricLabel": "MS RESPONSE"
+  },
+  {
+    "id": "04",
+    "title": "AUDIT &\nSECURITY",
+    "description": "Code audits, performance optimization, security hardening. We find what others miss and fix what others can't.",
+    "tags": ["PENTEST", "OWASP", "CSP", "MONITORING"],
+    "metric": "0",
+    "metricLabel": "VULNERABILITIES"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "PRJ-001",
+    "title": "LOGISTICS PLATFORM",
+    "client": "TransitFlow GmbH",
+    "type": "WEB APPLICATION",
+    "year": "2024",
+    "description": "Real-time fleet management dashboard processing 2M+ events/day. Built with Next.js, WebSockets, and PostgreSQL.",
+    "tags": ["NEXT.JS", "WEBSOCKET", "POSTGRES", "AWS"],
+    "image": ""
+  },
+  {
+    "id": "PRJ-002",
+    "title": "FINTECH DASHBOARD",
+    "client": "Nordic Capital",
+    "type": "BUSINESS UTILITY",
+    "year": "2024",
+    "description": "Portfolio analytics platform with real-time market data integration. Sub-100ms query performance on 50M+ records.",
+    "tags": ["REACT", "NODE.JS", "REDIS", "GRAPHQL"],
+    "image": ""
+  },
+  {
+    "id": "PRJ-003",
+    "title": "E-COMMERCE ENGINE",
+    "client": "Baltic Brands",
+    "type": "FULL SYSTEM",
+    "year": "2024",
+    "description": "Headless commerce platform serving 3 markets with multilingual support. 98 Lighthouse score, edge-deployed.",
+    "tags": ["NEXT.JS", "STRIPE", "CLOUDFLARE", "SANITY"],
+    "image": ""
+  }
+]
