@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getProjects, addProject } from '@/lib/data'
 
 export async function GET() {
-  return NextResponse.json(getProjects())
+  const projects = await getProjects()
+  return NextResponse.json(projects)
 }
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const projects = getProjects()
+    const projects = await getProjects()
     const maxNum = projects.reduce((max, p) => {
       const num = parseInt(p.id.replace('PRJ-', ''), 10)
       return isNaN(num) ? max : Math.max(max, num)

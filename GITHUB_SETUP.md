@@ -19,9 +19,6 @@ Your project is ready to push. Follow one of the options below to create the pub
    ```powershell
    cd c:\Users\Arteo\front_vision
    git remote add origin https://github.com/YOUR_USERNAME/vizion.git
-   git add .
-   git commit -m "Initial commit: Vižon project"
-   git branch -M main
    git push -u origin main
    ```
 
@@ -30,9 +27,6 @@ Your project is ready to push. Follow one of the options below to create the pub
    ```powershell
    cd c:\Users\Arteo\front_vision
    git remote add origin git@github.com:YOUR_USERNAME/vizion.git
-   git add .
-   git commit -m "Initial commit: Vižon project"
-   git branch -M main
    git push -u origin main
    ```
 
@@ -46,9 +40,6 @@ Your project is ready to push. Follow one of the options below to create the pub
 
    ```powershell
    cd c:\Users\Arteo\front_vision
-   git add .
-   git commit -m "Initial commit: Vižon project"
-   git branch -M main
    gh repo create vizion --public --source=. --remote=origin --push
    ```
 
@@ -67,4 +58,17 @@ For this repo only, omit `--global`. For all repos, add `--global`.
 
 ---
 
-**Done locally:** Git is initialized, branch is `main`, and `.gitignore` is created. After you run the push steps above, your project will be on GitHub.
+**Done locally:** 
+- ✅ Git repository initialized
+- ✅ Branch set to `main`
+- ✅ `.gitignore` created
+- ✅ `README.md` created
+- ✅ Initial commit created (64 files)
+
+**Next step:** Follow Option A or B above to create the GitHub repository and push your code.
+
+**Note:** Git user identity is set locally. To change it:
+```powershell
+git config user.name "Your Name"
+git config user.email "your.email@example.com"
+```

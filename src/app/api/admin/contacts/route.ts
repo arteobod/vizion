@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getContacts, addContact, deleteContact } from '@/lib/data'
 
 export async function GET() {
-  return NextResponse.json(getContacts())
+  const contacts = await getContacts()
+  return NextResponse.json(contacts)
 }
 
 export async function POST(request: NextRequest) {

@@ -3,7 +3,7 @@ import { getProjectById, updateProject, deleteProject } from '@/lib/data'
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const project = getProjectById(id)
+  const project = await getProjectById(id)
   if (!project) {
     return NextResponse.json({ error: 'Project not found' }, { status: 404 })
   }

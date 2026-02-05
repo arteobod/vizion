@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getStats, saveStats } from '@/lib/data'
 
 export async function GET() {
-  return NextResponse.json(getStats())
+  const stats = await getStats()
+  return NextResponse.json(stats)
 }
 
 export async function PUT(request: NextRequest) {

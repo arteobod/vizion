@@ -11,7 +11,7 @@ export default function StatsPage() {
 
   useEffect(() => {
     fetch('/api/admin/stats')
-      .then(r => r.json())
+      .then(r => r.json() as Promise<Stat[]>)
       .then(data => { setStats(data); setLoading(false) })
   }, [])
 

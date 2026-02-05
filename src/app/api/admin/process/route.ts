@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getProcessSteps, saveProcessSteps } from '@/lib/data'
 
 export async function GET() {
-  return NextResponse.json(getProcessSteps())
+  const steps = await getProcessSteps()
+  return NextResponse.json(steps)
 }
 
 export async function PUT(request: NextRequest) {

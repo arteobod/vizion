@@ -18,7 +18,7 @@ export default function ImagesPage() {
 
   const fetchImages = async () => {
     const res = await fetch('/api/admin/upload')
-    const data = await res.json()
+    const data: ImageFile[] = await res.json()
     setImages(data)
     setLoading(false)
   }

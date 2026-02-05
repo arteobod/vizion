@@ -11,7 +11,7 @@ export default function ServicesPage() {
 
   useEffect(() => {
     fetch('/api/admin/services')
-      .then(r => r.json())
+      .then(r => r.json() as Promise<Service[]>)
       .then(data => { setServices(data); setLoading(false) })
   }, [])
 

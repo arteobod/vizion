@@ -11,7 +11,7 @@ export default function ProcessPage() {
 
   useEffect(() => {
     fetch('/api/admin/process')
-      .then(r => r.json())
+      .then(r => r.json() as Promise<ProcessStep[]>)
       .then(data => { setSteps(data); setLoading(false) })
   }, [])
 

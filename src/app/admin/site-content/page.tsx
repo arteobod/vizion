@@ -14,7 +14,7 @@ export default function SiteContentPage() {
 
   useEffect(() => {
     fetch('/api/admin/site-content')
-      .then(r => r.json())
+      .then(r => r.json() as Promise<SiteContent>)
       .then(data => { setContent(data); setLoading(false) })
   }, [])
 

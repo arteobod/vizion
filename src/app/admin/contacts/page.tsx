@@ -11,7 +11,7 @@ export default function ContactsPage() {
 
   const fetchContacts = async () => {
     const res = await fetch('/api/admin/contacts')
-    const data = await res.json()
+    const data: ContactSubmission[] = await res.json()
     setContacts(data)
     setLoading(false)
   }

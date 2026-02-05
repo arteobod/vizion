@@ -16,10 +16,10 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/api/admin/projects').then(r => r.json()),
-      fetch('/api/admin/services').then(r => r.json()),
-      fetch('/api/admin/contacts').then(r => r.json()),
-      fetch('/api/admin/upload').then(r => r.json()),
+      fetch('/api/admin/projects').then(r => r.json()) as Promise<unknown[]>,
+      fetch('/api/admin/services').then(r => r.json()) as Promise<unknown[]>,
+      fetch('/api/admin/contacts').then(r => r.json()) as Promise<unknown[]>,
+      fetch('/api/admin/upload').then(r => r.json()) as Promise<unknown[]>,
     ]).then(([projects, services, contacts, images]) => {
       setStats({
         projects: projects.length,

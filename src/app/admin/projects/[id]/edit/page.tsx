@@ -21,7 +21,7 @@ export default function EditProjectPage({ params }: { params: Promise<{ id: stri
 
   useEffect(() => {
     fetch(`/api/admin/projects/${id}`)
-      .then(r => r.json())
+      .then(r => r.json() as Promise<{ title?: string; client?: string; type?: string; year?: string; description?: string; tags?: string[]; image?: string; link?: string }>)
       .then(data => {
         setForm({
           title: data.title || '',

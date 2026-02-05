@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSiteContent, saveSiteContent } from '@/lib/data'
 
 export async function GET() {
-  return NextResponse.json(getSiteContent())
+  const content = await getSiteContent()
+  return NextResponse.json(content)
 }
 
 export async function PUT(request: NextRequest) {

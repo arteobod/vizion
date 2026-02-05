@@ -12,7 +12,7 @@ export default function ProjectsPage() {
 
   const fetchProjects = async () => {
     const res = await fetch('/api/admin/projects')
-    const data = await res.json()
+    const data: Project[] = await res.json()
     setProjects(data)
     setLoading(false)
   }

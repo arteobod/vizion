@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServices, saveServices } from '@/lib/data'
 
 export async function GET() {
-  return NextResponse.json(getServices())
+  const services = await getServices()
+  return NextResponse.json(services)
 }
 
 export async function PUT(request: NextRequest) {
