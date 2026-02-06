@@ -7,7 +7,7 @@
     "build": "next build",
     "build:cloudflare": "npx @opennextjs/cloudflare build",
     "preview:cloudflare": "npx wrangler pages dev",
-    "deploy": "npx @opennextjs/cloudflare build && npx wrangler pages deploy .open-next --project-name=vizion",
+    "deploy": "npx @opennextjs/cloudflare build && npx wrangler deploy",
     "start": "next start",
     "lint": "next lint"
   },
