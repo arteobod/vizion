@@ -13,11 +13,11 @@ import { getServices, getStats, getProjects, getProcessSteps } from '@/lib/data'
 // Server Component - reads from JSON data files (editable via admin panel)
 export const dynamic = 'force-dynamic'
 
-export default function Home() {
-  const services = getServices()
-  const stats = getStats()
-  const projects = getProjects()
-  const processSteps = getProcessSteps()
+export default async function Home() {
+  const services = await getServices()
+  const stats = await getStats()
+  const projects = await getProjects()
+  const processSteps = await getProcessSteps()
 
   return (
     <main>
