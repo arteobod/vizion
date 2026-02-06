@@ -74,7 +74,7 @@ function useTypewriter(text: string, speed = 30, delay = 2200) {
 export default function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const [loaded, setLoaded] = useState(false)
-  const subtext = useTypewriter('Premium web development & business utilities.', 30, 2200)
+  const subtext = useTypewriter('We build your vision.', 30, 2200)
 
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 200)
@@ -121,20 +121,25 @@ export default function Hero() {
         <div className="mb-10">
           <h1 className="font-mono font-bold text-display text-white leading-[0.85]">
             <span className="block overflow-hidden">
-              <ScrambleWord word="WE" delay={400} />
+              <ScrambleWord word="PREMIUM" delay={400} />
               {' '}
-              <ScrambleWord word="BUILD" delay={650} />
+              <ScrambleWord word="WEB" delay={600} />
             </span>
             <span className="block mt-2 overflow-hidden">
-              <ScrambleWord word="YOUR" delay={950} />
+              <ScrambleWord word="DEVELOPMENT" delay={800} />
               {' '}
+              <ScrambleWord word="&" delay={1000} />
+            </span>
+            <span className="block mt-2 overflow-hidden">
               <span className="relative inline-block">
-                <ScrambleWord word="VISION" delay={1250} className="text-fv-orange" />
+                <ScrambleWord word="BUSINESS" delay={1100} className="text-fv-orange" />
                 <span
                   className="absolute -bottom-2 left-0 h-0.5 bg-fv-orange transition-all duration-1000 ease-out"
                   style={{ width: loaded ? '100%' : '0%', transitionDelay: '1900ms' }}
                 />
               </span>
+              {' '}
+              <ScrambleWord word="UTILITIES" delay={1350} className="text-fv-orange" />
             </span>
           </h1>
         </div>
@@ -150,7 +155,7 @@ export default function Hero() {
             </p>
             <p
               className="font-sans text-lg text-fv-text-dim leading-relaxed max-w-md mt-1 transition-opacity duration-700"
-              style={{ opacity: subtext.length > 40 ? 1 : 0, transitionDelay: '300ms' }}
+              style={{ opacity: subtext.length > 15 ? 1 : 0, transitionDelay: '300ms' }}
             >
               We engineer digital systems that scale, perform, and endure.
             </p>
