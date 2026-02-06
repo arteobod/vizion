@@ -2,43 +2,9 @@
 
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import TextScramble from './TextScramble'
+import { Service } from '@/types'
 
-const SERVICES = [
-  {
-    id: '01',
-    title: 'WEB\nDEVELOPMENT',
-    description: 'Full-stack engineering with Next.js, React, and Node. Server-rendered, edge-optimized, built to scale from day one.',
-    tags: ['NEXT.JS', 'REACT', 'TYPESCRIPT', 'SSR'],
-    metric: '99.9%',
-    metricLabel: 'UPTIME SLA',
-  },
-  {
-    id: '02',
-    title: 'BUSINESS\nUTILITIES',
-    description: 'Admin panels, dashboards, CRM systems, and internal tools. Engineered for operational efficiency and data clarity.',
-    tags: ['DASHBOARDS', 'CRM', 'ANALYTICS', 'APIs'],
-    metric: '40%',
-    metricLabel: 'OPS EFFICIENCY',
-  },
-  {
-    id: '03',
-    title: 'SYSTEM\nARCHITECTURE',
-    description: 'Cloud infrastructure, CI/CD pipelines, database design. We architect systems that perform under pressure.',
-    tags: ['AWS', 'CLOUDFLARE', 'DOCKER', 'POSTGRES'],
-    metric: '<200',
-    metricLabel: 'MS RESPONSE',
-  },
-  {
-    id: '04',
-    title: 'AUDIT &\nSECURITY',
-    description: 'Code audits, performance optimization, security hardening. We find what others miss and fix what others can\'t.',
-    tags: ['PENTEST', 'OWASP', 'CSP', 'MONITORING'],
-    metric: '0',
-    metricLabel: 'VULNERABILITIES',
-  },
-]
-
-function ServiceCard({ service, index }: { service: typeof SERVICES[number]; index: number }) {
+function ServiceCard({ service, index }: { service: Service; index: number }) {
   const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 })
 
   return (
@@ -103,7 +69,7 @@ function ServiceCard({ service, index }: { service: typeof SERVICES[number]; ind
   )
 }
 
-export default function Services() {
+export default function Services({ services }: { services: Service[] }) {
   const { ref: headerRef, isVisible: headerVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.3 })
 
   return (
@@ -128,7 +94,7 @@ export default function Services() {
             <TextScramble text="CAPABILITIES" className="font-mono text-label text-fv-text-dim" delay={200} />
           </div>
           <span className="font-mono text-micro text-fv-text-muted hidden sm:block">
-            {SERVICES.length} SERVICES
+            {services.length} SERVICES
           </span>
         </div>
       </div>
@@ -136,7 +102,7 @@ export default function Services() {
       {/* Grid */}
       <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
         <div className="grid grid-cols-1 md:grid-cols-2">
-          {SERVICES.map((service, index) => (
+          {services.map((service, index) => (
             <ServiceCard key={service.id} service={service} index={index} />
           ))}
         </div>

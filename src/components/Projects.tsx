@@ -3,39 +3,10 @@
 import { useState } from 'react'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import TextScramble from './TextScramble'
-
-const PROJECTS = [
-  {
-    id: 'PRJ-001',
-    title: 'LOGISTICS PLATFORM',
-    client: 'TransitFlow GmbH',
-    type: 'WEB APPLICATION',
-    year: '2024',
-    description: 'Real-time fleet management dashboard processing 2M+ events/day. Built with Next.js, WebSockets, and PostgreSQL.',
-    stack: ['NEXT.JS', 'WEBSOCKET', 'POSTGRES', 'AWS'],
-  },
-  {
-    id: 'PRJ-002',
-    title: 'FINTECH DASHBOARD',
-    client: 'Nordic Capital',
-    type: 'BUSINESS UTILITY',
-    year: '2024',
-    description: 'Portfolio analytics platform with real-time market data integration. Sub-100ms query performance on 50M+ records.',
-    stack: ['REACT', 'NODE.JS', 'REDIS', 'GRAPHQL'],
-  },
-  {
-    id: 'PRJ-003',
-    title: 'E-COMMERCE ENGINE',
-    client: 'Baltic Brands',
-    type: 'FULL SYSTEM',
-    year: '2024',
-    description: 'Headless commerce platform serving 3 markets with multilingual support. 98 Lighthouse score, edge-deployed.',
-    stack: ['NEXT.JS', 'STRIPE', 'CLOUDFLARE', 'SANITY'],
-  },
-]
+import { Project } from '@/types'
 
 function ProjectRow({ project, index, isActive, onHover }: {
-  project: typeof PROJECTS[number]
+  project: Project
   index: number
   isActive: boolean
   onHover: () => void
@@ -87,7 +58,7 @@ function ProjectRow({ project, index, isActive, onHover }: {
         {/* Right: Stack + Arrow */}
         <div className="lg:col-span-3 flex flex-col items-start lg:items-end gap-4">
           <div className="flex flex-wrap gap-2 lg:justify-end">
-            {project.stack.map((tech, techIndex) => (
+            {project.tags.map((tech, techIndex) => (
               <span
                 key={tech}
                 className="font-mono text-micro px-2 py-1 border border-fv-border text-fv-text-muted group-hover:border-fv-orange/30 transition-colors duration-300"
@@ -118,7 +89,7 @@ function ProjectRow({ project, index, isActive, onHover }: {
   )
 }
 
-export default function Projects() {
+export default function Projects({ projects }: { projects: Project[] }) {
   const [activeIndex, setActiveIndex] = useState(0)
   const { ref: headerRef, isVisible: headerVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.3 })
 
@@ -144,13 +115,13 @@ export default function Projects() {
             <TextScramble text="SELECTED WORK" className="font-mono text-label text-fv-text-dim" delay={200} />
           </div>
           <span className="font-mono text-micro text-fv-text-muted hidden sm:block">
-            {PROJECTS.length} PROJECTS
+            {projects.length} PROJECTS
           </span>
         </div>
       </div>
 
       <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
-        {PROJECTS.map((project, index) => (
+        {projects.map((project, index) => (
           <ProjectRow
             key={project.id}
             project={project}

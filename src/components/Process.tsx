@@ -3,39 +3,9 @@
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import TextScramble from './TextScramble'
 import RevealText from './RevealText'
+import { ProcessStep as ProcessStepType } from '@/types'
 
-const STEPS = [
-  {
-    phase: '01',
-    title: 'DISCOVERY',
-    duration: '1-2 WEEKS',
-    description: 'We audit your current systems, analyze requirements, and map the technical landscape. Every project begins with understanding the problem space completely.',
-    deliverables: ['Technical Audit', 'Architecture Map', 'Scope Document'],
-  },
-  {
-    phase: '02',
-    title: 'ARCHITECTURE',
-    duration: '1 WEEK',
-    description: 'We design the system blueprint — database schemas, API contracts, infrastructure topology. Nothing is built until the foundation is mathematically sound.',
-    deliverables: ['System Blueprint', 'API Contracts', 'Tech Stack Decision'],
-  },
-  {
-    phase: '03',
-    title: 'ENGINEERING',
-    duration: '4-8 WEEKS',
-    description: 'Sprint-based development with weekly deployments. You see progress in real-time. Every commit is tested, every deployment is automated.',
-    deliverables: ['Working Product', 'CI/CD Pipeline', 'Test Coverage'],
-  },
-  {
-    phase: '04',
-    title: 'DEPLOYMENT',
-    duration: '1 WEEK',
-    description: 'Production launch with monitoring, alerting, and documentation. We don\'t disappear after launch — we ensure the system is battle-tested.',
-    deliverables: ['Production Deploy', 'Monitoring Setup', 'Handover Docs'],
-  },
-]
-
-function ProcessStep({ step, index }: { step: typeof STEPS[number]; index: number }) {
+function ProcessStep({ step, index }: { step: ProcessStepType; index: number }) {
   const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 })
 
   return (
@@ -111,7 +81,7 @@ function ProcessStep({ step, index }: { step: typeof STEPS[number]; index: numbe
   )
 }
 
-export default function Process() {
+export default function Process({ steps }: { steps: ProcessStepType[] }) {
   const { ref: headerRef, isVisible: headerVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.3 })
   const { ref: titleRef, isVisible: titleVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.2 })
 
@@ -137,7 +107,7 @@ export default function Process() {
             <TextScramble text="METHODOLOGY" className="font-mono text-label text-fv-text-dim" delay={200} />
           </div>
           <span className="font-mono text-micro text-fv-text-muted hidden sm:block">
-            4 PHASES
+            {steps.length} PHASES
           </span>
         </div>
       </div>
@@ -163,8 +133,8 @@ export default function Process() {
         </div>
 
         {/* Steps */}
-        {STEPS.map((step, index) => (
-          <ProcessStep key={step.phase} step={step} index={index} />
+        {steps.map((step, index) => (
+          <ProcessStep key={step.id} step={step} index={index} />
         ))}
       </div>
     </section>

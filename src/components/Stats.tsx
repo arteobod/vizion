@@ -2,15 +2,9 @@
 
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import CountUp from './CountUp'
+import { Stat } from '@/types'
 
-const STATS = [
-  { value: '50+', label: 'PROJECTS DELIVERED', sublabel: 'Since 2024' },
-  { value: '99.9%', label: 'UPTIME GUARANTEED', sublabel: 'SLA Compliance' },
-  { value: '<200ms', label: 'AVG RESPONSE TIME', sublabel: 'Edge-deployed' },
-  { value: '24/7', label: 'SYSTEM MONITORING', sublabel: 'Automated alerts' },
-]
-
-function StatCell({ stat, index }: { stat: typeof STATS[number]; index: number }) {
+function StatCell({ stat, index }: { stat: Stat; index: number }) {
   const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.3 })
 
   return (
@@ -52,13 +46,13 @@ function StatCell({ stat, index }: { stat: typeof STATS[number]; index: number }
   )
 }
 
-export default function Stats() {
+export default function Stats({ stats }: { stats: Stat[] }) {
   return (
     <section className="section-border">
       <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
         <div className="grid grid-cols-2 lg:grid-cols-4">
-          {STATS.map((stat, index) => (
-            <StatCell key={stat.label} stat={stat} index={index} />
+          {stats.map((stat, index) => (
+            <StatCell key={stat.id} stat={stat} index={index} />
           ))}
         </div>
       </div>
