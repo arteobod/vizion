@@ -2,8 +2,20 @@
 
 import { useState } from 'react'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
+import { useLanguage } from '@/context/LanguageContext'
 import TextScramble from './TextScramble'
 import { Project } from '@/types'
+
+function getLocalized(
+  value: string,
+  value_ru: string | undefined,
+  value_lv: string | undefined,
+  locale: string
+): string {
+  if (locale === 'ru' && value_ru) return value_ru
+  if (locale === 'lv' && value_lv) return value_lv
+  return value
+}
 
 function ProjectRow({ project, index, isActive, onHover }: {
   project: Project
@@ -11,6 +23,7 @@ function ProjectRow({ project, index, isActive, onHover }: {
   isActive: boolean
   onHover: () => void
 }) {
+  const { t, locale } = useLanguage()
   const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 })
 
   return (
@@ -31,11 +44,11 @@ function ProjectRow({ project, index, isActive, onHover }: {
             <span className="font-mono text-micro text-fv-text-muted">{project.id}</span>
             <span className="font-mono text-micro text-fv-text-muted">{project.year}</span>
             <span className="font-mono text-micro px-2 py-0.5 border border-fv-border text-fv-text-muted">
-              {project.type}
+              {getLocalized(project.type, project.type_ru, project.type_lv, locale)}
             </span>
           </div>
-          <h4 className="font-mono text-2xl lg:text-4xl font-bold text-white group-hover:text-fv-orange transition-colors duration-500">
-            <TextScramble text={project.title} delay={index * 200 + 200} scrambleDuration={700} />
+          <h4 className="font-mono text-2xl lg:text-4xl font-bold text-fv-white group-hover:text-fv-orange transition-colors duration-500">
+            <TextScramble text={getLocalized(project.title, project.title_ru, project.title_lv, locale)} delay={index * 200 + 200} scrambleDuration={700} />
           </h4>
           <span className="font-sans text-sm text-fv-text-muted mt-2 block">
             {project.client}
@@ -51,7 +64,7 @@ function ProjectRow({ project, index, isActive, onHover }: {
               transition: `opacity 0.8s ease-out ${index * 200 + 400}ms`,
             }}
           >
-            {project.description}
+            {getLocalized(project.description, project.description_ru, project.description_lv, locale)}
           </p>
         </div>
 
@@ -73,7 +86,7 @@ function ProjectRow({ project, index, isActive, onHover }: {
             ))}
           </div>
           <span className="font-mono text-label text-fv-text-muted group-hover:text-fv-orange transition-colors flex items-center gap-2">
-            VIEW CASE
+            {t.projects.viewCase}
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="group-hover:translate-x-1 transition-transform">
               <path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" strokeWidth="1.5" />
             </svg>
@@ -90,6 +103,7 @@ function ProjectRow({ project, index, isActive, onHover }: {
 }
 
 export default function Projects({ projects }: { projects: Project[] }) {
+  const { t } = useLanguage()
   const [activeIndex, setActiveIndex] = useState(0)
   const { ref: headerRef, isVisible: headerVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.3 })
 
@@ -107,15 +121,15 @@ export default function Projects({ projects }: { projects: Project[] }) {
           }}
         >
           <div className="flex items-center gap-6">
-            <span className="font-mono text-micro text-fv-text-muted">SECTION_02</span>
+            <span className="font-mono text-micro text-fv-text-muted">{t.projects.sectionLabel}</span>
             <span
               className="h-px bg-fv-border transition-all ease-out"
               style={{ width: headerVisible ? 64 : 0, transitionDuration: '1s', transitionDelay: '300ms' }}
             />
-            <TextScramble text="SELECTED WORK" className="font-mono text-label text-fv-text-dim" delay={200} />
+            <TextScramble text={t.projects.title} className="font-mono text-label text-fv-text-dim" delay={200} />
           </div>
           <span className="font-mono text-micro text-fv-text-muted hidden sm:block">
-            {projects.length} PROJECTS
+            {projects.length} {t.projects.count}
           </span>
         </div>
       </div>

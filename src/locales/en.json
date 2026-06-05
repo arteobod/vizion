@@ -1,0 +1,140 @@
+{
+  "nav": {
+    "services": "SERVICES",
+    "projects": "PROJECTS",
+    "process": "PROCESS",
+    "contact": "CONTACT",
+    "systemsOnline": "SYSTEMS ONLINE"
+  },
+  "hero": {
+    "subtitle": "Digital Infrastructure Studio",
+    "est": "EST. 2026",
+    "typewriter": "We build your vision.",
+    "description": "We engineer digital systems that scale, perform, and endure.",
+    "startProject": "START A PROJECT",
+    "capabilities": "CAPABILITIES",
+    "scroll": "SCROLL",
+    "phrases": [
+      { "lines": [["WE", "BUILD"], ["YOUR", "VISION"]], "highlight": "last-line" },
+      { "lines": [["PREMIUM", "WEB"], ["DEVELOPMENT"]], "highlight": "none" },
+      { "lines": [["BUSINESS"], ["UTILITIES"]], "highlight": "all" }
+    ]
+  },
+  "services": {
+    "sectionLabel": "SECTION_01",
+    "title": "CAPABILITIES",
+    "count": "SERVICES",
+    "items": {
+      "01": {
+        "title": "WEB\nDEVELOPMENT",
+        "description": "Full-stack engineering with Next.js, React, and Node. Server-rendered, edge-optimized, built to scale from day one.",
+        "metricLabel": "UPTIME SLA"
+      },
+      "02": {
+        "title": "BUSINESS\nUTILITIES",
+        "description": "Admin panels, dashboards, CRM systems, and internal tools. Engineered for operational efficiency and data clarity.",
+        "metricLabel": "OPS EFFICIENCY"
+      },
+      "03": {
+        "title": "SYSTEM\nARCHITECTURE",
+        "description": "Cloud infrastructure, CI/CD pipelines, database design. We architect systems that perform under pressure.",
+        "metricLabel": "MS RESPONSE"
+      },
+      "04": {
+        "title": "AUDIT &\nSECURITY",
+        "description": "Code audits, performance optimization, security hardening. We find what others miss and fix what others can't.",
+        "metricLabel": "VULNERABILITIES"
+      }
+    }
+  },
+  "process": {
+    "sectionLabel": "SECTION_03",
+    "title": "METHODOLOGY",
+    "count": "PHASES",
+    "headline": ["FROM ZERO TO", "PRODUCTION"],
+    "durationLabel": "DURATION",
+    "deliverablesLabel": "DELIVERABLES",
+    "items": {
+      "step-01": {
+        "title": "DISCOVERY",
+        "duration": "1-2 WEEKS",
+        "description": "We audit your current systems, analyze requirements, and map the technical landscape. Every project begins with understanding the problem space completely.",
+        "deliverables": ["Technical Audit", "Architecture Map", "Scope Document"]
+      },
+      "step-02": {
+        "title": "ARCHITECTURE",
+        "duration": "1 WEEK",
+        "description": "We design the system blueprint — database schemas, API contracts, infrastructure topology. Nothing is built until the foundation is mathematically sound.",
+        "deliverables": ["System Blueprint", "API Contracts", "Tech Stack Decision"]
+      },
+      "step-03": {
+        "title": "ENGINEERING",
+        "duration": "4-8 WEEKS",
+        "description": "Sprint-based development with weekly deployments. You see progress in real-time. Every commit is tested, every deployment is automated.",
+        "deliverables": ["Working Product", "CI/CD Pipeline", "Test Coverage"]
+      },
+      "step-04": {
+        "title": "DEPLOYMENT",
+        "duration": "1 WEEK",
+        "description": "Production launch with monitoring, alerting, and documentation. We don't disappear after launch — we ensure the system is battle-tested.",
+        "deliverables": ["Production Deploy", "Monitoring Setup", "Handover Docs"]
+      }
+    }
+  },
+  "contact": {
+    "sectionLabel": "SECTION_04",
+    "title": "INITIATE",
+    "status": "OPEN FOR PROJECTS",
+    "headline": ["LET'S BUILD", "SOMETHING", "TOGETHER"],
+    "description": "Whether you need a complete platform, a business utility, or a technical audit — we're ready to engineer your next system.",
+    "emailLabel": "EMAIL",
+    "responseTimeLabel": "RESPONSE TIME",
+    "responseTimeValue": "< 24 HOURS",
+    "locationLabel": "LOCATION",
+    "locationValue": "RIGA, LATVIA / REMOTE",
+    "form": {
+      "name": "YOUR NAME",
+      "namePlaceholder": "John Smith",
+      "email": "EMAIL",
+      "emailPlaceholder": "john@company.com",
+      "projectType": "PROJECT TYPE",
+      "selectService": "Select service...",
+      "webDev": "Web Development",
+      "utility": "Business Utility",
+      "architecture": "System Architecture",
+      "audit": "Audit & Security",
+      "brief": "PROJECT BRIEF",
+      "briefPlaceholder": "Describe your project requirements...",
+      "submit": "TRANSMIT MESSAGE",
+      "exampleBrief": "EXAMPLE BRIEF",
+      "success": "MESSAGE TRANSMITTED SUCCESSFULLY"
+    }
+  },
+  "marquee": {
+    "webDev": "WEB DEVELOPMENT",
+    "selectedProjects": "SELECTED PROJECTS",
+    "ourProcess": "OUR PROCESS"
+  },
+  "projects": {
+    "sectionLabel": "SECTION_02",
+    "title": "SELECTED WORK",
+    "count": "PROJECTS",
+    "viewCase": "VIEW CASE"
+  },
+  "stats": {
+    "stat-01": { "label": "PROJECTS DELIVERED", "sublabel": "Since 2026" },
+    "stat-02": { "label": "UPTIME GUARANTEED", "sublabel": "SLA Compliance" },
+    "stat-03": { "label": "AVG RESPONSE TIME", "sublabel": "Edge-deployed" },
+    "stat-04": { "label": "SYSTEM MONITORING", "sublabel": "Automated alerts" }
+  },
+  "footer": {
+    "brand": "Digital infrastructure studio.",
+    "brandSub": "We build systems that scale.",
+    "navigation": "NAVIGATION",
+    "coreStack": "CORE STACK",
+    "connect": "CONNECT",
+    "copyright": "ALL RIGHTS RESERVED.",
+    "engineered": "ENGINEERED WITH PRECISION",
+    "privacyPolicy": "PRIVACY POLICY"
+  }
+}

@@ -21,7 +21,7 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
 
   const checkAuth = useCallback(async () => {
     try {
-      const res = await fetch('/api/admin/auth/verify')
+      const res = await fetch('/api/ctrl-8b2f/auth/verify')
       if (res.ok) {
         const data = await res.json()
         setIsAuthenticated(true)
@@ -44,7 +44,7 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (username: string, password: string) => {
     try {
-      const res = await fetch('/api/admin/auth/login', {
+      const res = await fetch('/api/ctrl-8b2f/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -63,10 +63,10 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
   }
 
   const logout = async () => {
-    await fetch('/api/admin/auth/login', { method: 'DELETE' })
+    await fetch('/api/ctrl-8b2f/auth/login', { method: 'DELETE' })
     setIsAuthenticated(false)
     setUsername(null)
-    router.push('/admin/login')
+    router.push('/ctrl-8b2f/login')
   }
 
   return (

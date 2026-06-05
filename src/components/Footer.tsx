@@ -1,8 +1,11 @@
 'use client'
 
+import Link from 'next/link'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
+import { useLanguage } from '@/context/LanguageContext'
 
 export default function Footer() {
+  const { t } = useLanguage()
   const currentYear = new Date().getFullYear()
   const { ref, isVisible } = useScrollReveal<HTMLElement>({ threshold: 0.1 })
 
@@ -25,19 +28,24 @@ export default function Footer() {
               <span className="animate-blink text-fv-orange font-mono text-lg font-bold">_</span>
             </div>
             <p className="font-sans text-xs text-fv-text-muted leading-relaxed">
-              Digital infrastructure studio.<br />
-              We build systems that scale.
+              {t.footer.brand}<br />
+              {t.footer.brandSub}
             </p>
           </div>
 
           {/* Navigation */}
           <div className="p-8 lg:p-10 border-b md:border-b-0 md:border-r border-fv-border">
-            <span className="font-mono text-micro text-fv-text-muted block mb-4">NAVIGATION</span>
+            <span className="font-mono text-micro text-fv-text-muted block mb-4">{t.footer.navigation}</span>
             <div className="space-y-2">
-              {['SERVICES', 'PROJECTS', 'PROCESS', 'CONTACT'].map((link, i) => (
+              {[
+                { label: t.nav.services, href: '#services' },
+                { label: t.nav.projects, href: '#projects' },
+                { label: t.nav.process, href: '#process' },
+                { label: t.nav.contact, href: '#contact' },
+              ].map(({ label: link, href }, i) => (
                 <a
-                  key={link}
-                  href={`#${link.toLowerCase()}`}
+                  key={href}
+                  href={href}
                   className="block font-mono text-xs text-fv-text-dim hover:text-fv-orange transition-colors"
                   style={{
                     opacity: isVisible ? 1 : 0,
@@ -53,7 +61,7 @@ export default function Footer() {
 
           {/* Stack */}
           <div className="p-8 lg:p-10 border-b lg:border-b-0 lg:border-r border-fv-border">
-            <span className="font-mono text-micro text-fv-text-muted block mb-4">CORE STACK</span>
+            <span className="font-mono text-micro text-fv-text-muted block mb-4">{t.footer.coreStack}</span>
             <div className="space-y-2">
               {['NEXT.JS / REACT', 'NODE.JS / TYPESCRIPT', 'POSTGRESQL / REDIS', 'AWS / CLOUDFLARE'].map((tech, i) => (
                 <span
@@ -71,32 +79,24 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Social / Links */}
+          {/* Contact */}
           <div className="p-8 lg:p-10">
-            <span className="font-mono text-micro text-fv-text-muted block mb-4">CONNECT</span>
+            <span className="font-mono text-micro text-fv-text-muted block mb-4">{t.footer.connect}</span>
             <div className="space-y-2">
-              {[
-                { label: 'GITHUB', href: '#' },
-                { label: 'LINKEDIN', href: '#' },
-                { label: 'TWITTER / X', href: '#' },
-                { label: 'TELEGRAM', href: '#' },
-              ].map((social, i) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  className="flex items-center gap-2 font-mono text-xs text-fv-text-dim hover:text-fv-orange transition-colors group"
-                  style={{
-                    opacity: isVisible ? 1 : 0,
-                    transform: isVisible ? 'translateX(0)' : 'translateX(-10px)',
-                    transition: `opacity 0.5s ease-out ${400 + i * 60}ms, transform 0.5s ease-out ${400 + i * 60}ms`,
-                  }}
-                >
-                  {social.label}
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                    <path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" strokeWidth="1" />
-                  </svg>
-                </a>
-              ))}
+              <a
+                href="#contact"
+                className="flex items-center gap-2 font-mono text-xs text-fv-text-dim hover:text-fv-orange transition-colors group"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateX(0)' : 'translateX(-10px)',
+                  transition: 'opacity 0.5s ease-out 400ms, transform 0.5s ease-out 400ms',
+                }}
+              >
+                GET IN TOUCH
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                  <path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" strokeWidth="1" />
+                </svg>
+              </a>
             </div>
           </div>
         </div>
@@ -110,11 +110,17 @@ export default function Footer() {
           }}
         >
           <span className="font-mono text-micro text-fv-text-muted">
-            &copy; {currentYear} VŽN. ALL RIGHTS RESERVED.
+            &copy; {currentYear} VŽN. {t.footer.copyright}
           </span>
           <div className="flex items-center gap-6">
+            <Link
+              href="/privatuma-politika"
+              className="font-mono text-micro text-fv-text-muted hover:text-fv-orange transition-colors"
+            >
+              {t.footer.privacyPolicy}
+            </Link>
             <span className="font-mono text-micro text-fv-text-muted">
-              ENGINEERED WITH PRECISION
+              {t.footer.engineered}
             </span>
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-fv-orange animate-pulse" />

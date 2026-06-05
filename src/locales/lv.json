@@ -1,0 +1,140 @@
+{
+  "nav": {
+    "services": "PAKALPOJUMI",
+    "projects": "PROJEKTI",
+    "process": "PROCESS",
+    "contact": "KONTAKTI",
+    "systemsOnline": "SISTĒMAS TIEŠSAISTĒ"
+  },
+  "hero": {
+    "subtitle": "Digitālās infrastruktūras studija",
+    "est": "DIB. 2026",
+    "typewriter": "Mēs būvējam jūsu vīziju.",
+    "description": "Mēs projektējam digitālās sistēmas, kas mērogojās, darbojas un iztur slodzi.",
+    "startProject": "SĀKT PROJEKTU",
+    "capabilities": "SPĒJAS",
+    "scroll": "LEJUP",
+    "phrases": [
+      { "lines": [["MĒS", "BŪVĒJAM"], ["JŪSU", "VĪZIJU"]], "highlight": "last-line" },
+      { "lines": [["PREMIUM", "TĪMEKĻA"], ["IZSTRĀDE"]], "highlight": "none" },
+      { "lines": [["BIZNESA"], ["UTILĪTAS"]], "highlight": "all" }
+    ]
+  },
+  "services": {
+    "sectionLabel": "SADAĻA_01",
+    "title": "SPĒJAS",
+    "count": "PAKALPOJUMI",
+    "items": {
+      "01": {
+        "title": "TĪMEKĻA\nIZSTRĀDE",
+        "description": "Full-stack izstrāde ar Next.js, React un Node. Servera renderēšana, edge optimizācija, mērogojamība no pirmās dienas.",
+        "metricLabel": "SLA DARBLAIKS"
+      },
+      "02": {
+        "title": "BIZNESA\nUTILĪTAS",
+        "description": "Admin paneļi, informācijas paneļi, CRM sistēmas un iekšējie rīki. Projektēti operacionālai efektivitātei.",
+        "metricLabel": "EFEKTIVITĀTE"
+      },
+      "03": {
+        "title": "SISTĒMU\nARHITEKTŪRA",
+        "description": "Mākoņa infrastruktūra, CI/CD cauruļvadi, datubāzu projektēšana. Mēs būvējam sistēmas, kas strādā zem slodzes.",
+        "metricLabel": "MS ATBILDE"
+      },
+      "04": {
+        "title": "AUDITS UN\nDROŠĪBA",
+        "description": "Koda audits, veiktspējas optimizācija, drošības nostiprināšana. Mēs atrodam to, ko citi palaiž garām.",
+        "metricLabel": "IEVAINOJAMĪBAS"
+      }
+    }
+  },
+  "process": {
+    "sectionLabel": "SADAĻA_03",
+    "title": "METODOLOĢIJA",
+    "count": "FĀZES",
+    "headline": ["NO NULLES LĪDZ", "PRODUKCIJAI"],
+    "durationLabel": "ILGUMS",
+    "deliverablesLabel": "REZULTĀTI",
+    "items": {
+      "step-01": {
+        "title": "IZPĒTE",
+        "duration": "1-2 NEDĒĻAS",
+        "description": "Mēs veicam jūsu pašreizējo sistēmu auditu, analizējam prasības un kartējam tehnisko ainavu. Katrs projekts sākas ar pilnīgu problēmas izpratni.",
+        "deliverables": ["Tehniskais audits", "Arhitektūras karte", "Apjoma dokuments"]
+      },
+      "step-02": {
+        "title": "ARHITEKTŪRA",
+        "duration": "1 NEDĒĻA",
+        "description": "Mēs projektējam sistēmas shēmu — datubāzu shēmas, API līgumus, infrastruktūras topoloģiju. Nekas netiek būvēts, kamēr pamats nav izsvērts.",
+        "deliverables": ["Sistēmas shēma", "API līgumi", "Tehnoloģiju izvēle"]
+      },
+      "step-03": {
+        "title": "IZSTRĀDE",
+        "duration": "4-8 NEDĒĻAS",
+        "description": "Sprintu izstrāde ar iknedēļas izvietošanu. Jūs redzat progresu reāllaikā. Katrs komits ir testēts, katra izvietošana ir automatizēta.",
+        "deliverables": ["Strādājošs produkts", "CI/CD cauruļvads", "Testu pārklājums"]
+      },
+      "step-04": {
+        "title": "IZVIETOŠANA",
+        "duration": "1 NEDĒĻA",
+        "description": "Produkcijas palaišana ar monitoringu, brīdinājumiem un dokumentāciju. Mēs nepazūdam pēc palaišanas — mēs pārliecināmies, ka sistēma ir cīņai gatava.",
+        "deliverables": ["Produkcijas izvietošana", "Monitoringa iestatīšana", "Dokumentācija"]
+      }
+    }
+  },
+  "contact": {
+    "sectionLabel": "SADAĻA_04",
+    "title": "SĀKT",
+    "status": "ATVĒRTI PROJEKTIEM",
+    "headline": ["BŪVĒSIM", "KAUT KO", "KOPĀ"],
+    "description": "Vajag pilnu platformu, biznesa utilītu vai tehnisku auditu — mēs esam gatavi projektēt jūsu nākamo sistēmu.",
+    "emailLabel": "E-PASTS",
+    "responseTimeLabel": "ATBILDES LAIKS",
+    "responseTimeValue": "< 24 STUNDAS",
+    "locationLabel": "ATRAŠANĀS VIETA",
+    "locationValue": "RĪGA, LATVIJA / ATTĀLINĀTI",
+    "form": {
+      "name": "JŪSU VĀRDS",
+      "namePlaceholder": "Jānis Bērziņš",
+      "email": "E-PASTS",
+      "emailPlaceholder": "janis@uznemums.lv",
+      "projectType": "PROJEKTA TIPS",
+      "selectService": "Izvēlieties pakalpojumu...",
+      "webDev": "Tīmekļa izstrāde",
+      "utility": "Biznesa utilīta",
+      "architecture": "Sistēmu arhitektūra",
+      "audit": "Audits un drošība",
+      "brief": "PROJEKTA APRAKSTS",
+      "briefPlaceholder": "Aprakstiet jūsu projekta prasības...",
+      "submit": "NOSŪTĪT ZIŅOJUMU",
+      "exampleBrief": "BRĪFA PIEMĒRS",
+      "success": "ZIŅOJUMS VEIKSMĪGI NOSŪTĪTS"
+    }
+  },
+  "marquee": {
+    "webDev": "TĪMEKĻA IZSTRĀDE",
+    "selectedProjects": "IZVĒLĒTIE PROJEKTI",
+    "ourProcess": "MŪSU PROCESS"
+  },
+  "projects": {
+    "sectionLabel": "SADAĻA_02",
+    "title": "IZVĒLĒTIE DARBI",
+    "count": "PROJEKTI",
+    "viewCase": "SKATĪT GADĪJUMU"
+  },
+  "stats": {
+    "stat-01": { "label": "PABEIGTI PROJEKTI", "sublabel": "Kopš 2026" },
+    "stat-02": { "label": "DARBLAIKA GARANTIJA", "sublabel": "SLA atbilstība" },
+    "stat-03": { "label": "VID. ATBILDES LAIKS", "sublabel": "Edge izvietošana" },
+    "stat-04": { "label": "SISTĒMU MONITORINGS", "sublabel": "Automatizēti brīdinājumi" }
+  },
+  "footer": {
+    "brand": "Digitālās infrastruktūras studija.",
+    "brandSub": "Mēs būvējam sistēmas, kas mērogojās.",
+    "navigation": "NAVIGĀCIJA",
+    "coreStack": "TEHNOLOĢIJU STEKS",
+    "connect": "SAZINĀTIES",
+    "copyright": "VISAS TIESĪBAS AIZSARGĀTAS.",
+    "engineered": "PROJEKTĒTS AR PRECIZITĀTI",
+    "privacyPolicy": "PRIVĀTUMA POLITIKA"
+  }
+}

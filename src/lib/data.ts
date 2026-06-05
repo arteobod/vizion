@@ -1,4 +1,4 @@
-import { Project, Service, ProcessStep, Stat, ContactSubmission, SiteContent } from '@/types'
+import { Project, Service, ProcessStep, Stat, ContactSubmission, SiteContent, CrmClient } from '@/types'
 
 // Static imports - bundled at build time, used as defaults
 import projectsJson from '../../data/projects.json'
@@ -7,6 +7,7 @@ import processJson from '../../data/process.json'
 import statsJson from '../../data/stats.json'
 import siteContentJson from '../../data/site-content.json'
 import contactsJson from '../../data/contacts.json'
+import crmClientsJson from '../../data/crm-clients.json'
 
 // Type for KV namespace
 interface KVNamespace {
@@ -202,4 +203,41 @@ export async function getSiteContent(): Promise<SiteContent> {
 
 export async function saveSiteContent(content: SiteContent): Promise<void> {
   await writeData('site-content', 'site-content.json', content)
+}
+
+// --- CRM Clients ---
+
+export async function getCrmClients(): Promise<CrmClient[]> {
+  return readData<CrmClient[]>('crm-clients', 'crm-clients.json', crmClientsJson as CrmClient[])
+}
+
+export async function saveCrmClients(clients: CrmClient[]): Promise<void> {
+  await writeData('crm-clients', 'crm-clients.json', clients)
+}
+
+export async function addCrmClient(client: CrmClient): Promise<void> {
+  const clients = await getCrmClients()
+  clients.unshift(client)
+  await saveCrmClients(clients)
+}
+
+export async function updateCrmClient(id: string, updates: Partial<CrmClient>): Promise<CrmClient | null> {
+  const clients = await getCrmClients()
+  const index = clients.findIndex((c) => c.id === id)
+  if (index === -1) return null
+  clients[index] = { ...clients[index], ...updates, id }
+  await saveCrmClients(clients)
+  return clients[index]
+}
+
+export async function deleteCrmClient(id: string): Promise<boolean> {
+  const clients = await getCrmClients()
+  const filtered = clients.filter((c) => c.id !== id)
+  if (filtered.length === clients.length) return false
+  await saveCrmClients(filtered)
+  return true
+}
+
+export async function clearCrmClients(): Promise<void> {
+  await saveCrmClients([])
 }

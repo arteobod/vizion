@@ -3,13 +3,13 @@
     "id": "stat-01",
     "value": "50+",
     "label": "PROJECTS DELIVERED",
-    "sublabel": "Since 2024"
+    "sublabel": "Since 2026"
   },
   {
     "id": "stat-02",
-    "value": "99.9%",
-    "label": "UPTIME GUARANTEED",
-    "sublabel": "SLA Compliance"
+    "value": "95+",
+    "label": "LIGHTHOUSE SCORE",
+    "sublabel": "Performance Optimized"
   },
   {
     "id": "stat-03",
@@ -19,8 +19,8 @@
   },
   {
     "id": "stat-04",
-    "value": "24/7",
-    "label": "SYSTEM MONITORING",
-    "sublabel": "Automated alerts"
+    "value": "RAPID",
+    "label": "TIME-TO-MARKET",
+    "sublabel": "AI-Accelerated Delivery"
   }
 ]

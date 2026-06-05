@@ -8,7 +8,7 @@ import Process from '@/components/Process'
 import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
 import ScrollProgress from '@/components/ScrollProgress'
-import { getServices, getStats, getProjects, getProcessSteps } from '@/lib/data'
+import { getServices, getStats, getProjects, getProcessSteps, getSiteContent } from '@/lib/data'
 
 // Server Component - reads from JSON data files (editable via admin panel)
 export const dynamic = 'force-dynamic'
@@ -18,6 +18,7 @@ export default async function Home() {
   const stats = await getStats()
   const projects = await getProjects()
   const processSteps = await getProcessSteps()
+  const siteContent = await getSiteContent()
 
   return (
     <main>
@@ -31,7 +32,7 @@ export default async function Home() {
       <Projects projects={projects} />
       <Marquee text="OUR PROCESS" speed={35} />
       <Process steps={processSteps} />
-      <Contact />
+      <Contact siteContent={siteContent} />
       <Footer />
     </main>
   )

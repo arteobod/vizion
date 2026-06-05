@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { useTheme } from '@/context/ThemeContext'
 
 interface Node {
   x: number
@@ -11,9 +12,31 @@ interface Node {
   connections: number[]
 }
 
+const COLORS = {
+  dark: {
+    grid: 'rgba(51, 51, 51, 0.15)',
+    gridDot: 'rgba(51, 51, 51, 0.25)',
+    node: 'rgba(224, 224, 224, 0.3)',
+    connection: (a: number) => `rgba(224, 224, 224, ${a})`,
+    orange: (a: number) => `rgba(255, 69, 0, ${a})`,
+    stream: 0.06,
+    scanline: 0.02,
+  },
+  light: {
+    grid: 'rgba(180, 170, 155, 0.2)',
+    gridDot: 'rgba(180, 170, 155, 0.35)',
+    node: 'rgba(100, 90, 75, 0.25)',
+    connection: (a: number) => `rgba(100, 90, 75, ${a})`,
+    orange: (a: number) => `rgba(232, 62, 0, ${a})`,
+    stream: 0.1,
+    scanline: 0.03,
+  },
+}
+
 export default function GenerativeBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animRef = useRef<number>(0)
+  const { theme } = useTheme()
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -22,13 +45,14 @@ export default function GenerativeBackground() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
+    const c = COLORS[theme]
     let width = 0
     let height = 0
     let nodes: Node[] = []
     let time = 0
 
     const CONNECTION_DIST = 180
-    const NODE_COUNT_FACTOR = 0.00004 // nodes per pixel area
+    const NODE_COUNT_FACTOR = 0.00004
     const GRID_SPACING = 80
 
     function resize() {
@@ -58,11 +82,9 @@ export default function GenerativeBackground() {
     }
 
     function drawGrid() {
-      // Subtle mathematical grid
-      ctx!.strokeStyle = 'rgba(51, 51, 51, 0.15)'
+      ctx!.strokeStyle = c.grid
       ctx!.lineWidth = 0.5
 
-      // Vertical lines
       for (let x = 0; x < width; x += GRID_SPACING) {
         ctx!.beginPath()
         ctx!.moveTo(x, 0)
@@ -70,7 +92,6 @@ export default function GenerativeBackground() {
         ctx!.stroke()
       }
 
-      // Horizontal lines
       for (let y = 0; y < height; y += GRID_SPACING) {
         ctx!.beginPath()
         ctx!.moveTo(0, y)
@@ -78,8 +99,7 @@ export default function GenerativeBackground() {
         ctx!.stroke()
       }
 
-      // Intersection dots
-      ctx!.fillStyle = 'rgba(51, 51, 51, 0.25)'
+      ctx!.fillStyle = c.gridDot
       for (let x = 0; x < width; x += GRID_SPACING) {
         for (let y = 0; y < height; y += GRID_SPACING) {
           ctx!.beginPath()
@@ -90,7 +110,6 @@ export default function GenerativeBackground() {
     }
 
     function drawDataStreams() {
-      // Vertical "data streams" — thin lines flowing down
       const streamCount = 5
       ctx!.lineWidth = 0.5
 
@@ -100,9 +119,9 @@ export default function GenerativeBackground() {
         const streamLength = 120
 
         const gradient = ctx!.createLinearGradient(x, offset - streamLength, x, offset)
-        gradient.addColorStop(0, 'rgba(255, 69, 0, 0)')
-        gradient.addColorStop(0.5, 'rgba(255, 69, 0, 0.06)')
-        gradient.addColorStop(1, 'rgba(255, 69, 0, 0)')
+        gradient.addColorStop(0, c.orange(0))
+        gradient.addColorStop(0.5, c.orange(c.stream))
+        gradient.addColorStop(1, c.orange(0))
 
         ctx!.strokeStyle = gradient
         ctx!.beginPath()
@@ -117,7 +136,6 @@ export default function GenerativeBackground() {
         node.x += node.vx
         node.y += node.vy
 
-        // Wrap around edges
         if (node.x < 0) node.x = width
         if (node.x > width) node.x = 0
         if (node.y < 0) node.y = height
@@ -126,7 +144,6 @@ export default function GenerativeBackground() {
     }
 
     function drawNodes() {
-      // Draw connections
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const dx = nodes[i].x - nodes[j].x
@@ -135,7 +152,7 @@ export default function GenerativeBackground() {
 
           if (dist < CONNECTION_DIST) {
             const alpha = (1 - dist / CONNECTION_DIST) * 0.12
-            ctx!.strokeStyle = `rgba(224, 224, 224, ${alpha})`
+            ctx!.strokeStyle = c.connection(alpha)
             ctx!.lineWidth = 0.5
             ctx!.beginPath()
             ctx!.moveTo(nodes[i].x, nodes[i].y)
@@ -145,18 +162,16 @@ export default function GenerativeBackground() {
         }
       }
 
-      // Draw nodes
       for (const node of nodes) {
-        ctx!.fillStyle = `rgba(224, 224, 224, 0.3)`
+        ctx!.fillStyle = c.node
         ctx!.beginPath()
         ctx!.arc(node.x, node.y, node.radius, 0, Math.PI * 2)
         ctx!.fill()
       }
 
-      // A few orange accent nodes
       for (let i = 0; i < Math.min(3, nodes.length); i++) {
         const pulse = Math.sin(time * 2 + i * 2) * 0.5 + 0.5
-        ctx!.fillStyle = `rgba(255, 69, 0, ${0.15 + pulse * 0.2})`
+        ctx!.fillStyle = c.orange(0.15 + pulse * 0.2)
         ctx!.beginPath()
         ctx!.arc(nodes[i].x, nodes[i].y, nodes[i].radius + 1 + pulse, 0, Math.PI * 2)
         ctx!.fill()
@@ -164,12 +179,11 @@ export default function GenerativeBackground() {
     }
 
     function drawScanline() {
-      // Horizontal scanline sweep
       const scanY = (time * 20) % height
       const gradient = ctx!.createLinearGradient(0, scanY - 2, 0, scanY + 2)
-      gradient.addColorStop(0, 'rgba(255, 69, 0, 0)')
-      gradient.addColorStop(0.5, 'rgba(255, 69, 0, 0.02)')
-      gradient.addColorStop(1, 'rgba(255, 69, 0, 0)')
+      gradient.addColorStop(0, c.orange(0))
+      gradient.addColorStop(0.5, c.orange(c.scanline))
+      gradient.addColorStop(1, c.orange(0))
       ctx!.fillStyle = gradient
       ctx!.fillRect(0, scanY - 30, width, 60)
     }
@@ -196,7 +210,7 @@ export default function GenerativeBackground() {
       window.removeEventListener('resize', resize)
       cancelAnimationFrame(animRef.current)
     }
-  }, [])
+  }, [theme])
 
   return (
     <canvas

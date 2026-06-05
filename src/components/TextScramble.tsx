@@ -23,6 +23,17 @@ export default function TextScramble({
   const { ref, isVisible } = useScrollReveal<HTMLSpanElement>({ threshold: 0.3 })
   const [display, setDisplay] = useState('')
   const hasPlayed = useRef(false)
+  const animationRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  // Reset when text changes (e.g. language switch) and cancel any running animation
+  useEffect(() => {
+    if (animationRef.current) {
+      clearInterval(animationRef.current)
+      animationRef.current = null
+    }
+    hasPlayed.current = false
+    setDisplay('')
+  }, [text])
 
   const scramble = useCallback(() => {
     if (hasPlayed.current) return
@@ -32,8 +43,7 @@ export default function TextScramble({
     const resolved = new Array(chars.length).fill(false)
     let frame = 0
 
-    // Phase 1: Random characters appear
-    const interval = setInterval(() => {
+    animationRef.current = setInterval(() => {
       frame++
       const progress = Math.min(frame * speed / scrambleDuration, 1)
 
@@ -51,7 +61,8 @@ export default function TextScramble({
       setDisplay(output.join(''))
 
       if (resolved.every(Boolean)) {
-        clearInterval(interval)
+        clearInterval(animationRef.current!)
+        animationRef.current = null
       }
     }, speed)
   }, [text, speed, scrambleDuration])

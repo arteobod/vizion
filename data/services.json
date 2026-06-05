@@ -1,54 +1,30 @@
 [
   {
     "id": "01",
-    "title": "WEB\nDEVELOPMENT",
-    "description": "Full-stack engineering with Next.js, React, and Node. Server-rendered, edge-optimized, built to scale from day one. First, second, third.",
+    "title": "WEB & APP\nDEVELOPMENT",
+    "description": "Full-stack engineering with Next.js, React, and Node. We leverage modern UI systems and AI generation to rapidly deploy production-ready web applications, custom admin panels, and internal tools without the bloated 6-month dev cycle.",
     "tags": [
       "NEXT.JS",
       "REACT",
       "TYPESCRIPT",
-      "SSR"
+      "NODE",
+      "AI-ASSISTED"
     ],
-    "metric": "99.9%",
-    "metricLabel": "UPTIME SLA"
+    "metric": "95+",
+    "metricLabel": "LIGHTHOUSE SCORE"
   },
   {
     "id": "02",
-    "title": "BUSINESS\nUTILITIES",
-    "description": "Admin panels, dashboards, CRM systems, and internal tools. Engineered for operational efficiency and data clarity.",
+    "title": "ADMIN PANELS\n& INTERNAL TOOLS",
+    "description": "Custom dashboards, CRM systems, and operational tooling built for speed and clarity. From data-heavy analytics views to multi-role admin panels — deployed and in production within weeks.",
     "tags": [
       "DASHBOARDS",
       "CRM",
       "ANALYTICS",
-      "APIs"
+      "APIs",
+      "CLOUDFLARE"
     ],
-    "metric": "40%",
-    "metricLabel": "OPS EFFICIENCY"
-  },
-  {
-    "id": "03",
-    "title": "SYSTEM\nARCHITECTURE",
-    "description": "Cloud infrastructure, CI/CD pipelines, database design. We architect systems that perform under pressure.",
-    "tags": [
-      "AWS",
-      "CLOUDFLARE",
-      "DOCKER",
-      "POSTGRES"
-    ],
-    "metric": "<200",
-    "metricLabel": "MS RESPONSE"
-  },
-  {
-    "id": "04",
-    "title": "AUDIT &\nSECURITY",
-    "description": "Code audits, performance optimization, security hardening. We find what others miss and fix what others can't.",
-    "tags": [
-      "PENTEST",
-      "OWASP",
-      "CSP",
-      "MONITORING"
-    ],
-    "metric": "0",
-    "metricLabel": "VULNERABILITIES"
+    "metric": "2×",
+    "metricLabel": "FASTER DELIVERY"
   }
 ]

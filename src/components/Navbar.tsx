@@ -1,18 +1,22 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-
-const NAV_LINKS = [
-  { label: 'SERVICES', href: '#services' },
-  { label: 'PROJECTS', href: '#projects' },
-  { label: 'PROCESS', href: '#process' },
-  { label: 'CONTACT', href: '#contact' },
-]
+import { useLanguage } from '@/context/LanguageContext'
+import ThemeSwitcher from './ThemeSwitcher'
+import LanguageSwitcher from './LanguageSwitcher'
 
 export default function Navbar() {
+  const { t } = useLanguage()
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [currentTime, setCurrentTime] = useState('')
+
+  const navLinks = [
+    { label: t.nav.services, href: '#services' },
+    { label: t.nav.projects, href: '#projects' },
+    { label: t.nav.process, href: '#process' },
+    { label: t.nav.contact, href: '#contact' },
+  ]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -43,7 +47,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <a href="#" className="flex items-center gap-1 group">
-              <span className="font-mono text-xl font-bold tracking-tight text-fv-text group-hover:text-white transition-colors">
+              <span className="font-mono text-xl font-bold tracking-tight text-fv-text group-hover:text-fv-white transition-colors">
                 VIŽON
               </span>
               <span className="animate-blink text-fv-orange font-mono text-xl font-bold">_</span>
@@ -51,7 +55,7 @@ export default function Navbar() {
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-1">
-              {NAV_LINKS.map((link) => (
+              {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
@@ -62,14 +66,18 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Right side: time + status */}
-            <div className="hidden lg:flex items-center gap-6">
+            {/* Right side: switchers + time + status */}
+            <div className="hidden lg:flex items-center gap-4">
+              <LanguageSwitcher />
+              <span className="h-4 w-px bg-fv-border" />
+              <ThemeSwitcher />
+              <span className="h-4 w-px bg-fv-border" />
               <span className="font-mono text-micro text-fv-text-muted">
                 {currentTime}
               </span>
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                <span className="font-mono text-micro text-fv-text-muted">SYSTEMS ONLINE</span>
+                <span className="font-mono text-micro text-fv-text-muted">{t.nav.systemsOnline}</span>
               </div>
             </div>
 
@@ -91,7 +99,7 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="md:hidden bg-fv-black/98 backdrop-blur-md border-b border-fv-border">
           <div className="px-6 py-6 space-y-1">
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -101,6 +109,10 @@ export default function Navbar() {
                 [{link.label}]
               </a>
             ))}
+            <div className="flex items-center gap-4 pt-4">
+              <LanguageSwitcher />
+              <ThemeSwitcher />
+            </div>
           </div>
         </div>
       )}

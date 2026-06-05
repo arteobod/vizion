@@ -1,11 +1,16 @@
 'use client'
 
 import { useScrollReveal } from '@/hooks/useScrollReveal'
+import { useGsap3DReveal } from '@/hooks/useGsap3DReveal'
+import { useLanguage } from '@/context/LanguageContext'
 import CountUp from './CountUp'
 import { Stat } from '@/types'
 
 function StatCell({ stat, index }: { stat: Stat; index: number }) {
+  const { locale } = useLanguage()
   const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.3 })
+  const label = (locale === 'ru' && stat.label_ru) ? stat.label_ru : (locale === 'lv' && stat.label_lv) ? stat.label_lv : stat.label
+  const sublabel = (locale === 'ru' && stat.sublabel_ru) ? stat.sublabel_ru : (locale === 'lv' && stat.sublabel_lv) ? stat.sublabel_lv : stat.sublabel
 
   return (
     <div
@@ -21,7 +26,7 @@ function StatCell({ stat, index }: { stat: Stat; index: number }) {
     >
       <CountUp
         value={stat.value}
-        className="font-mono text-3xl lg:text-4xl font-bold text-white block mb-2"
+        className="font-mono text-3xl lg:text-4xl font-bold text-fv-white block mb-2"
         delay={index * 150}
       />
       <span
@@ -31,7 +36,7 @@ function StatCell({ stat, index }: { stat: Stat; index: number }) {
           transition: `opacity 0.6s ease-out ${index * 120 + 400}ms`,
         }}
       >
-        {stat.label}
+        {label}
       </span>
       <span
         className="font-mono text-micro text-fv-text-muted"
@@ -40,17 +45,19 @@ function StatCell({ stat, index }: { stat: Stat; index: number }) {
           transition: `opacity 0.6s ease-out ${index * 120 + 550}ms`,
         }}
       >
-        {stat.sublabel}
+        {sublabel}
       </span>
     </div>
   )
 }
 
 export default function Stats({ stats }: { stats: Stat[] }) {
+  const gridRef = useGsap3DReveal<HTMLDivElement>()
+
   return (
     <section className="section-border">
       <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
-        <div className="grid grid-cols-2 lg:grid-cols-4">
+        <div ref={gridRef} className="grid grid-cols-2 lg:grid-cols-4">
           {stats.map((stat, index) => (
             <StatCell key={stat.id} stat={stat} index={index} />
           ))}

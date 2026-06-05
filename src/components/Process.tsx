@@ -1,11 +1,17 @@
 'use client'
 
 import { useScrollReveal } from '@/hooks/useScrollReveal'
+import { useGsap3DReveal } from '@/hooks/useGsap3DReveal'
+import { useLanguage } from '@/context/LanguageContext'
 import TextScramble from './TextScramble'
 import RevealText from './RevealText'
 import { ProcessStep as ProcessStepType } from '@/types'
 
 function ProcessStep({ step, index }: { step: ProcessStepType; index: number }) {
+  const { t, locale } = useLanguage()
+  const title = (locale === 'ru' && step.title_ru) ? step.title_ru : (locale === 'lv' && step.title_lv) ? step.title_lv : step.title
+  const description = (locale === 'ru' && step.description_ru) ? step.description_ru : (locale === 'lv' && step.description_lv) ? step.description_lv : step.description
+  const deliverables = (locale === 'ru' && step.deliverables_ru?.length) ? step.deliverables_ru : (locale === 'lv' && step.deliverables_lv?.length) ? step.deliverables_lv : step.deliverables
   const { ref, isVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.1 })
 
   return (
@@ -35,11 +41,11 @@ function ProcessStep({ step, index }: { step: ProcessStepType; index: number }) 
 
         {/* Title + Duration */}
         <div className="lg:col-span-3">
-          <h4 className="font-mono text-xl font-bold text-white mb-2 group-hover:text-fv-orange transition-colors duration-500">
-            <TextScramble text={step.title} delay={index * 150 + 200} scrambleDuration={500} />
+          <h4 className="font-mono text-xl font-bold text-fv-white mb-2 group-hover:text-fv-orange transition-colors duration-500">
+            <TextScramble text={title} delay={index * 150 + 200} scrambleDuration={500} />
           </h4>
           <span className="font-mono text-micro text-fv-text-muted">
-            DURATION: {step.duration}
+            {t.process.durationLabel}: {step.duration}
           </span>
         </div>
 
@@ -52,15 +58,15 @@ function ProcessStep({ step, index }: { step: ProcessStepType; index: number }) 
               transition: `opacity 0.8s ease-out ${index * 150 + 350}ms`,
             }}
           >
-            {step.description}
+            {description}
           </p>
         </div>
 
         {/* Deliverables */}
         <div className="lg:col-span-3">
-          <span className="font-mono text-micro text-fv-text-muted block mb-3">DELIVERABLES</span>
+          <span className="font-mono text-micro text-fv-text-muted block mb-3">{t.process.deliverablesLabel}</span>
           <div className="space-y-2">
-            {step.deliverables.map((d, dIndex) => (
+            {deliverables.map((d, dIndex) => (
               <div
                 key={d}
                 className="flex items-center gap-2"
@@ -82,8 +88,10 @@ function ProcessStep({ step, index }: { step: ProcessStepType; index: number }) 
 }
 
 export default function Process({ steps }: { steps: ProcessStepType[] }) {
+  const { t } = useLanguage()
   const { ref: headerRef, isVisible: headerVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.3 })
   const { ref: titleRef, isVisible: titleVisible } = useScrollReveal<HTMLDivElement>({ threshold: 0.2 })
+  const stepsRef = useGsap3DReveal<HTMLDivElement>()
 
   return (
     <section id="process" className="section-border">
@@ -99,15 +107,15 @@ export default function Process({ steps }: { steps: ProcessStepType[] }) {
           }}
         >
           <div className="flex items-center gap-6">
-            <span className="font-mono text-micro text-fv-text-muted">SECTION_03</span>
+            <span className="font-mono text-micro text-fv-text-muted">{t.process.sectionLabel}</span>
             <span
               className="h-px bg-fv-border transition-all ease-out"
               style={{ width: headerVisible ? 64 : 0, transitionDuration: '1s', transitionDelay: '300ms' }}
             />
-            <TextScramble text="METHODOLOGY" className="font-mono text-label text-fv-text-dim" delay={200} />
+            <TextScramble text={t.process.title} className="font-mono text-label text-fv-text-dim" delay={200} />
           </div>
           <span className="font-mono text-micro text-fv-text-muted hidden sm:block">
-            {steps.length} PHASES
+            {steps.length} {t.process.count}
           </span>
         </div>
       </div>
@@ -122,20 +130,22 @@ export default function Process({ steps }: { steps: ProcessStepType[] }) {
             transition: 'opacity 0.5s ease-out',
           }}
         >
-          <h3 className="font-mono text-display-sm font-bold text-white">
+          <h3 className="font-mono text-display-sm font-bold text-fv-white">
             <RevealText tag="span" className="block" delay={0}>
-              FROM ZERO TO
+              {t.process.headline[0]}
             </RevealText>
             <RevealText tag="span" className="block text-fv-orange" delay={300}>
-              PRODUCTION
+              {t.process.headline[1]}
             </RevealText>
           </h3>
         </div>
 
         {/* Steps */}
-        {steps.map((step, index) => (
-          <ProcessStep key={step.id} step={step} index={index} />
-        ))}
+        <div ref={stepsRef}>
+          {steps.map((step, index) => (
+            <ProcessStep key={step.id} step={step} index={index} />
+          ))}
+        </div>
       </div>
     </section>
   )

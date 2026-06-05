@@ -10,11 +10,11 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   const { isAuthenticated, isLoading } = useAdminAuth()
   const pathname = usePathname()
   const router = useRouter()
-  const isLoginPage = pathname === '/admin/login'
+  const isLoginPage = pathname === '/ctrl-8b2f/login'
 
   useEffect(() => {
     if (!isLoginPage && !isLoading && !isAuthenticated) {
-      router.replace('/admin/login')
+      router.replace('/ctrl-8b2f/login')
     }
   }, [isLoading, isAuthenticated, isLoginPage, router])
 

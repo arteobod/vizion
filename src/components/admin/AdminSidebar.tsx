@@ -4,14 +4,14 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const navItems = [
-  { href: '/admin', label: 'Dashboard', icon: 'D' },
-  { href: '/admin/projects', label: 'Projects', icon: 'P' },
-  { href: '/admin/services', label: 'Services', icon: 'S' },
-  { href: '/admin/process', label: 'Process', icon: 'M' },
-  { href: '/admin/stats', label: 'Stats', icon: '#' },
-  { href: '/admin/contacts', label: 'Contacts', icon: '@' },
-  { href: '/admin/site-content', label: 'Site Content', icon: 'C' },
-  { href: '/admin/images', label: 'Images', icon: 'I' },
+  { href: '/ctrl-8b2f', label: 'Dashboard', icon: 'D' },
+  { href: '/ctrl-8b2f/projects', label: 'Projects', icon: 'P' },
+  { href: '/ctrl-8b2f/services', label: 'Services', icon: 'S' },
+  { href: '/ctrl-8b2f/process', label: 'Process', icon: 'M' },
+  { href: '/ctrl-8b2f/stats', label: 'Stats', icon: '#' },
+  { href: '/ctrl-8b2f/contacts', label: 'Contacts', icon: '@' },
+  { href: '/ctrl-8b2f/site-content', label: 'Site Content', icon: 'C' },
+  { href: '/ctrl-8b2f/images', label: 'Images', icon: 'I' },
 ]
 
 export default function AdminSidebar() {
@@ -20,7 +20,7 @@ export default function AdminSidebar() {
   return (
     <aside className="w-64 bg-fv-dark border-r border-fv-border min-h-screen flex flex-col">
       <div className="p-6 border-b border-fv-border">
-        <Link href="/admin" className="block">
+        <Link href="/ctrl-8b2f" className="block">
           <h1 className="font-mono text-xl font-bold text-fv-text tracking-wider">VIZON</h1>
           <p className="font-mono text-xs text-fv-text-muted mt-1 tracking-widest">ADMIN PANEL</p>
         </Link>
@@ -28,8 +28,8 @@ export default function AdminSidebar() {
 
       <nav className="flex-1 py-4">
         {navItems.map((item) => {
-          const isActive = item.href === '/admin'
-            ? pathname === '/admin'
+          const isActive = item.href === '/ctrl-8b2f'
+            ? pathname === '/ctrl-8b2f'
             : pathname.startsWith(item.href)
 
           return (

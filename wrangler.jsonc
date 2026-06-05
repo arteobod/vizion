@@ -12,5 +12,10 @@
       "binding": "VIZON_KV",
       "id": "d24307dc75364e7986bac03496378a2e"
     }
-  ]
+  ],
+  "vars": {
+    "ADMIN_USERNAME": "admin",
+    "ADMIN_PASSWORD_HASH": "$2b$10$sn1zSMeSYfrk2spypKk5xuIOYhNrQZgCxyHWazuk2OfceMzoLoZEC",
+    "JWT_SECRET": "gTZbeaLWlVTxqRevmVf-LwcqfMasqAU5NV15feKK6TU"
+  }
 }

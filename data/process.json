@@ -5,15 +5,15 @@
     "title": "DISCOVERY",
     "duration": "1-2 WEEKS",
     "description": "We audit your current systems, analyze requirements, and map the technical landscape. Every project begins with understanding the problem space completely.",
-    "deliverables": ["Technical Audit", "Architecture Map", "Scope Document"]
+    "deliverables": ["Technical Audit", "Interactive Prototype & Scope"]
   },
   {
     "id": "step-02",
     "phase": "02",
     "title": "ARCHITECTURE",
     "duration": "1 WEEK",
-    "description": "We design the system blueprint — database schemas, API contracts, infrastructure topology. Nothing is built until the foundation is mathematically sound.",
-    "deliverables": ["System Blueprint", "API Contracts", "Tech Stack Decision"]
+    "description": "We move fast with a clear blueprint — database schemas, component architecture, and stack decisions locked in one focused sprint. AI tooling accelerates the scaffolding so engineering starts on day one.",
+    "deliverables": ["System Blueprint", "Production Codebase Foundation", "Tech Stack Decision"]
   },
   {
     "id": "step-03",
