@@ -4,8 +4,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getContacts, addContact, deleteContact } from '@/lib/data'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 const FROM_EMAIL = 'studio@viz-on.net'
 const TO_EMAIL = 'studio@viz-on.net'
 
@@ -16,6 +14,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY)
     const body = await request.json()
     const contact = {
       id: `contact-${Date.now()}`,
