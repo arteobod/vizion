@@ -1,3 +1,5 @@
+﻿export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 import { getContacts, addContact, deleteContact } from '@/lib/data'
 import { Resend } from 'resend'

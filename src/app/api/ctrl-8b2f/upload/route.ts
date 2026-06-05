@@ -1,3 +1,5 @@
+﻿export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif']
