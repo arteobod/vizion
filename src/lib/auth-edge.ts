@@ -30,9 +30,20 @@ export function getJwtSecret(): Uint8Array {
   return new TextEncoder().encode(secret)
 }
 
+/**
+ * Verifies an admin session token.
+ *
+ * A valid signature is not enough on its own: the claim has to say `admin` too.
+ * There is only one issuer and one role today, so nothing can currently mint a
+ * signed-but-lesser token — but the day a second token type is signed with the
+ * same secret (a client portal, a preview link, a webhook), signature-only
+ * verification would silently hand it the admin API. Checking the claim now
+ * costs one comparison and closes that door before it opens.
+ */
 export async function verifyToken(token: string): Promise<AdminTokenPayload | null> {
   try {
     const { payload } = await jwtVerify(token, getJwtSecret())
+    if (payload.role !== 'admin' || typeof payload.username !== 'string') return null
     return payload as AdminTokenPayload
   } catch {
     return null

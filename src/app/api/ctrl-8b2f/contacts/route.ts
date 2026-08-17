@@ -25,6 +25,24 @@ function esc(value: unknown): string {
     .replace(/"/g, '&quot;')
 }
 
+// Field caps, mirrored in ContactForm's maxLength attributes.
+//
+// These are a security control, not tidiness. The success path sends an
+// acknowledgement email from our own domain to whatever address the submitter
+// typed, with their name in the greeting — so an unbounded name field turns the
+// form into a way to mail arbitrary text from studio@viz-on.net to a stranger.
+// A name that has to fit in 80 characters is not a usable phishing canvas, and
+// the message body only ever reaches our own inbox.
+const LIMITS = { name: 80, email: 160, phone: 40, projectType: 60, message: 5000 } as const
+
+// Same shape the client checks, so a submission that passes there passes here.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+/** Trims and truncates one field. */
+function field(value: unknown, max: number): string {
+  return String(value ?? '').trim().slice(0, max)
+}
+
 const row = (label: string, value: string) => `
   <tr>
     <td style="color:#79838E;padding:10px 0;border-bottom:1px solid #E7EAEE;width:150px;vertical-align:top;">${label}</td>
@@ -36,17 +54,27 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
 
-    if (!body.name || !body.email || !body.message) {
+    const name = field(body.name, LIMITS.name)
+    const email = field(body.email, LIMITS.email)
+    const message = field(body.message, LIMITS.message)
+
+    if (!name || !email || !message) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+    }
+
+    // A malformed address cannot receive the acknowledgement anyway, and letting
+    // one through would hand Resend a bounce for a lead we can never answer.
+    if (!EMAIL_RE.test(email)) {
+      return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
     }
 
     contact = {
       id: `contact-${Date.now()}`,
-      name: String(body.name),
-      email: String(body.email),
-      phone: body.phone ? String(body.phone) : '',
-      projectType: body.projectType ? String(body.projectType) : '',
-      message: String(body.message),
+      name,
+      email,
+      phone: field(body.phone, LIMITS.phone),
+      projectType: field(body.projectType, LIMITS.projectType),
+      message,
       createdAt: new Date().toISOString(),
     }
 

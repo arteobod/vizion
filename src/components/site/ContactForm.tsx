@@ -92,6 +92,7 @@ export default function ContactForm({ preset }: { preset?: string }) {
             name="name"
             value={form.name}
             onChange={set('name')}
+            maxLength={80}
             placeholder={t.contacts.form.namePlaceholder}
             aria-invalid={!!errors.name}
             className={`${FIELD} ${errors.name ? 'border-vz-orange' : ''}`}
@@ -109,6 +110,7 @@ export default function ContactForm({ preset }: { preset?: string }) {
             type="email"
             value={form.email}
             onChange={set('email')}
+            maxLength={160}
             placeholder={t.contacts.form.emailPlaceholder}
             aria-invalid={!!errors.email}
             className={`${FIELD} ${errors.email ? 'border-vz-orange' : ''}`}
@@ -127,6 +129,7 @@ export default function ContactForm({ preset }: { preset?: string }) {
             type="tel"
             value={form.phone}
             onChange={set('phone')}
+            maxLength={40}
             placeholder={t.contacts.form.phonePlaceholder}
             className={FIELD}
           />
@@ -163,6 +166,7 @@ export default function ContactForm({ preset }: { preset?: string }) {
           rows={5}
           value={form.message}
           onChange={set('message')}
+          maxLength={5000}
           placeholder={t.contacts.form.messagePlaceholder}
           aria-invalid={!!errors.message}
           className={`${FIELD} resize-y ${errors.message ? 'border-vz-orange' : ''}`}

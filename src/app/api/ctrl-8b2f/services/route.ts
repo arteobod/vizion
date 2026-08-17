@@ -4,7 +4,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServices, saveServices } from '@/lib/data'
 import { requireAdmin } from '@/lib/api-auth'
 
-export async function GET() {
+// Guarded like the writer below it. The content is not secret — the public
+// pages read the same data server-side — but leaving one verb on a single
+// mechanism is exactly the gap the two-layer rule exists to prevent.
+export async function GET(request: NextRequest) {
+  const denied = await requireAdmin(request)
+  if (denied) return denied
   const services = await getServices()
   return NextResponse.json(services)
 }

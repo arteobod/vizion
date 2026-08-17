@@ -53,6 +53,10 @@ export async function GET(
     headers: {
       'Content-Type': contentType,
       'Cache-Control': 'public, max-age=31536000, immutable',
+      // The upload endpoint trusts the browser-reported MIME type, so the bytes
+      // behind an .png are not guaranteed to be an image. nosniff keeps a
+      // browser from second-guessing the declared type and rendering markup.
+      'X-Content-Type-Options': 'nosniff',
     },
   })
 }

@@ -4,7 +4,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAdmin } from '@/lib/api-auth'
 import { getProcessSteps, saveProcessSteps } from '@/lib/data'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const denied = await requireAdmin(request)
+  if (denied) return denied
   const steps = await getProcessSteps()
   return NextResponse.json(steps)
 }

@@ -4,7 +4,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getProjects, addProject } from '@/lib/data'
 import { requireAdmin } from '@/lib/api-auth'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const denied = await requireAdmin(request)
+  if (denied) return denied
   const projects = await getProjects()
   return NextResponse.json(projects)
 }

@@ -4,7 +4,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAdmin } from '@/lib/api-auth'
 import { getSiteContent, saveSiteContent } from '@/lib/data'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const denied = await requireAdmin(request)
+  if (denied) return denied
   const content = await getSiteContent()
   return NextResponse.json(content)
 }

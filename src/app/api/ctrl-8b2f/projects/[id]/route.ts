@@ -4,7 +4,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getProjectById, updateProject, deleteProject } from '@/lib/data'
 import { requireAdmin } from '@/lib/api-auth'
 
-export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const denied = await requireAdmin(request)
+  if (denied) return denied
   const { id } = await params
   const project = await getProjectById(id)
   if (!project) {

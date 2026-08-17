@@ -3,9 +3,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAdmin } from '@/lib/api-auth'
 
-// MIME → extension. The extension is derived from the validated type, never
-// from the user-supplied filename, so an attacker cannot smuggle a .html or
-// .svg extension onto a stored file.
+// MIME → extension. The extension comes from the format detected in the file's
+// own bytes (see sniffImageType), never from the user-supplied filename and
+// never from the browser-declared type, so nothing can smuggle a .html or .svg
+// extension onto a stored file.
 const TYPE_EXT: Record<string, string> = {
   'image/jpeg': 'jpg',
   'image/png': 'png',
@@ -14,6 +15,37 @@ const TYPE_EXT: Record<string, string> = {
 }
 const ALLOWED_TYPES = Object.keys(TYPE_EXT)
 const MAX_SIZE = 5 * 1024 * 1024
+
+/**
+ * Identifies the format from the file's own leading bytes.
+ *
+ * `file.type` is whatever the browser said, and a browser is just a client here
+ * — a scripted request can label any payload `image/png`. The header bytes are
+ * the file itself, so this is what decides both the stored extension and
+ * whether the upload is accepted at all. Returns null for anything unrecognised.
+ */
+function sniffImageType(buffer: ArrayBuffer): string | null {
+  const b = new Uint8Array(buffer)
+  if (b.length < 12) return null
+
+  const ascii = (start: number, end: number) =>
+    String.fromCharCode(...b.subarray(start, end))
+
+  if (b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff) return 'image/jpeg'
+  if (
+    b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47 &&
+    b[4] === 0x0d && b[5] === 0x0a && b[6] === 0x1a && b[7] === 0x0a
+  ) {
+    return 'image/png'
+  }
+  if (ascii(0, 4) === 'RIFF' && ascii(8, 12) === 'WEBP') return 'image/webp'
+  // ISO-BMFF: 4-byte box size, then 'ftyp', then the brand.
+  if (ascii(4, 8) === 'ftyp') {
+    const brand = ascii(8, 12)
+    if (brand === 'avif' || brand === 'avis') return 'image/avif'
+  }
+  return null
+}
 
 interface KVNamespace {
   get(key: string, type: 'text'): Promise<string | null>
@@ -61,16 +93,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'File too large. Max 5MB' }, { status: 400 })
     }
 
-    const ext = TYPE_EXT[file.type]
-    const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
+    // Read once, then let the bytes themselves decide the type. The check above
+    // only rejects the obviously wrong; this rejects a mislabelled payload.
+    const buffer = await file.arrayBuffer()
+    const type = sniffImageType(buffer)
+    if (!type) {
+      return NextResponse.json(
+        { error: 'File is not a valid JPEG, PNG, WebP or AVIF image' },
+        { status: 400 }
+      )
+    }
+
+    const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${TYPE_EXT[type]}`
 
     const kv = await getKV()
     if (kv) {
-      const buffer = await file.arrayBuffer()
       await kv.put(`image:${filename}`, buffer)
 
       const list = await getImagesList(kv)
-      list.push({ filename, type: file.type })
+      list.push({ filename, type })
       await kv.put('images-list', JSON.stringify(list))
 
       return NextResponse.json({
@@ -85,8 +126,7 @@ export async function POST(request: NextRequest) {
     const path = require('path')
     const dir = path.join(process.cwd(), 'public', 'uploads')
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
-    const buffer = Buffer.from(await file.arrayBuffer())
-    fs.writeFileSync(path.join(dir, filename), buffer)
+    fs.writeFileSync(path.join(dir, filename), Buffer.from(buffer))
 
     return NextResponse.json({
       success: true,
