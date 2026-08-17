@@ -15,11 +15,49 @@ miniature browser windows. The case system learned to tell client work from our
 own, and to show video. All four placeholder case studies were deleted and
 replaced with three real ones.
 
-All of it is now committed to `main` in five commits — dependencies, the
-security layer, the site rebuild, the real content, and these notes. Nothing was
-pushed; the remote is still on the pre-rebuild state. Only the last of the five
-builds on its own: the rebuild landed as one interdependent piece and the
-earlier commits predate the files they would need.
+All of it is committed to `main` and the working tree is clean — dependencies,
+the security layer, the site rebuild, the real content, a follow-up hardening
+pass, and these notes. Nothing was pushed; the remote is still on the
+pre-rebuild state, and `main` is seven commits ahead of it. Only the last few
+commits build on their own: the rebuild landed as one interdependent piece and
+the two commits before it predate the files they would need.
+
+### The hardening pass, and why each piece is there
+
+A security review of the rebuild found no exploitable holes, but three places
+where the code did not enforce its own stated rules. All three are fixed:
+
+- **`lib/auth-edge.ts` checks the claim, not just the signature.** `verifyToken`
+  accepted any JWT that verified against `JWT_SECRET`, whatever it claimed. One
+  issuer and one role exist today, so behaviour is unchanged — but the day a
+  second token type shares that secret (a client portal, a preview link, a
+  webhook), signature-only verification would have handed it the admin API.
+- **The admin `GET` handlers now call `requireAdmin` too.** `process`,
+  `services`, `site-content`, `stats`, `projects` and `projects/[id]` left their
+  read verbs on middleware alone while their writers were double-guarded. Public
+  site content, so nothing leaked, but that single-mechanism gap is exactly what
+  the duplication exists to prevent. Every caller is an admin page that already
+  sends the cookie.
+- **Uploads are identified by their bytes** (`sniffImageType`), not by
+  `file.type`, which is only what the client claimed. The sniffed format decides
+  the stored extension and whether the upload is accepted at all; the image
+  route also sends `X-Content-Type-Options: nosniff`.
+- **The contact form caps its fields** (80 chars on the name, mirrored in
+  `maxLength`) and requires a parseable address. The success path mails an
+  acknowledgement from our own domain to whatever address was submitted, with
+  the name in the greeting, so an unbounded name field was a way to send
+  arbitrary text from `studio@viz-on.net` to a stranger.
+
+Verified against a running server, not just by reading: unauthenticated GETs
+401; a signed token claiming `viewer`, or carrying no role, 401s while an admin
+token still gets 200 everywhere; HTML labelled `image/png` is rejected while a
+real JPEG uploads; malformed and empty submissions 400.
+
+Two things the review deliberately left alone. `clientIp()` prefers
+`cf-connecting-ip`, which the Cloudflare edge sets and a client cannot forge, so
+the rate limiter is sound in production. And the acknowledgement email still
+goes to a submitted address by design — that is what an acknowledgement is; the
+caps are what make it safe.
 
 ---
 
@@ -307,7 +345,7 @@ and should be rotated.
 - **Voxent case:** the owner said a working prototype exists in another repo.
   It was never located. The solution text describes the product in their words,
   without implementation detail.
-- **Push.** Five commits sit on local `main` and the remote has none of them.
+- **Push.** Seven commits sit on local `main` and the remote has none of them.
   The client has not seen the rebuild on the live URL yet.
 - **Placeholder contact details** remain: `hello@viz-on.net`,
   `+371 20 000 000`. Also `data/pricing.json` and service prices, per
