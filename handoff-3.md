@@ -15,7 +15,11 @@ miniature browser windows. The case system learned to tell client work from our
 own, and to show video. All four placeholder case studies were deleted and
 replaced with three real ones.
 
-Nothing is committed. The whole thing still sits in the working tree.
+All of it is now committed to `main` in five commits — dependencies, the
+security layer, the site rebuild, the real content, and these notes. Nothing was
+pushed; the remote is still on the pre-rebuild state. Only the last of the five
+builds on its own: the rebuild landed as one interdependent piece and the
+earlier commits predate the files they would need.
 
 ---
 
@@ -84,9 +88,11 @@ direction as the page.
 
 Not WebGL, deliberately. These are flat rectangles with crisp edges; CSS 3D
 draws them exactly and costs nothing next to the four `backdrop-blur-2xl` panes
-already on the page. `three` is still in `package.json` at ~25 MB with **zero
-imports anywhere** — handoff-2 claimed it was uninstalled; only its usage was.
-It can be dropped.
+already on the page. `three` used to sit in `package.json` at ~25 MB with zero
+imports anywhere — handoff-2 claimed it was uninstalled, but only its usage was.
+It is gone now, along with `@react-three/*`, `gsap` and
+`@cloudflare/next-on-pages`. Shared JS did not move (103 kB), which confirms
+none of it was ever bundled.
 
 Four panes are hidden below `md`. A phone has no empty right half to fill.
 
@@ -301,7 +307,8 @@ and should be rotated.
 - **Voxent case:** the owner said a working prototype exists in another repo.
   It was never located. The solution text describes the product in their words,
   without implementation detail.
-- **`three` can be removed** from package.json.
+- **Push.** Five commits sit on local `main` and the remote has none of them.
+  The client has not seen the rebuild on the live URL yet.
 - **Placeholder contact details** remain: `hello@viz-on.net`,
   `+371 20 000 000`. Also `data/pricing.json` and service prices, per
   `CONTENT_TODO.md`.
