@@ -2,6 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { getServices, saveServices } from '@/lib/data'
+import { requireAdmin } from '@/lib/api-auth'
 
 export async function GET() {
   const services = await getServices()
@@ -9,6 +10,8 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
+  const denied = await requireAdmin(request)
+  if (denied) return denied
   try {
     const body = await request.json()
     if (!Array.isArray(body)) {

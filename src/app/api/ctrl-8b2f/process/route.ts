@@ -1,6 +1,7 @@
-﻿export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
+import { requireAdmin } from '@/lib/api-auth'
 import { getProcessSteps, saveProcessSteps } from '@/lib/data'
 
 export async function GET() {
@@ -9,6 +10,8 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
+  const denied = await requireAdmin(request)
+  if (denied) return denied
   try {
     const body = await request.json()
     if (!Array.isArray(body)) {

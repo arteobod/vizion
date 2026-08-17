@@ -1,8 +1,18 @@
 ﻿export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
+import { requireAdmin } from '@/lib/api-auth'
 
-const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif']
+// MIME → extension. The extension is derived from the validated type, never
+// from the user-supplied filename, so an attacker cannot smuggle a .html or
+// .svg extension onto a stored file.
+const TYPE_EXT: Record<string, string> = {
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+  'image/webp': 'webp',
+  'image/avif': 'avif',
+}
+const ALLOWED_TYPES = Object.keys(TYPE_EXT)
 const MAX_SIZE = 5 * 1024 * 1024
 
 interface KVNamespace {
@@ -33,6 +43,8 @@ async function getImagesList(kv: KVNamespace): Promise<{ filename: string; type:
 }
 
 export async function POST(request: NextRequest) {
+  const denied = await requireAdmin(request)
+  if (denied) return denied
   try {
     const formData = await request.formData()
     const file = formData.get('file') as File
@@ -49,7 +61,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'File too large. Max 5MB' }, { status: 400 })
     }
 
-    const ext = file.name.split('.').pop() || 'jpg'
+    const ext = TYPE_EXT[file.type]
     const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
 
     const kv = await getKV()
@@ -81,12 +93,14 @@ export async function POST(request: NextRequest) {
       url: `/uploads/${filename}`,
       filename,
     })
-  } catch (e) {
-    return NextResponse.json({ error: `Upload failed: ${String(e)}` }, { status: 500 })
+  } catch {
+    return NextResponse.json({ error: 'Upload failed' }, { status: 500 })
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const denied = await requireAdmin(request)
+  if (denied) return denied
   try {
     const kv = await getKV()
     if (kv) {
@@ -114,8 +128,16 @@ export async function GET() {
 }
 
 export async function DELETE(request: NextRequest) {
+  const denied = await requireAdmin(request)
+  if (denied) return denied
   try {
-    const { filename } = await request.json()
+    const { filename: raw } = await request.json()
+    // Strip any path component so a crafted name can't escape the uploads dir
+    // in the local-dev filesystem path (e.g. "../../server.js").
+    const filename = String(raw ?? '').replace(/^.*[\\/]/, '')
+    if (!filename) {
+      return NextResponse.json({ error: 'Filename required' }, { status: 400 })
+    }
 
     const kv = await getKV()
     if (kv) {

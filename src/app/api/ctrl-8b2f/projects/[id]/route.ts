@@ -2,6 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { getProjectById, updateProject, deleteProject } from '@/lib/data'
+import { requireAdmin } from '@/lib/api-auth'
 
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -13,6 +14,8 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
 }
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const denied = await requireAdmin(request)
+  if (denied) return denied
   try {
     const { id } = await params
     const body = await request.json()
@@ -26,7 +29,9 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   }
 }
 
-export async function DELETE(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const denied = await requireAdmin(request)
+  if (denied) return denied
   const { id } = await params
   const deleted = await deleteProject(id)
   if (!deleted) {
