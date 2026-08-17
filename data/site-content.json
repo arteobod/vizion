@@ -1,11 +1,12 @@
 {
   "contact": {
-    "email": "hello@vizon.dev",
-    "location": "RIGA, LATVIA / REMOTE",
-    "responseTime": "< 24 HOURS"
+    "email": "hello@viz-on.net",
+    "phone": "+371 20 000 000",
+    "location": "Riga, Latvia — working remotely across Europe",
+    "responseTime": "Within 24 hours"
   },
   "branding": {
     "foundedYear": 2026,
-    "tagline": "Premium web development & business utilities. We engineer digital systems that scale, perform, and endure."
+    "tagline": "Digital solutions that help your business grow. Websites, redesign, and B2B tools."
   }
 }

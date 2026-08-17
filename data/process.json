@@ -2,33 +2,117 @@
   {
     "id": "step-01",
     "phase": "01",
-    "title": "DISCOVERY",
-    "duration": "1-2 WEEKS",
-    "description": "We audit your current systems, analyze requirements, and map the technical landscape. Every project begins with understanding the problem space completely.",
-    "deliverables": ["Technical Audit", "Interactive Prototype & Scope"]
+    "title": "Getting acquainted",
+    "title_ru": "Знакомство",
+    "title_lv": "Iepazīšanās",
+    "duration": "1–3 days",
+    "duration_ru": "1–3 дня",
+    "duration_lv": "1–3 dienas",
+    "description": "A free call to understand your task and whether we fit.",
+    "description_ru": "Бесплатный звонок, чтобы понять задачу и подходим ли мы.",
+    "description_lv": "Bezmaksas saruna, lai saprastu uzdevumu un vai esam piemēroti.",
+    "deliverables": [
+      "A written summary of your task",
+      "A fixed price and timeline"
+    ],
+    "deliverables_ru": [
+      "Письменное резюме вашей задачи",
+      "Фиксированная цена и сроки"
+    ],
+    "deliverables_lv": [
+      "Rakstisks jūsu uzdevuma kopsavilkums",
+      "Fiksēta cena un termiņi"
+    ],
+    "icon": "MessagesSquare"
   },
   {
     "id": "step-02",
     "phase": "02",
-    "title": "ARCHITECTURE",
-    "duration": "1 WEEK",
-    "description": "We move fast with a clear blueprint — database schemas, component architecture, and stack decisions locked in one focused sprint. AI tooling accelerates the scaffolding so engineering starts on day one.",
-    "deliverables": ["System Blueprint", "Production Codebase Foundation", "Tech Stack Decision"]
+    "title": "Planning",
+    "title_ru": "Планирование",
+    "title_lv": "Plānošana",
+    "duration": "1–2 weeks",
+    "duration_ru": "1–2 недели",
+    "duration_lv": "1–2 nedēļas",
+    "description": "We agree the structure and gather content before design.",
+    "description_ru": "Согласуем структуру и собираем контент до дизайна.",
+    "description_lv": "Saskaņojam struktūru un savācam saturu pirms dizaina.",
+    "deliverables": [
+      "Approved structure",
+      "Content plan",
+      "Project schedule"
+    ],
+    "deliverables_ru": [
+      "Утверждённая структура",
+      "План контента",
+      "График проекта"
+    ],
+    "deliverables_lv": [
+      "Apstiprināta struktūra",
+      "Satura plāns",
+      "Projekta grafiks"
+    ],
+    "icon": "Layers"
   },
   {
     "id": "step-03",
     "phase": "03",
-    "title": "ENGINEERING",
-    "duration": "4-8 WEEKS",
-    "description": "Sprint-based development with weekly deployments. You see progress in real-time. Every commit is tested, every deployment is automated.",
-    "deliverables": ["Working Product", "CI/CD Pipeline", "Test Coverage"]
+    "title": "Design and build",
+    "title_ru": "Дизайн и разработка",
+    "title_lv": "Dizains un izstrāde",
+    "duration": "3–8 weeks",
+    "duration_ru": "3–8 недель",
+    "duration_lv": "3–8 nedēļas",
+    "description": "You approve the design, then get a working link every week.",
+    "description_ru": "Вы утверждаете дизайн и каждую неделю видите рабочую версию.",
+    "description_lv": "Jūs apstiprināt dizainu un katru nedēļu redzat strādājošu versiju.",
+    "deliverables": [
+      "Approved design",
+      "Weekly working versions",
+      "Admin panel"
+    ],
+    "deliverables_ru": [
+      "Утверждённый дизайн",
+      "Еженедельные рабочие версии",
+      "Админ-панель"
+    ],
+    "deliverables_lv": [
+      "Apstiprināts dizains",
+      "Iknedēļas strādājošas versijas",
+      "Administrācijas panelis"
+    ],
+    "icon": "Workflow"
   },
   {
     "id": "step-04",
     "phase": "04",
-    "title": "DEPLOYMENT",
-    "duration": "1 WEEK",
-    "description": "Production launch with monitoring, alerting, and documentation. We don't disappear after launch — we ensure the system is battle-tested.",
-    "deliverables": ["Production Deploy", "Monitoring Setup", "Handover Docs"]
+    "title": "Launch and support",
+    "title_ru": "Запуск и поддержка",
+    "title_lv": "Palaišana un atbalsts",
+    "duration": "1 week + support",
+    "duration_ru": "1 неделя + поддержка",
+    "duration_lv": "1 nedēļa + atbalsts",
+    "description": "We launch, train you, and stay on for a month of support.",
+    "description_ru": "Запускаем, обучаем и остаёмся на месяц поддержки.",
+    "description_lv": "Palaižam, apmācām un paliekam uz mēnesi atbalsta.",
+    "deliverables": [
+      "Live project",
+      "Analytics setup",
+      "Training and documentation",
+      "1 month of support"
+    ],
+    "deliverables_ru": [
+      "Запущенный проект",
+      "Настроенная аналитика",
+      "Обучение и документация",
+      "1 месяц поддержки"
+    ],
+    "deliverables_lv": [
+      "Palaists projekts",
+      "Iestatīta analītika",
+      "Apmācība un dokumentācija",
+      "1 mēnesis atbalsta"
+    ],
+    "icon": "LifeBuoy"
   }
 ]

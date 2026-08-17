@@ -1,26 +1,42 @@
 [
   {
     "id": "stat-01",
-    "value": "50+",
-    "label": "PROJECTS DELIVERED",
-    "sublabel": "Since 2026"
+    "value": "24 h",
+    "label": "Reply time",
+    "label_ru": "Время ответа",
+    "label_lv": "Atbildes laiks",
+    "sublabel": "To every enquiry",
+    "sublabel_ru": "На каждую заявку",
+    "sublabel_lv": "Uz katru pieteikumu"
   },
   {
     "id": "stat-02",
-    "value": "95+",
-    "label": "LIGHTHOUSE SCORE",
-    "sublabel": "Performance Optimized"
+    "value": "Fixed",
+    "label": "Price agreed up front",
+    "label_ru": "Цена согласована заранее",
+    "label_lv": "Cena saskaņota iepriekš",
+    "sublabel": "No hourly billing",
+    "sublabel_ru": "Без почасовой оплаты",
+    "sublabel_lv": "Bez stundas likmes"
   },
   {
     "id": "stat-03",
-    "value": "<200ms",
-    "label": "AVG RESPONSE TIME",
-    "sublabel": "Edge-deployed"
+    "value": "3",
+    "label": "Working languages",
+    "label_ru": "Рабочих языка",
+    "label_lv": "Darba valodas",
+    "sublabel": "Latvian, Russian, English",
+    "sublabel_ru": "Латышский, русский, английский",
+    "sublabel_lv": "Latviešu, krievu, angļu"
   },
   {
     "id": "stat-04",
-    "value": "RAPID",
-    "label": "TIME-TO-MARKET",
-    "sublabel": "AI-Accelerated Delivery"
+    "value": "1 month",
+    "label": "Support included",
+    "label_ru": "Поддержки включено",
+    "label_lv": "Atbalsts iekļauts",
+    "sublabel": "After every launch",
+    "sublabel_ru": "После каждого запуска",
+    "sublabel_lv": "Pēc katras palaišanas"
   }
 ]

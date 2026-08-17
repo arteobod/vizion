@@ -1,30 +1,293 @@
 [
   {
     "id": "01",
-    "title": "WEB & APP\nDEVELOPMENT",
-    "description": "Full-stack engineering with Next.js, React, and Node. We leverage modern UI systems and AI generation to rapidly deploy production-ready web applications, custom admin panels, and internal tools without the bloated 6-month dev cycle.",
-    "tags": [
-      "NEXT.JS",
-      "REACT",
-      "TYPESCRIPT",
-      "NODE",
-      "AI-ASSISTED"
+    "slug": "website-development",
+    "icon": "Globe",
+    "title": "Website development",
+    "title_ru": "Создание продающих сайтов",
+    "title_lv": "Mājaslapu izstrāde",
+    "tagline": "A site that brings in customers, not compliments",
+    "tagline_ru": "Сайт, который приводит клиентов, а не комплименты",
+    "tagline_lv": "Mājaslapa, kas atved klientus, nevis komplimentus",
+    "description": "Modern websites that attract customers and work around the clock.",
+    "description_ru": "Современные сайты, которые привлекают клиентов и работают круглосуточно.",
+    "description_lv": "Modernas mājaslapas, kas piesaista klientus un strādā visu diennakti.",
+    "whatItIs": "A website built from scratch around your business goals — structure, texts, design, and the technical part. You get a finished site you can update yourself, plus everything needed for it to be found in search.",
+    "whatItIs_ru": "Сайт, созданный с нуля под задачи вашего бизнеса — структура, тексты, дизайн и техническая часть. Вы получаете готовый сайт, который можете обновлять сами, и всё необходимое, чтобы его находили в поиске.",
+    "whatItIs_lv": "Mājaslapa, kas veidota no nulles atbilstoši jūsu biznesa mērķiem — struktūra, teksti, dizains un tehniskā daļa. Jūs saņemat gatavu mājaslapu, kuru varat atjaunināt pats, un visu nepieciešamo, lai to atrastu meklētājos.",
+    "forWhom": "Companies without a website at all, or with one that was made years ago and no longer reflects what the business does. Especially useful if most of your enquiries currently come by word of mouth.",
+    "forWhom_ru": "Компаниям, у которых сайта нет вовсе или он сделан много лет назад и уже не отражает то, чем занимается бизнес. Особенно полезно, если сейчас заявки приходят в основном по сарафанному радио.",
+    "forWhom_lv": "Uzņēmumiem, kuriem mājaslapas nav vispār vai tā izveidota pirms gadiem un vairs neatspoguļo to, ar ko bizness nodarbojas. Īpaši noderīgi, ja pieteikumi pašlaik nāk galvenokārt no ieteikumiem.",
+    "problems": [
+      "Potential customers cannot find you online and go to competitors instead",
+      "The current site does not explain what you actually sell",
+      "Enquiries arrive by phone only, and nobody tracks where they came from",
+      "Every text change requires paying a developer"
     ],
-    "metric": "95+",
-    "metricLabel": "LIGHTHOUSE SCORE"
+    "problems_ru": [
+      "Потенциальные клиенты не находят вас в интернете и уходят к конкурентам",
+      "Текущий сайт не объясняет, что именно вы продаёте",
+      "Заявки приходят только по телефону, и никто не отслеживает их источник",
+      "За каждое изменение текста приходится платить разработчику"
+    ],
+    "problems_lv": [
+      "Potenciālie klienti jūs internetā neatrod un aiziet pie konkurentiem",
+      "Esošā mājaslapa neizskaidro, ko tieši jūs pārdodat",
+      "Pieteikumi nāk tikai pa tālruni, un neviens neseko līdzi to avotam",
+      "Par katru teksta izmaiņu jāmaksā izstrādātājam"
+    ],
+    "benefits": [
+      "A steady flow of enquiries from search and advertising",
+      "A clear structure that guides visitors to a contact form",
+      "An admin panel where you edit texts and images yourself",
+      "Fast loading on phones — where most of your visitors are",
+      "Analytics that show which pages actually bring enquiries"
+    ],
+    "benefits_ru": [
+      "Стабильный поток заявок из поиска и рекламы",
+      "Понятная структура, которая ведёт посетителя к форме связи",
+      "Админ-панель, где вы сами меняете тексты и изображения",
+      "Быстрая загрузка на телефонах — там, где большинство ваших посетителей",
+      "Аналитика, которая показывает, какие страницы реально приносят заявки"
+    ],
+    "benefits_lv": [
+      "Stabila pieteikumu plūsma no meklētājiem un reklāmas",
+      "Skaidra struktūra, kas ved apmeklētāju līdz saziņas formai",
+      "Administrācijas panelis, kurā jūs pats maināt tekstus un attēlus",
+      "Ātra ielāde telefonos — tur, kur ir lielākā daļa jūsu apmeklētāju",
+      "Analītika, kas parāda, kuras lapas patiešām nes pieteikumus"
+    ],
+    "stages": [
+      {
+        "title": "Discovery",
+        "title_ru": "Погружение",
+        "title_lv": "Iepazīšanās",
+        "text": "We talk through your business, your customers, and what a successful site would change for you.",
+        "text_ru": "Обсуждаем ваш бизнес, ваших клиентов и то, что успешный сайт должен для вас изменить.",
+        "text_lv": "Pārrunājam jūsu biznesu, klientus un to, kas veiksmīgai mājaslapai jums būtu jāmaina."
+      },
+      {
+        "title": "Structure and content",
+        "title_ru": "Структура и контент",
+        "title_lv": "Struktūra un saturs",
+        "text": "We plan the pages, write or edit the texts, and agree what goes where before any design work starts.",
+        "text_ru": "Планируем страницы, пишем или редактируем тексты и согласовываем, что где будет, ещё до начала дизайна.",
+        "text_lv": "Plānojam lapas, rakstām vai rediģējam tekstus un vienojamies, kas kur atradīsies, vēl pirms dizaina."
+      },
+      {
+        "title": "Design",
+        "title_ru": "Дизайн",
+        "title_lv": "Dizains",
+        "text": "You see the full design for desktop and mobile, and approve it before development begins.",
+        "text_ru": "Вы видите полный дизайн для компьютера и телефона и утверждаете его до начала разработки.",
+        "text_lv": "Jūs redzat pilnu dizainu datoram un telefonam un apstiprināt to pirms izstrādes sākuma."
+      },
+      {
+        "title": "Build and launch",
+        "title_ru": "Разработка и запуск",
+        "title_lv": "Izstrāde un palaišana",
+        "text": "We build the site, connect analytics, hand over the admin panel, and stay available for the first month.",
+        "text_ru": "Собираем сайт, подключаем аналитику, передаём админ-панель и остаёмся на связи первый месяц.",
+        "text_lv": "Izveidojam mājaslapu, pieslēdzam analītiku, nododam administrācijas paneli un paliekam pieejami pirmo mēnesi."
+      }
+    ],
+    "timeline": "3–8 weeks",
+    "timeline_ru": "3–8 недель",
+    "timeline_lv": "3–8 nedēļas",
+    "priceFrom": "€1 200"
   },
   {
     "id": "02",
-    "title": "ADMIN PANELS\n& INTERNAL TOOLS",
-    "description": "Custom dashboards, CRM systems, and operational tooling built for speed and clarity. From data-heavy analytics views to multi-role admin panels — deployed and in production within weeks.",
-    "tags": [
-      "DASHBOARDS",
-      "CRM",
-      "ANALYTICS",
-      "APIs",
-      "CLOUDFLARE"
+    "slug": "redesign",
+    "icon": "Sparkles",
+    "title": "Website redesign",
+    "title_ru": "Редизайн сайтов",
+    "title_lv": "Mājaslapu pārveidošana",
+    "tagline": "Keep what works, fix what costs you customers",
+    "tagline_ru": "Сохранить то, что работает, исправить то, что теряет клиентов",
+    "tagline_lv": "Saglabāt to, kas strādā, salabot to, kas zaudē klientus",
+    "description": "We find where visitors give up and rebuild it — keeping your search rankings.",
+    "description_ru": "Находим, где посетители уходят, и переделываем — сохраняя позиции в поиске.",
+    "description_lv": "Atrodam, kur apmeklētāji padodas, un pārveidojam — saglabājot meklētāju pozīcijas.",
+    "whatItIs": "A rebuild of an existing site: new design, clearer structure, faster loading. We keep the pages and addresses that already perform well in search, so your existing traffic follows you across.",
+    "whatItIs_ru": "Переработка существующего сайта: новый дизайн, понятная структура, быстрая загрузка. Мы сохраняем страницы и адреса, которые уже хорошо работают в поиске, чтобы имеющийся трафик перешёл вместе с вами.",
+    "whatItIs_lv": "Esošas mājaslapas pārveide: jauns dizains, skaidrāka struktūra, ātrāka ielāde. Saglabājam lapas un adreses, kas meklētājos jau darbojas labi, lai esošā apmeklētāju plūsma pārnāktu līdzi.",
+    "forWhom": "Businesses whose site looks dated, works badly on phones, or simply stopped producing enquiries. Also a good fit after a rebrand or a change in what you offer.",
+    "forWhom_ru": "Бизнесу, чей сайт выглядит устаревшим, плохо работает на телефонах или просто перестал приносить заявки. Также подходит после ребрендинга или смены услуг.",
+    "forWhom_lv": "Uzņēmumiem, kuru mājaslapa izskatās novecojusi, slikti darbojas telefonos vai vienkārši pārstājusi nest pieteikumus. Der arī pēc zīmola maiņas vai piedāvājuma maiņas.",
+    "problems": [
+      "Visitors arrive but leave without contacting you",
+      "The site is hard to use on a phone",
+      "Pages load slowly and people lose patience",
+      "The design no longer matches the level of your business"
     ],
-    "metric": "2×",
-    "metricLabel": "FASTER DELIVERY"
+    "problems_ru": [
+      "Посетители приходят, но уходят, не связавшись с вами",
+      "Сайтом неудобно пользоваться с телефона",
+      "Страницы загружаются медленно, и люди не дожидаются",
+      "Дизайн больше не соответствует уровню вашего бизнеса"
+    ],
+    "problems_lv": [
+      "Apmeklētāji ienāk, bet aiziet, ar jums nesazinoties",
+      "Mājaslapu ir neērti lietot telefonā",
+      "Lapas ielādējas lēni, un cilvēki nesagaida",
+      "Dizains vairs neatbilst jūsu biznesa līmenim"
+    ],
+    "benefits": [
+      "More enquiries from the same amount of traffic",
+      "A modern look that matches how you want to be seen",
+      "Comfortable use on any screen size",
+      "Search positions preserved through careful redirects",
+      "A clear before-and-after picture in your analytics"
+    ],
+    "benefits_ru": [
+      "Больше заявок при том же объёме трафика",
+      "Современный вид, соответствующий тому, как вы хотите выглядеть",
+      "Удобство использования на экране любого размера",
+      "Позиции в поиске сохранены за счёт аккуратных перенаправлений",
+      "Понятная картина «до и после» в вашей аналитике"
+    ],
+    "benefits_lv": [
+      "Vairāk pieteikumu no tāda paša apmeklētāju skaita",
+      "Mūsdienīgs izskats, kas atbilst tam, kā vēlaties izskatīties",
+      "Ērta lietošana jebkura izmēra ekrānā",
+      "Meklētāju pozīcijas saglabātas ar rūpīgām pāradresācijām",
+      "Skaidra “pirms un pēc” aina jūsu analītikā"
+    ],
+    "stages": [
+      {
+        "title": "Audit",
+        "title_ru": "Аудит",
+        "title_lv": "Audits",
+        "text": "We study your analytics and the current site to find exactly where visitors drop off.",
+        "text_ru": "Изучаем аналитику и текущий сайт, чтобы понять, где именно теряются посетители.",
+        "text_lv": "Izpētām analītiku un esošo mājaslapu, lai atrastu, kur tieši apmeklētāji pazūd."
+      },
+      {
+        "title": "Plan",
+        "title_ru": "План",
+        "title_lv": "Plāns",
+        "text": "We propose what to change and what to leave alone, with the reasoning behind each decision.",
+        "text_ru": "Предлагаем, что изменить, а что оставить как есть, с обоснованием каждого решения.",
+        "text_lv": "Piedāvājam, ko mainīt un ko atstāt, ar pamatojumu katram lēmumam."
+      },
+      {
+        "title": "New design",
+        "title_ru": "Новый дизайн",
+        "title_lv": "Jauns dizains",
+        "text": "We redesign the pages that matter most first, so you see the impact early.",
+        "text_ru": "Сначала переделываем самые важные страницы, чтобы вы увидели эффект раньше.",
+        "text_lv": "Vispirms pārveidojam svarīgākās lapas, lai jūs efektu redzētu agrāk."
+      },
+      {
+        "title": "Migration",
+        "title_ru": "Перенос",
+        "title_lv": "Pārcelšana",
+        "text": "We move everything across with redirects in place, then watch the search rankings for a month.",
+        "text_ru": "Переносим всё с настроенными перенаправлениями и месяц следим за позициями в поиске.",
+        "text_lv": "Pārceļam visu ar sagatavotām pāradresācijām un mēnesi vērojam meklētāju pozīcijas."
+      }
+    ],
+    "timeline": "3–6 weeks",
+    "timeline_ru": "3–6 недель",
+    "timeline_lv": "3–6 nedēļas",
+    "priceFrom": "€900"
+  },
+  {
+    "id": "03",
+    "slug": "b2b-tools",
+    "icon": "Workflow",
+    "title": "B2B tools and automation",
+    "title_ru": "B2B-утилиты: автоматизация и оптимизация",
+    "title_lv": "B2B rīki un automatizācija",
+    "tagline": "Give your team back the hours spreadsheets eat",
+    "tagline_ru": "Вернуть команде часы, которые съедают таблицы",
+    "tagline_lv": "Atgūt komandai stundas, ko apēd izklājlapas",
+    "description": "Internal tools that turn hours of routine into minutes.",
+    "description_ru": "Внутренние инструменты, превращающие часы рутины в минуты.",
+    "description_lv": "Iekšējie rīki, kas pārvērš rutīnas stundas minūtēs.",
+    "whatItIs": "A small custom system that replaces the spreadsheets, paper forms, and manual copying your team relies on today. Built for your process — not a general-purpose product you have to bend yourself around.",
+    "whatItIs_ru": "Небольшая система под ваш процесс, которая заменяет таблицы, бумажные бланки и ручное переписывание данных. Сделана под ваш процесс, а не универсальный продукт, под который приходится подстраиваться.",
+    "whatItIs_lv": "Neliela pielāgota sistēma, kas aizstāj izklājlapas, papīra veidlapas un manuālu datu pārrakstīšanu. Veidota jūsu procesam, nevis universāls produkts, kuram jāpielāgojas.",
+    "forWhom": "Companies where several people work with the same data every day, and where mistakes or delays in that work cost real money.",
+    "forWhom_ru": "Компаниям, где несколько человек ежедневно работают с одними и теми же данными и где ошибки или задержки в этой работе стоят реальных денег.",
+    "forWhom_lv": "Uzņēmumiem, kur vairāki cilvēki katru dienu strādā ar vieniem un tiem pašiem datiem un kur kļūdas vai kavējumi šajā darbā maksā reālu naudu.",
+    "problems": [
+      "The same data is retyped into several places by hand",
+      "Nobody can say the current status of an order without asking around",
+      "Reports are assembled manually at the end of every month",
+      "Knowledge lives in one employee's head and their private spreadsheet"
+    ],
+    "problems_ru": [
+      "Одни и те же данные вручную переносятся в несколько мест",
+      "Никто не может назвать статус заказа, не обзвонив коллег",
+      "Отчёты собираются вручную в конце каждого месяца",
+      "Знания живут в голове одного сотрудника и его личной таблице"
+    ],
+    "problems_lv": [
+      "Vieni un tie paši dati ar roku tiek pārrakstīti vairākās vietās",
+      "Neviens nevar pateikt pasūtījuma statusu, neapjautājot kolēģus",
+      "Atskaites katra mēneša beigās tiek veidotas manuāli",
+      "Zināšanas mīt viena darbinieka galvā un viņa privātajā izklājlapā"
+    ],
+    "benefits": [
+      "Hours of routine work removed from every week",
+      "One place where the current state of things is always visible",
+      "Fewer mistakes, because data is entered once",
+      "Reports that build themselves",
+      "Access levels, so people see what concerns them and nothing more"
+    ],
+    "benefits_ru": [
+      "Часы рутинной работы, убранные из каждой недели",
+      "Одно место, где всегда видно текущее состояние дел",
+      "Меньше ошибок, потому что данные вводятся один раз",
+      "Отчёты, которые собираются сами",
+      "Уровни доступа: каждый видит то, что его касается, и ничего лишнего"
+    ],
+    "benefits_lv": [
+      "No katras nedēļas noņemtas rutīnas darba stundas",
+      "Viena vieta, kur vienmēr redzams pašreizējais stāvoklis",
+      "Mazāk kļūdu, jo dati tiek ievadīti vienu reizi",
+      "Atskaites, kas veidojas pašas",
+      "Piekļuves līmeņi: katrs redz to, kas viņu skar, un neko vairāk"
+    ],
+    "stages": [
+      {
+        "title": "Process mapping",
+        "title_ru": "Разбор процесса",
+        "title_lv": "Procesa izpēte",
+        "text": "We sit with the people doing the work and write down how it happens today, step by step.",
+        "text_ru": "Садимся с теми, кто выполняет работу, и по шагам записываем, как всё происходит сейчас.",
+        "text_lv": "Sēžam kopā ar tiem, kas darbu veic, un soli pa solim pierakstām, kā tas notiek šodien."
+      },
+      {
+        "title": "Prototype",
+        "title_ru": "Прототип",
+        "title_lv": "Prototips",
+        "text": "You get a clickable version of the main screens before we write the real system.",
+        "text_ru": "Вы получаете кликабельную версию основных экранов до того, как мы напишем саму систему.",
+        "text_lv": "Jūs saņemat klikšķināmu galveno ekrānu versiju, pirms rakstām īsto sistēmu."
+      },
+      {
+        "title": "Build in stages",
+        "title_ru": "Разработка по частям",
+        "title_lv": "Izstrāde pa daļām",
+        "text": "We deliver the most valuable part first, so the team starts benefiting before everything is finished.",
+        "text_ru": "Сначала отдаём самую полезную часть, чтобы команда начала выигрывать ещё до конца работ.",
+        "text_lv": "Vispirms nododam visvērtīgāko daļu, lai komanda gūst labumu vēl pirms viss pabeigts."
+      },
+      {
+        "title": "Rollout and training",
+        "title_ru": "Внедрение и обучение",
+        "title_lv": "Ieviešana un apmācība",
+        "text": "We move your existing data in, train the team, and stay close during the first weeks of real use.",
+        "text_ru": "Переносим ваши данные, обучаем команду и остаёмся рядом в первые недели реальной работы.",
+        "text_lv": "Pārceļam jūsu datus, apmācām komandu un esam līdzās pirmajās reālās lietošanas nedēļās."
+      }
+    ],
+    "timeline": "5–12 weeks",
+    "timeline_ru": "5–12 недель",
+    "timeline_lv": "5–12 nedēļas",
+    "priceFrom": "€3 000"
   }
 ]

@@ -1,0 +1,165 @@
+[
+  {
+    "id": "tier-01",
+    "serviceSlug": "website-development",
+    "name": "Compact website",
+    "name_ru": "Сайт-визитка",
+    "name_lv": "Kompakta mājaslapa",
+    "description": "One to five pages presenting your company, services, and contacts. The fastest way to have a presence that looks credible.",
+    "description_ru": "От одной до пяти страниц с рассказом о компании, услугах и контактах. Самый быстрый способ получить presence, который выглядит убедительно.",
+    "description_lv": "No vienas līdz piecām lapām par uzņēmumu, pakalpojumiem un kontaktiem. Ātrākais veids, kā iegūt pārliecinošu klātbūtni.",
+    "priceFrom": "€1 200",
+    "priceTo": "€2 500",
+    "timeline": "3–4 weeks",
+    "timeline_ru": "3–4 недели",
+    "timeline_lv": "3–4 nedēļas",
+    "includes": [
+      "Up to 5 pages, individually designed",
+      "Mobile and tablet layouts",
+      "Contact form with email notifications",
+      "Admin panel for editing texts and images",
+      "Basic search engine setup",
+      "1 month of support after launch"
+    ],
+    "includes_ru": [
+      "До 5 страниц с индивидуальным дизайном",
+      "Версии для телефона и планшета",
+      "Форма связи с уведомлениями на почту",
+      "Админ-панель для правки текстов и изображений",
+      "Базовая настройка для поисковых систем",
+      "1 месяц поддержки после запуска"
+    ],
+    "includes_lv": [
+      "Līdz 5 lapām ar individuālu dizainu",
+      "Versijas telefonam un planšetei",
+      "Saziņas forma ar paziņojumiem uz e-pastu",
+      "Administrācijas panelis tekstu un attēlu labošanai",
+      "Pamata iestatījumi meklētājprogrammām",
+      "1 mēnesis atbalsta pēc palaišanas"
+    ]
+  },
+  {
+    "id": "tier-02",
+    "serviceSlug": "website-development",
+    "name": "Corporate website",
+    "name_ru": "Корпоративный сайт",
+    "name_lv": "Korporatīva mājaslapa",
+    "description": "A full site with a service catalogue, case studies, and a blog. For companies where the website is a real sales channel.",
+    "description_ru": "Полноценный сайт с каталогом услуг, кейсами и блогом. Для компаний, где сайт — реальный канал продаж.",
+    "description_lv": "Pilnvērtīga mājaslapa ar pakalpojumu katalogu, projektiem un blogu. Uzņēmumiem, kuriem mājaslapa ir reāls pārdošanas kanāls.",
+    "priceFrom": "€3 000",
+    "priceTo": "€7 000",
+    "timeline": "6–10 weeks",
+    "timeline_ru": "6–10 недель",
+    "timeline_lv": "6–10 nedēļas",
+    "includes": [
+      "Everything in the compact website",
+      "Service catalogue with individual pages",
+      "Case studies and blog sections",
+      "Up to three languages",
+      "Analytics with conversion tracking",
+      "Content structure and copywriting support",
+      "3 months of support after launch"
+    ],
+    "includes_ru": [
+      "Всё из сайта-визитки",
+      "Каталог услуг с отдельными страницами",
+      "Разделы кейсов и блога",
+      "До трёх языков",
+      "Аналитика с отслеживанием конверсий",
+      "Помощь со структурой контента и текстами",
+      "3 месяца поддержки после запуска"
+    ],
+    "includes_lv": [
+      "Viss no kompaktās mājaslapas",
+      "Pakalpojumu katalogs ar atsevišķām lapām",
+      "Projektu un bloga sadaļas",
+      "Līdz trim valodām",
+      "Analītika ar konversiju uzskaiti",
+      "Palīdzība ar satura struktūru un tekstiem",
+      "3 mēneši atbalsta pēc palaišanas"
+    ],
+    "popular": true
+  },
+  {
+    "id": "tier-03",
+    "serviceSlug": "redesign",
+    "name": "Redesign",
+    "name_ru": "Редизайн",
+    "name_lv": "Pārveidošana",
+    "description": "A rebuild of your existing site: new design, clearer structure, faster loading — with search positions preserved.",
+    "description_ru": "Переработка существующего сайта: новый дизайн, понятная структура, быстрая загрузка — с сохранением позиций в поиске.",
+    "description_lv": "Esošās mājaslapas pārveide: jauns dizains, skaidrāka struktūra, ātrāka ielāde — saglabājot meklētāju pozīcijas.",
+    "priceFrom": "€900",
+    "priceTo": "€4 500",
+    "timeline": "3–6 weeks",
+    "timeline_ru": "3–6 недель",
+    "timeline_lv": "3–6 nedēļas",
+    "includes": [
+      "Audit of the current site and its analytics",
+      "New design across all existing pages",
+      "Migration with redirects, so rankings are kept",
+      "Speed and mobile improvements",
+      "Admin panel if the old site lacked one",
+      "1 month of monitoring after migration"
+    ],
+    "includes_ru": [
+      "Аудит текущего сайта и его аналитики",
+      "Новый дизайн для всех существующих страниц",
+      "Перенос с перенаправлениями, позиции сохраняются",
+      "Улучшение скорости и мобильной версии",
+      "Админ-панель, если на старом сайте её не было",
+      "1 месяц наблюдения после переноса"
+    ],
+    "includes_lv": [
+      "Esošās mājaslapas un tās analītikas audits",
+      "Jauns dizains visām esošajām lapām",
+      "Pārcelšana ar pāradresācijām, pozīcijas saglabājas",
+      "Ātruma un mobilās versijas uzlabojumi",
+      "Administrācijas panelis, ja vecajai lapai tāda nebija",
+      "1 mēnesis novērošanas pēc pārcelšanas"
+    ]
+  },
+  {
+    "id": "tier-04",
+    "serviceSlug": "b2b-tools",
+    "name": "B2B tool",
+    "name_ru": "B2B-утилита",
+    "name_lv": "B2B rīks",
+    "description": "A custom internal system built around one process: order tracking, a client database, or automated reporting.",
+    "description_ru": "Внутренняя система под один процесс: учёт заказов, база клиентов или автоматическая отчётность.",
+    "description_lv": "Pielāgota iekšējā sistēma vienam procesam: pasūtījumu uzskaite, klientu datubāze vai automātiskas atskaites.",
+    "priceFrom": "€3 000",
+    "priceTo": "€15 000",
+    "timeline": "5–12 weeks",
+    "timeline_ru": "5–12 недель",
+    "timeline_lv": "5–12 nedēļas",
+    "includes": [
+      "Mapping of your current process",
+      "Clickable prototype before development starts",
+      "Development delivered in usable stages",
+      "Migration of your existing data",
+      "Role-based access for your team",
+      "Training session and written documentation",
+      "3 months of support after rollout"
+    ],
+    "includes_ru": [
+      "Разбор вашего текущего процесса",
+      "Кликабельный прототип до начала разработки",
+      "Разработка по частям, каждая сразу пригодна к работе",
+      "Перенос ваших существующих данных",
+      "Доступ по ролям для вашей команды",
+      "Обучение команды и письменная документация",
+      "3 месяца поддержки после внедрения"
+    ],
+    "includes_lv": [
+      "Jūsu pašreizējā procesa izpēte",
+      "Klikšķināms prototips pirms izstrādes sākuma",
+      "Izstrāde pa daļām, katra uzreiz lietojama",
+      "Jūsu esošo datu pārcelšana",
+      "Piekļuve pēc lomām jūsu komandai",
+      "Komandas apmācība un rakstiska dokumentācija",
+      "3 mēneši atbalsta pēc ieviešanas"
+    ]
+  }
+]
