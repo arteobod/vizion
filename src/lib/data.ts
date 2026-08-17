@@ -1,4 +1,7 @@
-import { Project, Service, ProcessStep, Stat, ContactSubmission, SiteContent, CrmClient } from '@/types'
+import {
+  Project, Service, ProcessStep, Stat, ContactSubmission, SiteContent, CrmClient,
+  PricingTier, Testimonial, TeamMember,
+} from '@/types'
 
 // Static imports - bundled at build time, used as defaults
 import projectsJson from '../../data/projects.json'
@@ -8,6 +11,9 @@ import statsJson from '../../data/stats.json'
 import siteContentJson from '../../data/site-content.json'
 import contactsJson from '../../data/contacts.json'
 import crmClientsJson from '../../data/crm-clients.json'
+import pricingJson from '../../data/pricing.json'
+import testimonialsJson from '../../data/testimonials.json'
+import teamJson from '../../data/team.json'
 
 // Type for KV namespace
 interface KVNamespace {
@@ -118,6 +124,11 @@ export async function getProjectById(id: string): Promise<Project | undefined> {
   return projects.find((p) => p.id === id)
 }
 
+export async function getProjectBySlug(slug: string): Promise<Project | undefined> {
+  const projects = await getProjects()
+  return projects.find((p) => p.slug === slug)
+}
+
 export async function addProject(project: Project): Promise<void> {
   const projects = await getProjects()
   projects.push(project)
@@ -149,6 +160,41 @@ export async function getServices(): Promise<Service[]> {
 
 export async function saveServices(services: Service[]): Promise<void> {
   await writeData('services', 'services.json', services)
+}
+
+export async function getServiceBySlug(slug: string): Promise<Service | undefined> {
+  const services = await getServices()
+  return services.find((s) => s.slug === slug)
+}
+
+// --- Pricing ---
+
+export async function getPricingTiers(): Promise<PricingTier[]> {
+  return readData<PricingTier[]>('pricing', 'pricing.json', pricingJson as PricingTier[])
+}
+
+export async function savePricingTiers(tiers: PricingTier[]): Promise<void> {
+  await writeData('pricing', 'pricing.json', tiers)
+}
+
+// --- Testimonials ---
+
+export async function getTestimonials(): Promise<Testimonial[]> {
+  return readData<Testimonial[]>('testimonials', 'testimonials.json', testimonialsJson as Testimonial[])
+}
+
+export async function saveTestimonials(items: Testimonial[]): Promise<void> {
+  await writeData('testimonials', 'testimonials.json', items)
+}
+
+// --- Team (optional — an empty list hides the section) ---
+
+export async function getTeam(): Promise<TeamMember[]> {
+  return readData<TeamMember[]>('team', 'team.json', teamJson as TeamMember[])
+}
+
+export async function saveTeam(members: TeamMember[]): Promise<void> {
+  await writeData('team', 'team.json', members)
 }
 
 // --- Process ---

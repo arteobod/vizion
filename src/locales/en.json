@@ -1,140 +1,358 @@
 {
   "nav": {
-    "services": "SERVICES",
-    "projects": "PROJECTS",
-    "process": "PROCESS",
-    "contact": "CONTACT",
-    "systemsOnline": "SYSTEMS ONLINE"
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "portfolio": "Work",
+    "pricing": "Pricing",
+    "contacts": "Contacts",
+    "cta": "Start a project",
+    "menu": "Menu",
+    "close": "Close"
   },
-  "hero": {
-    "subtitle": "Digital Infrastructure Studio",
-    "est": "EST. 2026",
-    "typewriter": "We build your vision.",
-    "description": "We engineer digital systems that scale, perform, and endure.",
-    "startProject": "START A PROJECT",
-    "capabilities": "CAPABILITIES",
-    "scroll": "SCROLL",
-    "phrases": [
-      { "lines": [["WE", "BUILD"], ["YOUR", "VISION"]], "highlight": "last-line" },
-      { "lines": [["PREMIUM", "WEB"], ["DEVELOPMENT"]], "highlight": "none" },
-      { "lines": [["BUSINESS"], ["UTILITIES"]], "highlight": "all" }
-    ]
+  "common": {
+    "learnMore": "Learn more",
+    "viewCase": "View case",
+    "allCases": "All work",
+    "allServices": "All services",
+    "discussProject": "Discuss a project",
+    "discussSimilar": "Discuss a similar project",
+    "getQuote": "Request a quote",
+    "getConsultation": "Get a free consultation",
+    "startProject": "Start a project",
+    "orderService": "Order this service",
+    "backToServices": "Back to services",
+    "backToPortfolio": "Back to work",
+    "client": "Client",
+    "year": "Year",
+    "service": "Service",
+    "projectType": "Project",
+    "visitSite": "Open the site",
+    "videoPlay": "Play the video",
+    "videoPause": "Pause the video",
+    "videoFullscreen": "Fullscreen",
+    "videoExitFullscreen": "Exit fullscreen"
+  },
+  "home": {
+    "banner": {
+      "lead": "Everything we build",
+      "title": "has to work"
+    },
+    "hero": {
+      "eyebrow": "Web studio in Riga",
+      "title": "Your business grows — we build the digital tools for it",
+      "subtitle": "We create websites, redesign outdated ones, and build B2B tools that automate routine work. In plain language, with clear pricing and fixed deadlines.",
+      "ctaPrimary": "Start a project",
+      "ctaSecondary": "Get a free consultation",
+      "trust": "Free first consultation · Reply within 24 hours · Fixed-price estimate",
+      "est": "Est. 2026",
+      "index": [
+        "Websites",
+        "Redesign",
+        "B2B tools"
+      ],
+      "dragHint": "Drag to spin ↔"
+    },
+    "services": {
+      "eyebrow": "What we do",
+      "title": "Three ways we help your business",
+      "subtitle": "Every service starts from a business problem — not a technical one."
+    },
+    "why": {
+      "eyebrow": "Why us",
+      "title": "What working with us actually looks like",
+      "items": [
+        {
+          "title": "Transparent at every stage",
+          "text": "You always know what's being done, what it costs, and when."
+        },
+        {
+          "title": "We speak business, not code",
+          "text": "We explain every decision in your terms, not code."
+        },
+        {
+          "title": "An individual approach",
+          "text": "We start from your customers, never a template."
+        },
+        {
+          "title": "Support after launch",
+          "text": "We stay on after launch — maintained and monitored."
+        }
+      ]
+    },
+    "cases": {
+      "eyebrow": "Selected work",
+      "title": "What we have built",
+      "subtitle": "A few projects, and the problem each one had to solve."
+    },
+    "results": {
+      "eyebrow": "The numbers",
+      "title": "What changed after we launched"
+    },
+    "testimonials": {
+      "eyebrow": "Testimonials",
+      "title": "What our clients say"
+    },
+    "cta": {
+      "title": "Have a project in mind?",
+      "text": "Tell us about your task and we will come back within 24 hours with a plan and a realistic budget. The first consultation is free.",
+      "button": "Discuss a project"
+    }
+  },
+  "about": {
+    "meta": {
+      "title": "About us",
+      "description": "Who we are, what we believe, and how we work with clients."
+    },
+    "hero": {
+      "eyebrow": "About us",
+      "title": "A digital partner that speaks your language",
+      "subtitle": "We are a small web studio in Riga. We build digital tools that make businesses work faster and earn more — and we explain every step along the way."
+    },
+    "mission": {
+      "title": "Our mission",
+      "text": "Good digital tools should not be a privilege of large corporations with in-house IT departments. We help small and mid-sized businesses get the same quality of websites and internal tools — without inflated budgets, and without needing a technical background to take part in the process."
+    },
+    "values": {
+      "title": "What we believe",
+      "items": [
+        {
+          "title": "Clarity above all",
+          "text": "If you can't explain what we're building, we've failed."
+        },
+        {
+          "title": "The result is the point",
+          "text": "A site that brings no enquiries is a failed project."
+        },
+        {
+          "title": "Honesty about limits",
+          "text": "If you don't need a custom build, we say so."
+        },
+        {
+          "title": "Reliability over time",
+          "text": "We build systems that keep working for years."
+        }
+      ]
+    },
+    "story": {
+      "title": "How we started",
+      "text": "The studio grew out of a simple observation: most business owners have been burnt by a contractor at least once. Vague estimates, shifting deadlines, hand-overs nobody could maintain. We built Vižon around the opposite of that experience — fixed scope, clear pricing, and documentation that lets you leave us if you ever want to."
+    },
+    "team": {
+      "title": "The people you will work with",
+      "subtitle": "Small team, direct communication. No account managers relaying messages."
+    },
+    "approach": {
+      "title": "How we work",
+      "subtitle": "A predictable process from first call to launch — and beyond."
+    },
+    "cta": {
+      "title": "Let's get acquainted",
+      "text": "Book a free call. We will discuss your task, tell you honestly whether we are a good fit, and outline what a solution could look like.",
+      "button": "Get a free consultation"
+    }
   },
   "services": {
-    "sectionLabel": "SECTION_01",
-    "title": "CAPABILITIES",
-    "count": "SERVICES",
-    "items": {
-      "01": {
-        "title": "WEB\nDEVELOPMENT",
-        "description": "Full-stack engineering with Next.js, React, and Node. Server-rendered, edge-optimized, built to scale from day one.",
-        "metricLabel": "UPTIME SLA"
+    "meta": {
+      "title": "Services",
+      "description": "Website development, redesign, and B2B tools that automate business processes."
+    },
+    "hero": {
+      "eyebrow": "Services",
+      "title": "Digital solutions for concrete business tasks",
+      "subtitle": "Three core services. Each one starts from a problem you already have, and ends with something measurable."
+    },
+    "labels": {
+      "whatItIs": "What it is",
+      "forWhom": "Who it is for",
+      "problems": "Problems it solves",
+      "benefits": "What you get",
+      "stages": "How the work goes",
+      "examples": "Related work",
+      "timeline": "Typical timeline",
+      "priceFrom": "From"
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "subtitle": "The questions we hear most often, answered plainly.",
+      "items": [
+        {
+          "q": "How long does a project take?",
+          "a": "A compact website usually takes 3 to 5 weeks. A corporate site with several sections takes 6 to 10 weeks. B2B tools depend on the complexity of the processes involved — we give you a firm timeline after the first discovery call."
+        },
+        {
+          "q": "How is the price determined?",
+          "a": "The price depends on the number of pages or screens, the complexity of the features, and how much content needs to be produced. After a short discovery call we give you a fixed estimate that does not move unless you change the scope yourself."
+        },
+        {
+          "q": "Do I need to prepare texts and photos myself?",
+          "a": "Not necessarily. If you have materials, we will work with them. If you do not, we can write the texts and arrange photography — this is priced separately and agreed up front."
+        },
+        {
+          "q": "Will I be able to update the site myself?",
+          "a": "Yes. Every site we deliver comes with an admin panel for editing text, images, and pages. We run a hand-over session and leave you written instructions."
+        },
+        {
+          "q": "What happens after launch?",
+          "a": "The first month of support is included: we fix anything that behaves unexpectedly and help you settle in. After that you can continue on a monthly support plan or simply contact us as needed."
+        },
+        {
+          "q": "Do you work with businesses outside Latvia?",
+          "a": "Yes. We work remotely with clients across Europe. Calls, documents, and hand-over all happen online — in English, Latvian, or Russian."
+        },
+        {
+          "q": "What if I already have a site and just want it improved?",
+          "a": "That is exactly what the redesign service is for. We start with an audit of what you have, identify what is holding results back, and propose the smallest change that will move the needle."
+        }
+      ]
+    },
+    "cta": {
+      "title": "Not sure which service you need?",
+      "text": "Describe your task in a few sentences. We will tell you which approach fits — or whether you need one at all.",
+      "button": "Get a free consultation"
+    }
+  },
+  "portfolio": {
+    "meta": {
+      "title": "Our work",
+      "description": "Projects we have delivered, with the business results they produced."
+    },
+    "hero": {
+      "eyebrow": "Our work",
+      "title": "Projects and the problems behind them",
+      "subtitle": "Each case describes the task, what we did about it, and how it was built."
+    },
+    "filters": {
+      "all": "All projects",
+      "label": "Filter by service"
+    },
+    "empty": "No projects in this category yet.",
+    "labels": {
+      "task": "The client's task",
+      "solution": "Our solution",
+      "results": "Results achieved",
+      "testimonial": "Client feedback",
+      "keyResult": "Key result",
+      "taskOwn": "The problem",
+      "resultsOwn": "What was built",
+      "built": "Own project"
+    },
+    "cta": {
+      "title": "Want a similar result?",
+      "text": "Tell us about your business and we will suggest what would work in your case.",
+      "button": "Discuss a similar project"
+    }
+  },
+  "pricing": {
+    "meta": {
+      "title": "Pricing",
+      "description": "Transparent price ranges for websites, redesign, and B2B tools."
+    },
+    "hero": {
+      "eyebrow": "Pricing",
+      "title": "Clear price ranges, no hidden extras",
+      "subtitle": "Below are realistic budgets for typical projects. After a short call we replace the range with a fixed number — and that number does not change unless you change the scope."
+    },
+    "intro": {
+      "title": "How we price work",
+      "text": "We do not charge by the hour, because that makes your final bill impossible to predict. Instead we agree the scope up front and quote a fixed price for it. If something needs to change mid-project, we tell you what it costs before doing it."
+    },
+    "labels": {
+      "from": "from",
+      "includes": "What's included",
+      "timeline": "Timeline",
+      "popular": "Most popular",
+      "chooseThis": "Request a quote"
+    },
+    "factors": {
+      "title": "What affects the final price",
+      "subtitle": "Three things move a project up or down the range.",
+      "items": [
+        {
+          "title": "Scope and complexity",
+          "text": "The number of pages or screens, and whether you need things like payments, integrations with your accounting system, or multi-role access."
+        },
+        {
+          "title": "Content and materials",
+          "text": "Whether you supply texts and images, or we produce them. Copywriting, photography, and translation are priced separately."
+        },
+        {
+          "title": "Timeline",
+          "text": "A standard schedule costs what is quoted. If you need the project compressed into a shorter window, that carries a surcharge."
+        }
+      ]
+    },
+    "custom": {
+      "title": "Your project doesn't fit the ranges?",
+      "text": "Most interesting projects don't. Describe what you need and we will prepare an individual estimate — free, and with no obligation to proceed.",
+      "button": "Request an individual quote"
+    },
+    "note": "All prices are shown excluding VAT and serve as a guide. The final cost is fixed in the contract after the discovery call."
+  },
+  "contacts": {
+    "meta": {
+      "title": "Contacts",
+      "description": "Get in touch — we reply within 24 hours."
+    },
+    "hero": {
+      "eyebrow": "Contacts",
+      "title": "Let's talk about your project",
+      "subtitle": "Fill in the form or write to us directly. We read every message and reply within one working day."
+    },
+    "info": {
+      "title": "Direct contact",
+      "emailLabel": "Email",
+      "phoneLabel": "Phone",
+      "locationLabel": "Location",
+      "responseLabel": "Response time",
+      "locationValue": "Riga, Latvia — working remotely across Europe",
+      "responseValue": "Within 24 hours",
+      "socialLabel": "Social"
+    },
+    "form": {
+      "title": "Tell us about your task",
+      "subtitle": "The more context you give, the more useful our first reply will be.",
+      "name": "Your name",
+      "namePlaceholder": "Anna Kalniņa",
+      "email": "Email",
+      "emailPlaceholder": "anna@company.com",
+      "phone": "Phone",
+      "phonePlaceholder": "+371 20 000 000",
+      "optional": "optional",
+      "projectType": "Type of project",
+      "projectTypePlaceholder": "Choose one…",
+      "types": {
+        "website": "New website",
+        "redesign": "Website redesign",
+        "utility": "B2B tool / automation",
+        "other": "Something else"
       },
-      "02": {
-        "title": "BUSINESS\nUTILITIES",
-        "description": "Admin panels, dashboards, CRM systems, and internal tools. Engineered for operational efficiency and data clarity.",
-        "metricLabel": "OPS EFFICIENCY"
-      },
-      "03": {
-        "title": "SYSTEM\nARCHITECTURE",
-        "description": "Cloud infrastructure, CI/CD pipelines, database design. We architect systems that perform under pressure.",
-        "metricLabel": "MS RESPONSE"
-      },
-      "04": {
-        "title": "AUDIT &\nSECURITY",
-        "description": "Code audits, performance optimization, security hardening. We find what others miss and fix what others can't.",
-        "metricLabel": "VULNERABILITIES"
-      }
+      "message": "Your message",
+      "messagePlaceholder": "Briefly: what you do, what you need, and by when.",
+      "submit": "Send message",
+      "sending": "Sending…",
+      "success": "Thank you — your message has arrived. We will reply within 24 hours.",
+      "error": "Something went wrong. Please try again, or email us directly.",
+      "required": "Required field",
+      "invalidEmail": "Please check the email address",
+      "privacy": "By sending this form you agree to our privacy policy."
     }
   },
   "process": {
-    "sectionLabel": "SECTION_03",
-    "title": "METHODOLOGY",
-    "count": "PHASES",
-    "headline": ["FROM ZERO TO", "PRODUCTION"],
-    "durationLabel": "DURATION",
-    "deliverablesLabel": "DELIVERABLES",
-    "items": {
-      "step-01": {
-        "title": "DISCOVERY",
-        "duration": "1-2 WEEKS",
-        "description": "We audit your current systems, analyze requirements, and map the technical landscape. Every project begins with understanding the problem space completely.",
-        "deliverables": ["Technical Audit", "Architecture Map", "Scope Document"]
-      },
-      "step-02": {
-        "title": "ARCHITECTURE",
-        "duration": "1 WEEK",
-        "description": "We design the system blueprint — database schemas, API contracts, infrastructure topology. Nothing is built until the foundation is mathematically sound.",
-        "deliverables": ["System Blueprint", "API Contracts", "Tech Stack Decision"]
-      },
-      "step-03": {
-        "title": "ENGINEERING",
-        "duration": "4-8 WEEKS",
-        "description": "Sprint-based development with weekly deployments. You see progress in real-time. Every commit is tested, every deployment is automated.",
-        "deliverables": ["Working Product", "CI/CD Pipeline", "Test Coverage"]
-      },
-      "step-04": {
-        "title": "DEPLOYMENT",
-        "duration": "1 WEEK",
-        "description": "Production launch with monitoring, alerting, and documentation. We don't disappear after launch — we ensure the system is battle-tested.",
-        "deliverables": ["Production Deploy", "Monitoring Setup", "Handover Docs"]
-      }
-    }
-  },
-  "contact": {
-    "sectionLabel": "SECTION_04",
-    "title": "INITIATE",
-    "status": "OPEN FOR PROJECTS",
-    "headline": ["LET'S BUILD", "SOMETHING", "TOGETHER"],
-    "description": "Whether you need a complete platform, a business utility, or a technical audit — we're ready to engineer your next system.",
-    "emailLabel": "EMAIL",
-    "responseTimeLabel": "RESPONSE TIME",
-    "responseTimeValue": "< 24 HOURS",
-    "locationLabel": "LOCATION",
-    "locationValue": "RIGA, LATVIA / REMOTE",
-    "form": {
-      "name": "YOUR NAME",
-      "namePlaceholder": "John Smith",
-      "email": "EMAIL",
-      "emailPlaceholder": "john@company.com",
-      "projectType": "PROJECT TYPE",
-      "selectService": "Select service...",
-      "webDev": "Web Development",
-      "utility": "Business Utility",
-      "architecture": "System Architecture",
-      "audit": "Audit & Security",
-      "brief": "PROJECT BRIEF",
-      "briefPlaceholder": "Describe your project requirements...",
-      "submit": "TRANSMIT MESSAGE",
-      "exampleBrief": "EXAMPLE BRIEF",
-      "success": "MESSAGE TRANSMITTED SUCCESSFULLY"
-    }
-  },
-  "marquee": {
-    "webDev": "WEB DEVELOPMENT",
-    "selectedProjects": "SELECTED PROJECTS",
-    "ourProcess": "OUR PROCESS"
-  },
-  "projects": {
-    "sectionLabel": "SECTION_02",
-    "title": "SELECTED WORK",
-    "count": "PROJECTS",
-    "viewCase": "VIEW CASE"
-  },
-  "stats": {
-    "stat-01": { "label": "PROJECTS DELIVERED", "sublabel": "Since 2026" },
-    "stat-02": { "label": "UPTIME GUARANTEED", "sublabel": "SLA Compliance" },
-    "stat-03": { "label": "AVG RESPONSE TIME", "sublabel": "Edge-deployed" },
-    "stat-04": { "label": "SYSTEM MONITORING", "sublabel": "Automated alerts" }
+    "eyebrow": "How we work",
+    "title": "From first call to launch",
+    "subtitle": "Four stages, each with a clear outcome you can see and approve.",
+    "durationLabel": "Duration",
+    "deliverablesLabel": "You receive"
   },
   "footer": {
-    "brand": "Digital infrastructure studio.",
-    "brandSub": "We build systems that scale.",
-    "navigation": "NAVIGATION",
-    "coreStack": "CORE STACK",
-    "connect": "CONNECT",
-    "copyright": "ALL RIGHTS RESERVED.",
-    "engineered": "ENGINEERED WITH PRECISION",
-    "privacyPolicy": "PRIVACY POLICY"
+    "tagline": "Digital solutions that help your business grow.",
+    "description": "Websites, redesign, and B2B tools. Riga, Latvia — working across Europe.",
+    "navigation": "Navigation",
+    "servicesTitle": "Services",
+    "contactTitle": "Contact",
+    "copyright": "All rights reserved.",
+    "privacyPolicy": "Privacy policy",
+    "responseTime": "We reply within 24 hours"
   }
 }

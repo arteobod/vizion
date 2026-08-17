@@ -3,12 +3,70 @@
 @tailwind utilities;
 
 /* ═══════════════════════════════════════════════
-   FRONT_VISION — INDUSTRIAL TECH / SWISS GRID
-   Theme variables (dark default, light optional)
+   VIŽON — LIGHT / SOFT / CLEAR
+   Public site palette (--vz-*)
+   White canvas, blue accent (30%), orange CTA (70%)
    ═══════════════════════════════════════════════ */
 
-:root,
-[data-theme="dark"] {
+/*
+ * Palette values are space-separated RGB channels, not hex, so Tailwind can
+ * inject alpha via `<alpha-value>` — that's what makes `bg-vz-blue/40` and
+ * `border-vz-blue/30` work. Reference them in plain CSS as rgb(var(--x)).
+ */
+:root {
+  /* Surfaces */
+  --vz-bg: 255 255 255;
+  --vz-bg-soft: 248 249 250;
+  --vz-bg-tint: 243 250 254;
+  --vz-border: 231 234 238;
+  --vz-border-strong: 216 221 228;
+
+  /* Text — dark grey, never pure black */
+  --vz-text: 33 37 41;
+  --vz-text-body: 65 74 83;
+  --vz-text-muted: 121 131 142;
+
+  /* Accent 1 — blue: icons, links, supporting surfaces */
+  --vz-blue: 66 184 235;
+  --vz-blue-deep: 30 147 198;
+  --vz-blue-soft: 228 244 252;
+
+  /* Accent 2 — orange: primary CTA, highlights */
+  --vz-orange: 255 165 0;
+  --vz-orange-deep: 224 140 0;
+  --vz-orange-soft: 255 244 224;
+
+  --vz-white: 255 255 255;
+
+  /* Near-black used for the window outline. Not #000 — a true black edge
+     against a soft light page reads as a rendering artefact rather than a
+     drawn line. */
+  --vz-ink: 16 19 24;
+
+  /* Soft depth */
+  --vz-shadow-sm: 0 1px 2px rgba(33, 37, 41, 0.04), 0 1px 3px rgba(33, 37, 41, 0.06);
+  --vz-shadow: 0 2px 4px rgba(33, 37, 41, 0.04), 0 6px 16px rgba(33, 37, 41, 0.07);
+  --vz-shadow-lg: 0 4px 8px rgba(33, 37, 41, 0.04), 0 16px 40px rgba(33, 37, 41, 0.09);
+  /* Deep layered drop for the browser windows: the stack of decreasing-opacity
+     casts is what makes a card read as floating well above the page rather
+     than resting on it. */
+  --vz-shadow-window:
+    0 4px 10px rgba(20, 24, 31, 0.18),
+    0 14px 30px rgba(20, 24, 31, 0.26),
+    0 34px 56px rgba(20, 24, 31, 0.28),
+    0 70px 96px rgba(20, 24, 31, 0.2),
+    0 120px 140px rgba(20, 24, 31, 0.1);
+  --vz-shadow-orange: 0 6px 20px rgba(255, 165, 0, 0.32);
+  --vz-shadow-blue: 0 6px 20px rgba(66, 184, 235, 0.26);
+}
+
+/* ═══════════════════════════════════════════════
+   ADMIN PALETTE (--fv-*) — dark, internal only.
+   Scoped to /ctrl-8b2f and /mgr-5k9w shells, which
+   set their own background. Not used by the public site.
+   ═══════════════════════════════════════════════ */
+
+:root {
   --fv-black: #060608;
   --fv-dark: #0d0d12;
   --fv-surface: #141419;
@@ -17,36 +75,11 @@
   --fv-text: #E0E0E0;
   --fv-text-dim: #888888;
   --fv-text-muted: #555555;
-  --fv-orange: #FF4500;
-  --fv-orange-dim: #CC3700;
-  --fv-blue: #00d4ff;
-  --fv-blue-dim: #0099cc;
+  --fv-orange: #FF8A1F;
+  --fv-orange-dim: #CC6D14;
+  --fv-blue: #42b8eb;
+  --fv-blue-dim: #1E93C6;
   --fv-white: #FFFFFF;
-  --fv-selection-bg: #FF4500;
-  --fv-selection-fg: #060608;
-  --fv-scrollbar-track: #060608;
-  --fv-scrollbar-thumb: #1e1e28;
-  --fv-glow-orange: 0 0 20px rgba(255,69,0,0.35), 0 0 60px rgba(255,69,0,0.12);
-  --fv-glow-blue: 0 0 20px rgba(0,212,255,0.25), 0 0 60px rgba(0,212,255,0.08);
-  --fv-glow-border: 0 0 0 1px rgba(255,69,0,0.4), 0 0 20px rgba(255,69,0,0.15);
-}
-
-[data-theme="light"] {
-  --fv-black: #FAFAF7;
-  --fv-dark: #F0EDE8;
-  --fv-surface: #E8E4DD;
-  --fv-border: #D4CFC6;
-  --fv-border-light: #C8C2B8;
-  --fv-text: #1A1816;
-  --fv-text-dim: #4A4540;
-  --fv-text-muted: #8A847A;
-  --fv-orange: #E83E00;
-  --fv-orange-dim: #CC3700;
-  --fv-white: #1A1816;
-  --fv-selection-bg: #E83E00;
-  --fv-selection-fg: #FAFAF7;
-  --fv-scrollbar-track: #F0EDE8;
-  --fv-scrollbar-thumb: #C8C2B8;
 }
 
 @layer base {
@@ -56,118 +89,240 @@
   }
 
   ::selection {
-    background: var(--fv-selection-bg);
-    color: var(--fv-selection-fg);
+    background: rgb(var(--vz-orange-soft));
+    color: rgb(var(--vz-text));
+  }
+
+  /* Film grain over the whole page. A faint tactile layer is what keeps the
+     reference sites from looking like clean flat vector — subtle, fixed, and
+     never intercepting clicks. */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    background-size: 140px 140px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body::after { opacity: 0.35; }
+    /* The background panes stay — they are composition, not motion. Only the
+       drifting stops. */
+    .animate-drift,
+    .animate-sway { animation: none; }
   }
 
   html {
     scroll-behavior: smooth;
-    scrollbar-width: thin;
-    scrollbar-color: var(--fv-scrollbar-thumb) var(--fv-scrollbar-track);
     overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--vz-border-strong)) transparent;
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--fv-scrollbar-track);
+    background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--fv-scrollbar-thumb);
-    border-radius: 0;
+    background: rgb(var(--vz-border-strong));
+    border-radius: 999px;
+    border: 3px solid rgb(var(--vz-bg));
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--fv-orange);
+    background: rgb(var(--vz-text-muted));
   }
 
   body {
-    background: var(--fv-black);
-    color: var(--fv-text);
-    overflow-x: hidden;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    background: rgb(var(--vz-bg));
+    color: rgb(var(--vz-text-body));
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4 {
+    color: rgb(var(--vz-text));
+    font-family: var(--font-nunito), system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+
+  /* Visible, on-brand focus ring for keyboard users */
+  :focus-visible {
+    outline: 3px solid rgb(var(--vz-blue));
+    outline-offset: 2px;
+    border-radius: 6px;
   }
 }
 
 @layer components {
-  /* Grid cell hover effect */
-  .grid-cell {
-    @apply border border-fv-border transition-all duration-300;
+  /* ── Aurora ───────────────────────────────────────────────
+     Slow drifting colour fields behind the hero. Animates only
+     transform and opacity, so it stays on the compositor and
+     never triggers layout. */
+  .aurora {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(90px);
+    will-change: transform;
+    pointer-events: none;
   }
-  .grid-cell:hover {
-    @apply border-fv-orange;
-    background: color-mix(in srgb, var(--fv-dark) 50%, transparent);
-    box-shadow: var(--fv-glow-border);
+  .aurora-1 {
+    animation: auroraDrift1 22s ease-in-out infinite;
+  }
+  .aurora-2 {
+    animation: auroraDrift2 28s ease-in-out infinite;
+  }
+  .aurora-3 {
+    animation: auroraDrift3 34s ease-in-out infinite;
   }
 
-  /* 3D perspective wrapper */
-  .perspective-card {
-    perspective: 1200px;
+  @keyframes auroraDrift1 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    33%      { transform: translate3d(6%, 8%, 0) scale(1.12); }
+    66%      { transform: translate3d(-5%, 4%, 0) scale(0.94); }
+  }
+  @keyframes auroraDrift2 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    40%      { transform: translate3d(-8%, 6%, 0) scale(1.15); }
+    75%      { transform: translate3d(4%, -6%, 0) scale(0.92); }
+  }
+  @keyframes auroraDrift3 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1.05); }
+    50%      { transform: translate3d(7%, -7%, 0) scale(0.9); }
+  }
+
+  /* ── Cursor spotlight ─────────────────────────────────────
+     A soft light that tracks the pointer across a card. Only on
+     devices that actually have a hovering pointer — on touch it
+     would just be a stuck highlight. */
+  .spotlight {
+    position: relative;
+    isolation: isolate;
+  }
+  .spotlight > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .spotlight::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        340px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+        rgba(66, 184, 235, 0.16),
+        rgba(66, 184, 235, 0.06) 40%,
+        transparent 68%
+      );
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+    }
+    .spotlight[data-spot='on']::before {
+      opacity: 1;
+    }
+    /* Warm variant for the pricing tier that carries the orange accent */
+    .spotlight-warm::before {
+      background: radial-gradient(
+        340px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+        rgba(255, 165, 0, 0.18),
+        rgba(255, 165, 0, 0.06) 40%,
+        transparent 68%
+      );
+    }
+  }
+
+  /* ── 3D tilt ──────────────────────────────────────────────
+     Cards lean toward the pointer. Rotation values are written by
+     useTilt; the card keeps its own depth so children lift with it. */
+  .tilt {
     transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tilt[data-tilting='on'] {
+    /* While actively tracking, follow the pointer without easing lag */
+    transition: transform 0.08s linear;
   }
 
-  /* Glow effects */
-  .glow-orange {
-    box-shadow: var(--fv-glow-orange);
-  }
-  .glow-blue {
-    box-shadow: var(--fv-glow-blue);
-  }
-  .text-glow-orange {
-    text-shadow: 0 0 20px rgba(255,69,0,0.6), 0 0 40px rgba(255,69,0,0.25);
-  }
-  .text-glow-blue {
-    text-shadow: 0 0 20px rgba(0,212,255,0.6), 0 0 40px rgba(0,212,255,0.2);
+  @media (hover: hover) and (pointer: fine) {
+    .tilt {
+      transform:
+        perspective(900px)
+        rotateX(var(--tilt-x, 0deg))
+        rotateY(var(--tilt-y, 0deg))
+        translate3d(0, 0, var(--tilt-z, 0px));
+    }
   }
 
-  /* Neon border */
-  .border-glow {
-    border-color: rgba(255,69,0,0.5);
-    box-shadow: 0 0 0 1px rgba(255,69,0,0.2), inset 0 0 20px rgba(255,69,0,0.03);
-  }
+  /*
+   * Scroll-reveal. Gated on `scripting: enabled` so content is never hidden
+   * unless JavaScript is actually available to reveal it again. Browsers that
+   * don't support the media feature skip the block entirely and show the
+   * content — the safe direction to fail in, since the animation is decoration.
+   */
+  @media (scripting: enabled) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+    }
 
-  /* Technical label styling */
-  .tech-label {
-    @apply font-mono text-label uppercase tracking-widest text-fv-text-muted;
+    /* Depth variant: elements rise out of the page as they enter view.
+       The parent supplies the perspective so siblings share a vanishing
+       point and the group reads as one scene rather than separate cards. */
+    .reveal-3d-scene {
+      perspective: 1200px;
+      perspective-origin: 50% 30%;
+    }
+    .reveal-3d {
+      opacity: 0;
+      transform: translate3d(0, 48px, -140px) rotateX(14deg);
+      transform-origin: 50% 100%;
+      transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform, opacity;
+    }
+    .reveal-3d.is-visible {
+      opacity: 1;
+      transform: none;
+      will-change: auto;
+    }
   }
-
-  /* Orange accent line */
-  .accent-line {
-    @apply h-px bg-fv-orange;
-  }
-
-  /* Section divider */
-  .section-border {
-    @apply border-t border-fv-border;
-  }
-
-  /* Blinking cursor */
-  .cursor-blink::after {
-    content: '_';
-    @apply animate-blink text-fv-orange;
-  }
-
-  /* Stagger animation delays */
-  .stagger-1 { animation-delay: 0.1s; }
-  .stagger-2 { animation-delay: 0.2s; }
-  .stagger-3 { animation-delay: 0.3s; }
-  .stagger-4 { animation-delay: 0.4s; }
-  .stagger-5 { animation-delay: 0.5s; }
-  .stagger-6 { animation-delay: 0.6s; }
 }
 
-@layer utilities {
-  /* Noise texture overlay */
-  .noise-overlay::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.025;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal,
+  .reveal-3d {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  /* No pointer lean, no drifting colour fields */
+  .tilt {
+    transform: none !important;
+  }
+  .aurora {
+    animation: none !important;
   }
 }

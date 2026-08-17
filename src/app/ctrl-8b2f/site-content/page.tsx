@@ -5,7 +5,7 @@ import { SiteContent } from '@/types'
 
 export default function SiteContentPage() {
   const [content, setContent] = useState<SiteContent>({
-    contact: { email: '', location: '', responseTime: '' },
+    contact: { email: '', phone: '', location: '', responseTime: '' },
     branding: { foundedYear: 2026, tagline: '' },
   })
   const [loading, setLoading] = useState(true)
@@ -56,6 +56,15 @@ export default function SiteContentPage() {
                 type="email"
                 value={content.contact.email}
                 onChange={(e) => setContent({ ...content, contact: { ...content.contact, email: e.target.value } })}
+                className="w-full px-4 py-3 bg-fv-dark border border-fv-border rounded-lg font-mono text-sm text-fv-text outline-none focus:ring-1 focus:ring-fv-orange focus:border-fv-orange transition"
+              />
+            </div>
+            <div>
+              <label className="block font-mono text-xs text-fv-text-dim mb-1 tracking-wider">PHONE</label>
+              <input
+                type="tel"
+                value={content.contact.phone ?? ''}
+                onChange={(e) => setContent({ ...content, contact: { ...content.contact, phone: e.target.value } })}
                 className="w-full px-4 py-3 bg-fv-dark border border-fv-border rounded-lg font-mono text-sm text-fv-text outline-none focus:ring-1 focus:ring-fv-orange focus:border-fv-orange transition"
               />
             </div>

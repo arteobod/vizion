@@ -41,11 +41,7 @@ export default function ServicesPage() {
 
   const updateService = (index: number, field: keyof Service, value: string) => {
     const updated = [...services]
-    if (field === 'tags') {
-      updated[index] = { ...updated[index], tags: value.split(',').map(t => t.trim()) }
-    } else {
-      updated[index] = { ...updated[index], [field]: value }
-    }
+    updated[index] = { ...updated[index], [field]: value }
     setServices(updated)
   }
 
@@ -53,11 +49,18 @@ export default function ServicesPage() {
     const newId = String(services.length + 1).padStart(2, '0')
     setServices([...services, {
       id: newId,
-      title: 'NEW SERVICE',
+      slug: `service-${newId}`,
+      icon: 'Layers',
+      title: 'New service',
+      tagline: '',
       description: '',
-      tags: [],
-      metric: '0',
-      metricLabel: 'METRIC',
+      whatItIs: '',
+      forWhom: '',
+      problems: [],
+      benefits: [],
+      stages: [],
+      timeline: '',
+      priceFrom: '',
     }])
   }
 
@@ -138,20 +141,20 @@ export default function ServicesPage() {
               {lang === 'EN' && (
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-mono text-xs text-fv-text-dim mb-1 tracking-wider">METRIC</label>
+                    <label className="block font-mono text-xs text-fv-text-dim mb-1 tracking-wider">SLUG (URL)</label>
                     <input
                       type="text"
-                      value={service.metric}
-                      onChange={(e) => updateService(index, 'metric', e.target.value)}
+                      value={service.slug}
+                      onChange={(e) => updateService(index, 'slug', e.target.value)}
                       className="w-full px-3 py-2 bg-fv-dark border border-fv-border rounded-lg font-mono text-sm text-fv-text outline-none focus:ring-1 focus:ring-fv-orange focus:border-fv-orange transition"
                     />
                   </div>
                   <div>
-                    <label className="block font-mono text-xs text-fv-text-dim mb-1 tracking-wider">METRIC LABEL</label>
+                    <label className="block font-mono text-xs text-fv-text-dim mb-1 tracking-wider">PRICE FROM</label>
                     <input
                       type="text"
-                      value={service.metricLabel}
-                      onChange={(e) => updateService(index, 'metricLabel', e.target.value)}
+                      value={service.priceFrom}
+                      onChange={(e) => updateService(index, 'priceFrom', e.target.value)}
                       className="w-full px-3 py-2 bg-fv-dark border border-fv-border rounded-lg font-mono text-sm text-fv-text outline-none focus:ring-1 focus:ring-fv-orange focus:border-fv-orange transition"
                     />
                   </div>
@@ -172,17 +175,22 @@ export default function ServicesPage() {
               />
             </div>
 
-            {lang === 'EN' && (
-              <div className="mt-4">
-                <label className="block font-mono text-xs text-fv-text-dim mb-1 tracking-wider">TAGS (comma-separated)</label>
-                <input
-                  type="text"
-                  value={service.tags.join(', ')}
-                  onChange={(e) => updateService(index, 'tags', e.target.value)}
-                  className="w-full px-3 py-2 bg-fv-dark border border-fv-border rounded-lg font-mono text-sm text-fv-text outline-none focus:ring-1 focus:ring-fv-orange focus:border-fv-orange transition"
-                />
-              </div>
-            )}
+            <div className="mt-4">
+              <label className="block font-mono text-xs text-fv-text-dim mb-1 tracking-wider">
+                TAGLINE {lang !== 'EN' && <span className="text-fv-orange">[{lang}]</span>}
+              </label>
+              <input
+                type="text"
+                value={lang === 'RU' ? (service.tagline_ru ?? '') : lang === 'LV' ? (service.tagline_lv ?? '') : service.tagline}
+                onChange={(e) => updateService(index, lang === 'RU' ? 'tagline_ru' : lang === 'LV' ? 'tagline_lv' : 'tagline', e.target.value)}
+                placeholder={lang !== 'EN' ? service.tagline : undefined}
+                className="w-full px-3 py-2 bg-fv-dark border border-fv-border rounded-lg font-mono text-sm text-fv-text outline-none focus:ring-1 focus:ring-fv-orange focus:border-fv-orange transition placeholder:text-fv-text-muted"
+              />
+            </div>
+
+            <p className="mt-4 font-mono text-xs text-fv-text-muted">
+              Detailed fields (what it is, for whom, problems, benefits, stages) are edited in data/services.json
+            </p>
           </div>
         ))}
       </div>

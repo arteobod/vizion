@@ -1,59 +1,56 @@
 import type { Metadata } from 'next'
-import { JetBrains_Mono, Inter } from 'next/font/google'
-import { ThemeProvider } from '@/context/ThemeContext'
+import { Nunito, Inter, JetBrains_Mono } from 'next/font/google'
 import { LanguageProvider } from '@/context/LanguageContext'
 import './globals.css'
 
+// Headings — rounded grotesque, per the design brief
+const nunito = Nunito({
+  subsets: ['latin', 'latin-ext', 'cyrillic'],
+  variable: '--font-nunito',
+  display: 'swap',
+  weight: ['600', '700', '800'],
+})
+
+// Body — highly legible at 16px+
+const inter = Inter({
+  subsets: ['latin', 'latin-ext', 'cyrillic'],
+  variable: '--font-inter',
+  display: 'swap',
+  weight: ['400', '500', '600'],
+})
+
+// Admin panel only
 const jetbrains = JetBrains_Mono({
   subsets: ['latin', 'cyrillic'],
   variable: '--font-jetbrains',
   display: 'swap',
-  weight: ['400', '500', '600', '700', '800'],
-})
-
-const inter = Inter({
-  subsets: ['latin', 'cyrillic'],
-  variable: '--font-inter',
-  display: 'swap',
-  weight: ['300', '400', '500', '600'],
+  weight: ['400', '500', '600', '700'],
 })
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://viz-on.net'),
-  title: 'Vižon | Digital Infrastructure Studio — Riga, Latvia',
-  description: 'Premium web development & digital infrastructure studio in Riga, Latvia. We engineer Next.js, React, and Node.js systems that scale, perform, and endure. Custom web apps, CRM dashboards, business utilities, and system architecture.',
+  title: {
+    default: 'Vižon — Websites, redesign and business tools for growing companies',
+    template: '%s | Vižon',
+  },
+  description:
+    'We build websites, redesign outdated ones, and create B2B tools that automate routine work. Clear pricing, plain language, fixed timelines. Riga, Latvia.',
   keywords: [
-    // Core services
-    'web development', 'web development Riga', 'web development Latvia',
-    'Next.js development', 'React development', 'full-stack development',
-    'Node.js development', 'TypeScript development',
-    // Business utilities
-    'business utilities', 'admin panel development', 'CRM development',
-    'dashboard development', 'internal tools development',
-    // Architecture & Security
-    'system architecture', 'cloud infrastructure', 'CI/CD pipeline',
-    'security audit', 'code audit', 'performance optimization',
-    // Studio / Agency
-    'web studio Riga', 'web agency Latvia', 'digital agency Riga',
-    'digital infrastructure studio', 'Vižon', 'viz-on',
-    // Application types
-    'custom web application', 'SaaS development', 'enterprise web development',
-    // Geo
-    'Riga web developer', 'Latvia web developer',
-    // Latvian
-    'tīmekļa izstrāde', 'tīmekļa izstrāde Rīgā', 'web studija Latvijā',
-    // Russian
-    'веб разработка', 'веб разработка Рига', 'веб студия Латвия', 'разработка сайтов Латвия',
+    'website development', 'website development Riga', 'web studio Latvia',
+    'website redesign', 'business automation', 'B2B tools', 'internal tools',
+    'корпоративный сайт', 'разработка сайтов Рига', 'редизайн сайта',
+    'веб студия Латвия', 'автоматизация бизнеса', 'B2B утилиты',
+    'mājaslapu izstrāde', 'mājaslapu izstrāde Rīgā', 'tīmekļa studija Latvijā',
+    'mājaslapas pārveidošana', 'biznesa automatizācija',
   ],
   authors: [{ name: 'Vižon', url: 'https://viz-on.net' }],
   creator: 'Vižon',
   publisher: 'Vižon',
-  alternates: {
-    canonical: 'https://viz-on.net',
-  },
+  alternates: { canonical: 'https://viz-on.net' },
   openGraph: {
-    title: 'Vižon | Digital Infrastructure Studio — Riga, Latvia',
-    description: 'Premium web development & digital infrastructure studio. We engineer Next.js, React, and Node.js systems that scale, perform, and endure.',
+    title: 'Vižon — Websites, redesign and business tools',
+    description:
+      'Digital solutions that help your business grow. Clear pricing, plain language, fixed timelines.',
     type: 'website',
     url: 'https://viz-on.net',
     siteName: 'Vižon',
@@ -61,8 +58,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vižon | Digital Infrastructure Studio — Riga, Latvia',
-    description: 'Premium web development & digital infrastructure studio. Next.js, React, Node.js systems built to scale.',
+    title: 'Vižon — Websites, redesign and business tools',
+    description:
+      'Digital solutions that help your business grow. Clear pricing, plain language, fixed timelines.',
   },
   robots: {
     index: true,
@@ -79,17 +77,16 @@ export const metadata: Metadata = {
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': 'ProfessionalService',
   name: 'Vižon',
   alternateName: 'viz-on',
   url: 'https://viz-on.net',
-  description: 'Premium web development & digital infrastructure studio based in Riga, Latvia. We engineer scalable Next.js, React, and Node.js systems.',
-  foundingDate: '2026',
-  areaServed: ['Latvia', 'Europe', 'Worldwide'],
+  description:
+    'Web studio in Riga, Latvia. Website development, redesign, and B2B tools that automate business processes.',
+  areaServed: ['Latvia', 'Europe'],
   knowsAbout: [
-    'Web Development', 'Next.js', 'React', 'Node.js', 'TypeScript',
-    'System Architecture', 'Cloud Infrastructure', 'CI/CD Pipelines',
-    'CRM Systems', 'Admin Dashboards', 'Security Audit',
+    'Website development', 'Website redesign', 'Business process automation',
+    'B2B tools', 'Admin dashboards', 'CRM systems',
   ],
   address: {
     '@type': 'PostalAddress',
@@ -103,39 +100,32 @@ const jsonLd = {
   },
 }
 
-// Prevent FOUC: apply saved theme before React hydrates
-const themeScript = `
-(function(){
-  try {
-    var t = localStorage.getItem('fv-theme');
-    if (t === 'light' || t === 'dark') {
-      document.documentElement.setAttribute('data-theme', t);
-    }
-  } catch(e){}
-})();
-`
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" translate="no" className={`${jetbrains.variable} ${inter.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      translate="no"
+      className={`${nunito.variable} ${inter.variable} ${jetbrains.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <meta name="google" content="notranslate" />
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="font-sans">
+        {/*
+          Rendered in the body rather than <head> — this is what the Next.js
+          docs recommend, and it keeps <head> free of React-owned scripts that
+          browser extensions can displace and break hydration.
+        */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-      </head>
-      <body className="noise-overlay">
-        <ThemeProvider>
-          <LanguageProvider>
-            {children}
-          </LanguageProvider>
-        </ThemeProvider>
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   )
