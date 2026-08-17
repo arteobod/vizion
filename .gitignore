@@ -35,3 +35,14 @@ next-env.d.ts
 # Uploads (user-generated content)
 /public/uploads/*
 !/public/uploads/.gitkeep
+
+# Cloudflare / OpenNext build artifacts
+/.open-next/
+/.wrangler/
+
+# Claude Code local settings
+/.claude/
+
+# Lock files for skills
+skills-lock.json
+.gstack/
