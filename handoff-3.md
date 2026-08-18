@@ -399,12 +399,51 @@ deploy the config without `vars` **first**, then put the secrets. Between the tw
 there is a short window with no `JWT_SECRET`, which fails closed by design —
 admin routes 401, login 500, public pages unaffected.
 
-### Still to do here
+### The credential rotation, and the trap in it
 
-The admin password is unchanged. Its bcrypt hash was public, and bcrypt does not
-hand over the plaintext, but a weak password is crackable offline. Change it and
-put the new hash in the `ADMIN_PASSWORD_HASH` secret. Nothing else needs the old
-value.
+**Both admin credentials are rotated.** `JWT_SECRET` was replaced during the
+deploy; the admin password was replaced during a later `/cso` audit, hashed at
+bcrypt cost 12 instead of the old 10. The password itself was handed to the owner
+in chat, which means it is in that transcript: it should be changed to something
+only they know, by generating a new hash and running
+`npx wrangler secret put ADMIN_PASSWORD_HASH`.
+
+**`wrangler secret put` lies about success.** This cost real time. Rotating the
+password hash printed `Success! Uploaded secret ADMIN_PASSWORD_HASH`, and the live
+login then returned 401 for the correct password. `wrangler secret list` showed the
+key present. Re-putting the *identical* hash, this time as `< file` instead of
+`printf | `, made it work immediately. Whatever the mechanism, the lesson is
+blunt: never trust the Success line. Prove a secret landed by exercising the code
+path that reads it, which for auth means a real login returning 200 with a
+`Set-Cookie`, not by listing secrets.
+
+The corollary is worse and worth stating: between the bad write and the fix, admin
+login was refusing correct credentials. That fails closed, so it is availability
+rather than exposure, but nothing in the earlier checks would have caught it. Tests
+that only assert 401 for *wrong* input cannot tell a working guard from a broken
+one. Always test the positive path too.
+
+### Response headers
+
+Six headers ship from `next.config.js`: HSTS, `X-Frame-Options: DENY`, nosniff,
+`Referrer-Policy`, `Permissions-Policy`, and a minimal CSP of
+`frame-ancestors 'none'`.
+
+**There is deliberately no full CSP.** The App Router streams its payload through
+inline `<script>` tags whose contents differ per request, so a strict `script-src`
+needs a per-request nonce threaded through middleware. That is a real piece of
+work and shipping it blind breaks every page. `frame-ancestors` is the one
+directive inline scripts cannot affect, so it went in alone.
+
+### No request logs
+
+`wrangler.jsonc` configures no `observability` block and no logpush, so the Worker
+retains no request history. When the audit asked whether anyone had used the
+publicly exposed password hash before it was rotated, the honest answer was: there
+is no way to tell. Deployment history was clean and all of it authored by the
+owner, and the two stored contact submissions both predate the exposure window,
+but that is circumstantial. Turning on observability would make this question
+answerable next time.
 
 ---
 
@@ -419,10 +458,15 @@ value.
 - **Voxent case:** the owner said a working prototype exists in another repo.
   It was never located. The solution text describes the product in their words,
   without implementation detail.
-- **Change the admin password.** Its bcrypt hash was sitting in a public repo.
-  bcrypt does not give up the plaintext, but a weak password is crackable
-  offline. New hash goes into the `ADMIN_PASSWORD_HASH` Worker secret. This is
-  the one loose end from the deploy — see §6a.
+- **Set your own admin password.** It was rotated during the audit (cost 12), but
+  the value passed through chat, so it is only as private as that transcript.
+  Generate a new hash and `wrangler secret put ADMIN_PASSWORD_HASH` — then prove
+  it took with a real login, see §6a.
+- **Turn on Worker observability.** There are no request logs today, so "did
+  anyone use the leaked credential" is unanswerable. Cheap to fix, and the next
+  audit will want it.
+- **Full CSP.** Needs a nonce pipeline through middleware for the App Router's
+  inline scripts. Only `frame-ancestors` ships today.
 - **Push.** The rebuild is live on viz-on.net but the git remote still has none
   of these commits, so GitHub and production now disagree. Push when convenient;
   nothing depends on it, since the deploy goes straight from this working copy.
