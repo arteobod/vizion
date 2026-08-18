@@ -15,12 +15,18 @@ miniature browser windows. The case system learned to tell client work from our
 own, and to show video. All four placeholder case studies were deleted and
 replaced with three real ones.
 
+**It is live on viz-on.net as of 2026-08-18** — see §6a for how the deploy
+works, what the old deployment was leaking, and the KV trap that makes editing
+`data/*.json` look like it does nothing.
+
 All of it is committed to `main` and the working tree is clean — dependencies,
-the security layer, the site rebuild, the real content, a follow-up hardening
-pass, and these notes. Nothing was pushed; the remote is still on the
-pre-rebuild state, and `main` is seven commits ahead of it. Only the last few
-commits build on their own: the rebuild landed as one interdependent piece and
-the two commits before it predate the files they would need.
+the security layer, the site rebuild, the real content, a hardening pass, the
+deploy config, and these notes. Nothing was pushed; the git remote is still on
+the pre-rebuild state (`git status -sb` for the current count — a number quoted
+here goes stale the moment this file is committed), so GitHub and production
+disagree until someone pushes. Only the last few commits build on their own: the
+rebuild landed as one interdependent piece and the two commits before it predate
+the files they would need.
 
 ### The hardening pass, and why each piece is there
 
@@ -334,6 +340,74 @@ and should be rotated.
 
 ---
 
+## 6a. The deploy (2026-08-18)
+
+The rebuild is **live on viz-on.net**. It is a Cloudflare **Worker** named
+`vizion`, not Pages — `wrangler.jsonc` describes it, `x-opennext: 1` comes back
+in the response headers, and the `vizion.pages.dev` project that also exists is
+an abandoned leftover answering 522. Deploying to Pages would not update the
+live site and would lose the KV binding the admin panel runs on.
+
+`npm run deploy` is the whole thing: `build:cloudflare` then `wrangler deploy`.
+
+### What the old deployment was doing wrong
+
+Two things, both found by probing production rather than by reading code:
+
+- **The admin API was open to the internet.** `GET /api/ctrl-8b2f/contacts`
+  returned 200 with real visitor submissions in it — names, emails, phones,
+  messages. The security layer that closes this had been written but never
+  deployed. Every admin endpoint answers 401 now. `/api/mgr-5k9w/clients` was
+  already 401 throughout; it has its own inline check.
+- **`wrangler.jsonc` published the secrets.** `JWT_SECRET` and
+  `ADMIN_PASSWORD_HASH` sat in a plain `vars` block in a file committed to a
+  **public** GitHub repo, so anyone could sign themselves an admin cookie. They
+  are Worker secrets now and `JWT_SECRET` was rotated. Verified dead: a cookie
+  signed with the old key gets 401.
+
+### The trap: KV outranks the repo
+
+`src/lib/data.ts` reads KV first and only falls back to `data/*.json`. In
+production the JSON files are a bundled default that almost never wins, so
+**editing them changes nothing on the live site.** After the first deploy the new
+code was serving the *old* content out of KV: `/work/voxent-ai-restaurant-manager`
+and `/services/redesign` both 404'd, because those slugs did not exist in the KV
+entries, and `/work` happily rendered the three invented cases from the old site.
+
+Fixed by writing the real content into KV:
+
+```bash
+for k in projects services process stats; do
+  npx wrangler kv key put "$k" --path "data/$k.json"     --namespace-id d24307dc75364e7986bac03496378a2e --remote
+done
+```
+
+`site-content` needed a **merge, not an overwrite**. The KV copy held the real
+mailbox `studio@viz-on.net` while the repo still had the `hello@viz-on.net`
+placeholder, so pushing the file blindly would have downgraded a working address.
+The repo JSON was corrected first, then written.
+
+**`contacts` was deliberately left alone** — that key holds real visitor
+submissions. Never overwrite it from the repo. Backups of the pre-deploy KV
+values were taken before any write.
+
+### Ordering that bites
+
+Secrets cannot be added while a plain-text var of the same name is still bound to
+the deployed Worker: `wrangler secret put` fails with code 10053. So the order is
+deploy the config without `vars` **first**, then put the secrets. Between the two
+there is a short window with no `JWT_SECRET`, which fails closed by design —
+admin routes 401, login 500, public pages unaffected.
+
+### Still to do here
+
+The admin password is unchanged. Its bcrypt hash was public, and bcrypt does not
+hand over the plaintext, but a weak password is crackable offline. Change it and
+put the new hash in the `ADMIN_PASSWORD_HASH` secret. Nothing else needs the old
+value.
+
+---
+
 ## 7. Open items
 
 - **Result metrics.** Nothing measurable exists yet. This is the single biggest
@@ -345,16 +419,19 @@ and should be rotated.
 - **Voxent case:** the owner said a working prototype exists in another repo.
   It was never located. The solution text describes the product in their words,
   without implementation detail.
-- **Push.** Seven commits sit on local `main` and the remote has none of them.
-  The client has not seen the rebuild on the live URL yet.
-- **Placeholder contact details** remain: `hello@viz-on.net`,
-  `+371 20 000 000`. Also `data/pricing.json` and service prices, per
-  `CONTENT_TODO.md`.
-- **Security** was not touched this session. The pass described in handoff-2 §4
-  was verified still in place (middleware, `requireAdmin` on eight routes, JWT
-  failing closed, Next 15.5.22, env files untracked). New code does not touch
-  auth or data handling. `JWT_SECRET` must be set in the Cloudflare env or prod
-  admin returns 500.
+- **Change the admin password.** Its bcrypt hash was sitting in a public repo.
+  bcrypt does not give up the plaintext, but a weak password is crackable
+  offline. New hash goes into the `ADMIN_PASSWORD_HASH` Worker secret. This is
+  the one loose end from the deploy — see §6a.
+- **Push.** The rebuild is live on viz-on.net but the git remote still has none
+  of these commits, so GitHub and production now disagree. Push when convenient;
+  nothing depends on it, since the deploy goes straight from this working copy.
+- **Contact details are real now.** `studio@viz-on.net` and the three phone
+  numbers, in KV and in the repo. What is still placeholder is
+  `data/pricing.json` and the per-service prices — see `CONTENT_TODO.md`.
+- **Secret hygiene.** `git filter-repo` on the history would remove the old
+  `JWT_SECRET` and password hash from past commits. Rotation already made the
+  old key useless, so this is tidiness rather than a live risk. Not done.
 
 ---
 
