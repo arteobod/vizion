@@ -114,6 +114,26 @@ export default function RootLayout({
     >
       <head>
         <meta name="google" content="notranslate" />
+        {/*
+          Last resort for the scroll-triggered entrances, which need an observer
+          and therefore need the bundle. If the bundle is slow or never lands,
+          this flips an attribute a few seconds in and a stylesheet rule reveals
+          whatever is still sitting at opacity 0 — the page gives up on the
+          choreography rather than staying blank. Inline and tiny on purpose: it
+          has to be the one piece of script that cannot be the thing that failed.
+
+          It checks for the hydration marker first. Without that check it would
+          fire on every visit, including fast ones, and force-reveal the windows
+          further down before the reader ever scrolled to them.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "setTimeout(function(){var d=document.documentElement;"
+              + "if(!d.hasAttribute('data-vz-hydrated'))"
+              + "d.setAttribute('data-vz-reveal-all','')},3500)",
+          }}
+        />
       </head>
       <body className="font-sans">
         {/*

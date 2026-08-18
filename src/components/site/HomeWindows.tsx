@@ -110,30 +110,19 @@ export default function HomeWindows({
         }
       >
         <BrowserWindow url="viz-on.net" chapter="01 — Studio">
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-            className="max-w-4xl"
-          >
-            <motion.span
-              variants={rise}
-              className="inline-flex items-center gap-2 rounded-full bg-vz-blue-soft px-4 py-1.5 text-sm font-medium text-vz-blue-deep"
-            >
+          {/* Plain elements with a CSS stagger, not framer. This is the first
+              screen: driven from JavaScript it reached the browser at opacity 0
+              and stayed blank until the bundle hydrated. */}
+          <div className="vz-stagger max-w-4xl">
+            <span className="inline-flex items-center gap-2 rounded-full bg-vz-blue-soft px-4 py-1.5 text-sm font-medium text-vz-blue-deep">
               <Icon name="MapPin" className="h-4 w-4" />
               {t.home.hero.eyebrow}
-            </motion.span>
-            <motion.h2
-              variants={rise}
-              className="mt-6 font-display text-h1 font-extrabold text-vz-text"
-            >
+            </span>
+            <h2 className="mt-6 font-display text-h1 font-extrabold text-vz-text">
               {t.home.hero.title}
-            </motion.h2>
-            <motion.p variants={rise} className="mt-6 max-w-2xl text-lead text-vz-body">
-              {t.home.hero.subtitle}
-            </motion.p>
-            <motion.div variants={rise} className="mt-8 flex flex-col gap-3 sm:flex-row">
+            </h2>
+            <p className="mt-6 max-w-2xl text-lead text-vz-body">{t.home.hero.subtitle}</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button href="/contacts" size="lg">
                 {t.home.hero.ctaPrimary}
                 <Icon name="ArrowRight" className="h-4 w-4" />
@@ -141,11 +130,9 @@ export default function HomeWindows({
               <Button href="/services" variant="secondary" size="lg">
                 {t.home.hero.ctaSecondary}
               </Button>
-            </motion.div>
-            <motion.p variants={rise} className="mt-6 text-sm text-vz-muted">
-              {t.home.hero.trust}
-            </motion.p>
-          </motion.div>
+            </div>
+            <p className="mt-6 text-sm text-vz-muted">{t.home.hero.trust}</p>
+          </div>
         </BrowserWindow>
       </ScrollTiltWindow>
 
@@ -157,6 +144,7 @@ export default function HomeWindows({
       <div className="space-y-10 px-3 pb-16 pt-8 sm:space-y-36 sm:px-5 sm:pb-24 sm:pt-28">
       {/* ── Window 2 — Services: slides up, cards fly in from edges ── */}
       <motion.div
+        className="vz-fx"
         initial={{ opacity: 0, y: 70 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.25 }}
@@ -231,6 +219,7 @@ export default function HomeWindows({
       {/* ── Window 3 — Work: the case grid itself ── */}
       {cases.length > 0 && (
         <motion.div
+          className="vz-fx"
           initial={{ opacity: 0, y: 70 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.25 }}
@@ -299,6 +288,7 @@ export default function HomeWindows({
 
       {/* ── Window 4 — Social proof: metric cards + CTA ── */}
       <motion.div
+        className="vz-fx"
         initial={{ opacity: 0, y: 70 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.25 }}

@@ -264,6 +264,101 @@
   }
 
   /*
+   * The hero's entrance, in CSS rather than in JavaScript.
+   *
+   * It used to be a framer `initial`/`animate` pair, which meant the server sent
+   * the first screen with `opacity: 0` baked into the HTML and nothing was
+   * visible until the bundle had downloaded, parsed and hydrated. On a phone with
+   * a weak signal that is a white page for as long as the network takes — the
+   * reported symptom was half a minute of nothing followed by the whole site
+   * appearing at once. A CSS animation ships in the stylesheet, in the document
+   * head, so it starts at first paint and needs no JavaScript at all.
+   *
+   * These go on their own wrapper, never on the element framer transforms: a CSS
+   * animation outranks an inline style, so sharing an element would let the
+   * animation's final `transform: none` permanently overwrite the scroll tilt.
+   */
+  @keyframes vz-hero-in {
+    from {
+      opacity: 0;
+      transform: translateY(32%);
+      filter: blur(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+    }
+  }
+
+  @keyframes vz-banner-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .vz-hero-in {
+    animation: vz-hero-in 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .vz-banner-in {
+    animation: vz-banner-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  }
+
+  /*
+   * Staggered rise, for the hero window's own content.
+   *
+   * Same reason as the two animations above: these five blocks are the first
+   * screen, and driving them from framer meant shipping them to the browser at
+   * `opacity: 0` with `blur(10px)` and waiting for hydration to undo it. Delays
+   * come off nth-child so the markup stays plain elements.
+   */
+  @keyframes vz-rise {
+    from {
+      opacity: 0;
+      transform: translateY(34px);
+      filter: blur(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+    }
+  }
+
+  .vz-stagger > * {
+    animation: vz-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .vz-stagger > *:nth-child(1) { animation-delay: 0.15s; }
+  .vz-stagger > *:nth-child(2) { animation-delay: 0.27s; }
+  .vz-stagger > *:nth-child(3) { animation-delay: 0.39s; }
+  .vz-stagger > *:nth-child(4) { animation-delay: 0.51s; }
+  .vz-stagger > *:nth-child(5) { animation-delay: 0.63s; }
+  .vz-stagger > *:nth-child(6) { animation-delay: 0.75s; }
+
+  /*
+   * Escape hatch for everything still animated in JavaScript.
+   *
+   * The scroll-triggered entrances further down the page need an observer, so
+   * they genuinely depend on the bundle. If it is slow or never arrives, a small
+   * inline script in the document flips this attribute a few seconds in and the
+   * page gives up on the choreography rather than staying blank. `!important` is
+   * what lets it win against framer's inline styles.
+   */
+  html[data-vz-reveal-all] .vz-fx,
+  html[data-vz-reveal-all] .vz-fx [style*='opacity:0'],
+  html[data-vz-reveal-all] .vz-fx [style*='opacity: 0'] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  /*
    * Scroll-reveal. Gated on `scripting: enabled` so content is never hidden
    * unless JavaScript is actually available to reveal it again. Browsers that
    * don't support the media feature skip the block entirely and show the

@@ -104,26 +104,24 @@ export default function ScrollTiltWindow({
           // the centred window from md up, where it costs the window no height.
           className="relative z-10 mb-8 flex items-center justify-center px-4 md:absolute md:inset-x-0 md:top-0 md:mb-0 md:h-[25vh]"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-            className="text-center"
-          >
-            {header}
-          </motion.div>
+          {/* CSS, not framer: this is the first thing on the page, and a
+              JavaScript-driven `opacity: 0` would leave it invisible in the
+              server HTML until the bundle hydrates. */}
+          <div className="vz-banner-in text-center">{header}</div>
         </motion.div>
       )}
 
       <div className="w-full" style={{ perspective: 1100 }}>
         <motion.div
           style={tilting ? { rotateX, scale } : undefined}
-          initial={{ y: '32%', filter: 'blur(14px)', opacity: 0 }}
-          animate={{ y: '0%', filter: 'blur(0px)', opacity: 1 }}
-          transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }}
           className="w-full px-3 sm:px-5"
         >
-          {children}
+          {/* The rise out of blur lives here, in CSS, on its own element. Two
+              reasons. It paints without waiting for JavaScript, and a CSS
+              animation outranks an inline style — sharing the element with the
+              tilt above would let this animation's final `transform: none` erase
+              the rotation for good. */}
+          <div className="vz-hero-in">{children}</div>
         </motion.div>
       </div>
     </section>

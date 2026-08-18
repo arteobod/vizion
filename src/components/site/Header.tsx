@@ -31,6 +31,14 @@ export default function Header() {
     { href: '/contacts', label: t.nav.contacts },
   ]
 
+  // Marks the document as hydrated, which switches off the inline fallback in
+  // the head that would otherwise force-reveal the scroll entrances. The header
+  // is on every page, so this is the cheapest honest place to signal "the bundle
+  // arrived and React is running".
+  useEffect(() => {
+    document.documentElement.setAttribute('data-vz-hydrated', '')
+  }, [])
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
     onScroll()
