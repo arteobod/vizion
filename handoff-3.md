@@ -452,6 +452,39 @@ needs a per-request nonce threaded through middleware. That is a real piece of
 work and shipping it blind breaks every page. `frame-ancestors` is the one
 directive inline scripts cannot affect, so it went in alone.
 
+### Cross-browser + performance pass (2026-08-18)
+
+Reported: loads oddly and very slowly, and Safari doesn't load at all. Two
+separate causes, both found by measurement rather than guesswork, both fixed.
+
+**Safari — the glass.** There was no `browserslist` in package.json, so
+autoprefixer resolved `defaults` against a fresh caniuse-lite whose oldest Safari
+was 26, decided `-webkit-backdrop-filter` was unnecessary, and shipped only the
+unprefixed `backdrop-filter`. That property did not land in Safari until 18.0
+(Sept 2024), so every iPhone on iOS 15.4-17.x rendered all 14 frosted-glass
+panels with no blur — washed-out boxes over the decorative layer, which is the
+whole design falling apart, plus a heavy compositing stall. Fixed by pinning an
+explicit browserslist covering iOS/Safari >= 15.4; the build now emits
+`-webkit-backdrop-filter`. Verified in a real WebKit engine (Playwright webkit,
+downloaded for this — `npx playwright install webkit`), on both an iPhone and a
+desktop viewport: glass applies, no errors. **Keep the browserslist key.**
+Removing it silently reintroduces the bug.
+
+**Slow everywhere — no edge cache.** Every public page was `force-dynamic`,
+which sends `no-store`, so Cloudflare cached nothing and every visit round-tripped
+to the Worker. Now they are ISR (`revalidate = 60`) backed by a KV incremental
+cache (`NEXT_INC_CACHE_KV` namespace, wired in open-next.config.ts). The edge
+serves the HTML (`x-nextjs-cache: HIT`, TTFB ~45ms) and the pages re-render from
+VIZON_KV every 60s, so admin edits still show within a minute. The 14 API routes
+stay `force-dynamic` — they must never cache.
+
+Two things to know here. On a build the pages pre-render from the bundled
+`data/*.json` (KV is unreachable at build time), so **keep `data/*.json` in step
+with KV** or the first render after a deploy, before the first revalidate, shows
+the repo's copy. They are in sync as of this writing. And R2 is the more usual
+ISR store; it needs a dashboard activation this account lacks, so KV is used
+instead — switching to R2 later is a one-line change in open-next.config.ts.
+
 ### No request logs
 
 `wrangler.jsonc` configures no `observability` block and no logpush, so the Worker
