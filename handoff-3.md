@@ -485,6 +485,39 @@ the repo's copy. They are in sync as of this writing. And R2 is the more usual
 ISR store; it needs a dashboard activation this account lacks, so KV is used
 instead — switching to R2 later is a one-line change in open-next.config.ts.
 
+### Share image, skip-link, video weight (2026-08-18)
+
+- **OG image** at `public/og.png` (1200x630), wired into `openGraph.images` and
+  `twitter.images` in `src/app/layout.tsx`. Rendered in the site's own style, not
+  a generic card. It is a static PNG on purpose — a dynamic `opengraph-image.tsx`
+  via `ImageResponse`/Satori is fragile on the Workers runtime. If the banner copy
+  or brand changes, re-render it (the source HTML + a Playwright-webkit screenshot
+  script are the recipe) rather than hand-editing the PNG.
+- **Skip-link** as the first Tab stop in `(site)/layout.tsx`, jumping to
+  `<main id="main">`. Static English label (server component, no locale in scope).
+- **voxent.mp4** recompressed 8.2MB -> 1.1MB (720p, CRF 26, faststart, no audio).
+  If you ever replace the screencast, run it through the same ffmpeg pass; the raw
+  screen recording will be another 1080p60 monster otherwise.
+
+### Deliberately NOT done
+
+- **Dropping framer-motion.** It is the heaviest dependency (~50KB brotli), but it
+  drives the swipe-to-dismiss mobile menu and the scroll-linked hero tilt. Rewriting
+  those in CSS to shave 50KB is a real regression risk for a small win. Left as is.
+
+- **i18n for SEO.** This is the one genuinely worthwhile thing still open, and it is
+  a project, not a tweak. Today locale is a client concern: `LanguageContext` reads
+  it from localStorage, every display component is a client component calling
+  `useLanguage`, and the server always sends `<html lang="en">`. So Google only ever
+  sees the English page — the RU and LV versions are not separately indexable and
+  there are no `hreflang` tags. For a Riga studio chasing LV/RU search traffic that
+  is real lost reach. But fixing it means locale-aware SSR: a `[locale]` route
+  segment (or subdomains), locale threaded into the server render, the whole
+  translation layer made server-readable, `hreflang` alternates, and a localized
+  sitemap. The URL model is a permanent SEO decision, so it needs deciding before
+  any code, and the change touches every page — it deserves its own session with
+  each locale tested, not a bolt-on at the end of another one.
+
 ### No request logs
 
 `wrangler.jsonc` configures no `observability` block and no logpush, so the Worker
