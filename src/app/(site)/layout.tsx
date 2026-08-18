@@ -21,6 +21,17 @@ export default async function SiteLayout({
   // sitting under the dock. Phones only - the dock is lg:hidden.
   return (
     <div className="relative pb-24 lg:pb-0">
+      {/* Keyboard and screen-reader users get a way past the nav straight to the
+          content. Off-screen until focused, then it lands top-left as the first
+          Tab stop. */}
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[2200] focus:rounded-soft focus:border-2 focus:border-vz-ink focus:bg-vz-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-vz-text focus:shadow-window"
+      >
+        {/* Static English label: the layout is a server component with no locale
+            in scope, and this text only surfaces on keyboard focus. */}
+        Skip to content
+      </a>
       <Header />
       <main id="main">{children}</main>
       <Footer services={services} siteContent={siteContent} />

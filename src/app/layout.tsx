@@ -55,12 +55,21 @@ export const metadata: Metadata = {
     url: 'https://viz-on.net',
     siteName: 'Vižon',
     locale: 'en_US',
+    images: [
+      {
+        url: '/og.png',
+        width: 1200,
+        height: 630,
+        alt: 'Vižon — web studio in Riga',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Vižon — Websites, redesign and business tools',
     description:
       'Digital solutions that help your business grow. Clear pricing, plain language, fixed timelines.',
+    images: ['/og.png'],
   },
   robots: {
     index: true,
