@@ -147,7 +147,7 @@ export default function HomeWindows({
         className="vz-fx"
         initial={{ opacity: 0, y: 70 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
+        viewport={{ once: true, amount: 'some' }}
         transition={{ duration: 0.9, ease: EASE }}
       >
         <BrowserWindow url="viz-on.net/services" chapter="02 — What we do">
@@ -201,7 +201,7 @@ export default function HomeWindows({
                 variants={rise}
                 initial="hidden"
                 whileInView="show"
-                viewport={{ once: true, amount: 0.25 }}
+                viewport={{ once: true, amount: 'some' }}
                 transition={{ delay: i * 0.08 }}
                 className="flex h-full flex-col"
               >
@@ -222,7 +222,7 @@ export default function HomeWindows({
           className="vz-fx"
           initial={{ opacity: 0, y: 70 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
+          viewport={{ once: true, amount: 'some' }}
           transition={{ duration: 0.9, ease: EASE }}
         >
           <BrowserWindow url="viz-on.net/work" chapter="03 — Work">
@@ -261,7 +261,7 @@ export default function HomeWindows({
                   variants={rise}
                   initial="hidden"
                   whileInView="show"
-                  viewport={{ once: true, amount: 0.3 }}
+                  viewport={{ once: true, amount: 'some' }}
                   transition={{ delay: i * 0.09 }}
                   className="h-full"
                 >
@@ -291,7 +291,7 @@ export default function HomeWindows({
         className="vz-fx"
         initial={{ opacity: 0, y: 70 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.25 }}
+        viewport={{ once: true, amount: 'some' }}
         transition={{ duration: 0.9, ease: EASE }}
       >
         <BrowserWindow url="viz-on.net/contacts" chapter="04 — Start">
@@ -306,7 +306,7 @@ export default function HomeWindows({
             variants={rise}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.25 }}
+            viewport={{ once: true, amount: 'some' }}
             // Centred, unlike every other window. The closing statement is
             // short and the frame is a fixed 82vh, so left-aligned it reads as
             // a window someone forgot to finish rather than a deliberate

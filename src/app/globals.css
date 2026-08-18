@@ -342,6 +342,38 @@
   .vz-stagger > *:nth-child(6) { animation-delay: 0.75s; }
 
   /*
+   * Phones do not hide anything behind an observer.
+   *
+   * The windows below the hero were revealed by framer `whileInView`, and on a
+   * phone that broke in the field: only the first window ever appeared, and
+   * navigating away and back was what fixed it — the signature of the reveal
+   * depending on hydration and on an IntersectionObserver threshold that a
+   * 2000px-tall element inside an 844px viewport can barely satisfy. Whatever the
+   * exact trigger, a phone is the last place to gate content on JavaScript
+   * geometry.
+   *
+   * So below `md` the hidden state is simply overruled and the windows are there
+   * from first paint. The attribute selectors are live: they match while framer
+   * has an element parked at opacity 0 and stop matching once it animates, so
+   * this cannot freeze anything that does run. Tablet and up keep the entrances.
+   */
+  @media (max-width: 767px) {
+    .vz-fx,
+    .vz-fx [style*='opacity:0'],
+    .vz-fx [style*='opacity: 0'],
+    /* Same reasoning for the inner pages, which reveal through `Reveal` and its
+       own observer. `scripting: enabled` above only protects against JavaScript
+       being switched off, never against it being slow, and slow is the case that
+       actually happens on a phone. */
+    .reveal,
+    .reveal-3d {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+    }
+  }
+
+  /*
    * Escape hatch for everything still animated in JavaScript.
    *
    * The scroll-triggered entrances further down the page need an observer, so
