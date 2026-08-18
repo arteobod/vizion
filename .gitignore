@@ -22,8 +22,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Local env files
-.env*.local
+# Env files. Broad on purpose: the previous rule was `.env*.local`, which left a
+# bare `.env` and `.env.production` trackable. This repository is public and has
+# already leaked credentials once through a committed config file, so the default
+# is ignore-everything and name the samples explicitly.
+.env*
+!.env.example
+!.env.sample
 
 # Vercel
 .vercel
