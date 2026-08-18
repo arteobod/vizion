@@ -217,7 +217,15 @@ export interface ContactSubmission {
 export interface SiteContent {
   contact: {
     email: string
-    phone: string
+    /** All published numbers, in the order they should be shown. */
+    phones: string[]
+    /**
+     * The single-number shape this field used to have. Still read, never
+     * written: the live KV entry predates `phones`, and dropping the fallback
+     * would blank the phone line on the deployed site until someone happened to
+     * open the admin panel and save. Resolve both through `phoneList()`.
+     */
+    phone?: string
     location: string
     responseTime: string
   }

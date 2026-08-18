@@ -2,10 +2,11 @@
 
 import { useEffect, useState, FormEvent } from 'react'
 import { SiteContent } from '@/types'
+import { phoneList } from '@/lib/site-content'
 
 export default function SiteContentPage() {
   const [content, setContent] = useState<SiteContent>({
-    contact: { email: '', phone: '', location: '', responseTime: '' },
+    contact: { email: '', phones: [''], location: '', responseTime: '' },
     branding: { foundedYear: 2026, tagline: '' },
   })
   const [loading, setLoading] = useState(true)
@@ -15,16 +16,56 @@ export default function SiteContentPage() {
   useEffect(() => {
     fetch('/api/ctrl-8b2f/site-content')
       .then(r => r.json() as Promise<SiteContent>)
-      .then(data => { setContent(data); setLoading(false) })
+      .then(data => {
+        // Normalise the legacy single `phone` into the array the editor works
+        // with, so an entry written before `phones` existed still loads.
+        const phones = phoneList(data.contact)
+        setContent({
+          ...data,
+          contact: { ...data.contact, phones: phones.length ? phones : [''] },
+        })
+        setLoading(false)
+      })
   }, [])
+
+  const setPhone = (index: number, value: string) => {
+    const phones = [...(content.contact.phones ?? [])]
+    phones[index] = value
+    setContent({ ...content, contact: { ...content.contact, phones } })
+  }
+
+  const addPhone = () =>
+    setContent({
+      ...content,
+      contact: { ...content.contact, phones: [...(content.contact.phones ?? []), ''] },
+    })
+
+  const removePhone = (index: number) =>
+    setContent({
+      ...content,
+      contact: {
+        ...content.contact,
+        phones: (content.contact.phones ?? []).filter((_, i) => i !== index),
+      },
+    })
 
   const handleSave = async (e: FormEvent) => {
     e.preventDefault()
     setSaving(true)
+    // Drop blank rows and the legacy field on the way out, so the saved entry is
+    // the array shape only and an empty row never becomes a dead tel: link.
+    const { phone: _legacy, ...contact } = content.contact
+    const payload: SiteContent = {
+      ...content,
+      contact: {
+        ...contact,
+        phones: (content.contact.phones ?? []).map(p => p.trim()).filter(Boolean),
+      },
+    }
     await fetch('/api/ctrl-8b2f/site-content', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(content),
+      body: JSON.stringify(payload),
     })
     setSaving(false)
     setSaved(true)
@@ -60,13 +101,40 @@ export default function SiteContentPage() {
               />
             </div>
             <div>
-              <label className="block font-mono text-xs text-fv-text-dim mb-1 tracking-wider">PHONE</label>
-              <input
-                type="tel"
-                value={content.contact.phone ?? ''}
-                onChange={(e) => setContent({ ...content, contact: { ...content.contact, phone: e.target.value } })}
-                className="w-full px-4 py-3 bg-fv-dark border border-fv-border rounded-lg font-mono text-sm text-fv-text outline-none focus:ring-1 focus:ring-fv-orange focus:border-fv-orange transition"
-              />
+              <label className="block font-mono text-xs text-fv-text-dim mb-1 tracking-wider">
+                PHONE NUMBERS
+              </label>
+              <p className="font-mono text-[0.6875rem] text-fv-text-muted mb-2">
+                Shown in this order on the site. Blank rows are dropped on save.
+              </p>
+              <div className="space-y-2">
+                {(content.contact.phones ?? []).map((phone, i) => (
+                  <div key={i} className="flex gap-2">
+                    <input
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(i, e.target.value)}
+                      placeholder="+371 …"
+                      className="flex-1 px-4 py-3 bg-fv-dark border border-fv-border rounded-lg font-mono text-sm text-fv-text outline-none focus:ring-1 focus:ring-fv-orange focus:border-fv-orange transition"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removePhone(i)}
+                      aria-label={`Remove phone ${i + 1}`}
+                      className="px-3 border border-fv-border rounded-lg font-mono text-xs text-fv-text-dim hover:text-fv-orange hover:border-fv-orange transition"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={addPhone}
+                className="mt-2 px-3 py-2 border border-fv-border rounded-lg font-mono text-xs text-fv-text-dim hover:text-fv-orange hover:border-fv-orange transition tracking-wider"
+              >
+                + ADD NUMBER
+              </button>
             </div>
             <div>
               <label className="block font-mono text-xs text-fv-text-dim mb-1 tracking-wider">LOCATION</label>

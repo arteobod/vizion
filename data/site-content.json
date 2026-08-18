@@ -1,7 +1,11 @@
 {
   "contact": {
     "email": "hello@viz-on.net",
-    "phone": "+371 20 000 000",
+    "phones": [
+      "+371 23775420",
+      "+371 22309393",
+      "+371 25593078"
+    ],
     "location": "Riga, Latvia — working remotely across Europe",
     "responseTime": "Within 24 hours"
   },

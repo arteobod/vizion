@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useLanguage } from '@/context/LanguageContext'
 import { loc } from '@/lib/i18n'
+import { phoneList, telHref } from '@/lib/site-content'
 import Container from './Container'
 import Icon from './Icon'
 import type { Service, SiteContent } from '@/types'
@@ -16,6 +17,7 @@ export default function Footer({
 }) {
   const { t, locale } = useLanguage()
   const year = new Date().getFullYear()
+  const phones = phoneList(siteContent.contact)
 
   // `relative z-10` lifts the footer clear of the home page's fixed decorative
   // layer. That layer is viewport-fixed, so once the reader reaches the bottom
@@ -89,15 +91,26 @@ export default function Footer({
                   {siteContent.contact.email}
                 </a>
               </li>
-              {siteContent.contact.phone && (
-                <li>
-                  <a
-                    href={`tel:${siteContent.contact.phone.replace(/\s/g, '')}`}
-                    className="inline-flex items-center gap-2 text-vz-body transition-colors hover:text-vz-orange-deep"
-                  >
-                    <Icon name="Phone" className="h-4 w-4 text-vz-blue" />
-                    {siteContent.contact.phone}
-                  </a>
+              {/* The numbers are one block, not three contact methods: they sit
+                  in a single row with tighter spacing between them, and only the
+                  first carries the icon. Repeating the handset three times reads
+                  as three different kinds of contact. */}
+              {phones.length > 0 && (
+                <li className="space-y-1.5">
+                  {phones.map((phone, i) => (
+                    <a
+                      key={phone}
+                      href={telHref(phone)}
+                      className="flex items-center gap-2 text-vz-body transition-colors hover:text-vz-orange-deep"
+                    >
+                      {i === 0 ? (
+                        <Icon name="Phone" className="h-4 w-4 shrink-0 text-vz-blue" />
+                      ) : (
+                        <span className="h-4 w-4 shrink-0" aria-hidden="true" />
+                      )}
+                      <span className="tabular-nums">{phone}</span>
+                    </a>
+                  ))}
                 </li>
               )}
               <li className="flex items-start gap-2 text-vz-body">

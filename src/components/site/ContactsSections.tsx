@@ -6,6 +6,7 @@ import PageHero from './PageHero'
 import Section from './Section'
 import Icon from './Icon'
 import ContactForm from './ContactForm'
+import { phoneList, telHref } from '@/lib/site-content'
 import type { SiteContent } from '@/types'
 
 // Service slugs used across the site map onto the form's project types.
@@ -31,7 +32,17 @@ export function ContactsBody({ siteContent }: { siteContent: SiteContent }) {
   const searchParams = useSearchParams()
   const preset = SERVICE_TO_TYPE[searchParams.get('service') ?? ''] ?? ''
 
-  const details = [
+  const phones = phoneList(siteContent.contact)
+
+  // A detail row is either one value (optionally a link) or, for the phone row,
+  // a stack of them under a single label and icon.
+  const details: {
+    icon: string
+    label: string
+    value?: string
+    href?: string
+    links?: { text: string; href: string }[]
+  }[] = [
     {
       icon: 'Mail',
       label: t.contacts.info.emailLabel,
@@ -41,8 +52,7 @@ export function ContactsBody({ siteContent }: { siteContent: SiteContent }) {
     {
       icon: 'Phone',
       label: t.contacts.info.phoneLabel,
-      value: siteContent.contact.phone,
-      href: `tel:${(siteContent.contact.phone ?? '').replace(/\s/g, '')}`,
+      links: phones.map((phone) => ({ text: phone, href: telHref(phone) })),
     },
     {
       icon: 'MapPin',
@@ -55,7 +65,7 @@ export function ContactsBody({ siteContent }: { siteContent: SiteContent }) {
       label: t.contacts.info.responseLabel,
       value: t.contacts.info.responseValue || siteContent.contact.responseTime,
     },
-  ].filter((d) => d.value)
+  ].filter((d) => d.value || d.links?.length)
 
   return (
     <Section tone="white">
@@ -81,7 +91,19 @@ export function ContactsBody({ siteContent }: { siteContent: SiteContent }) {
                   </span>
                   <div>
                     <p className="text-sm text-vz-muted">{detail.label}</p>
-                    {detail.href ? (
+                    {detail.links ? (
+                      <div className="space-y-0.5">
+                        {detail.links.map((link) => (
+                          <a
+                            key={link.href}
+                            href={link.href}
+                            className="block font-medium tabular-nums text-vz-text transition-colors hover:text-vz-orange-deep"
+                          >
+                            {link.text}
+                          </a>
+                        ))}
+                      </div>
+                    ) : detail.href ? (
                       <a
                         href={detail.href}
                         className="font-medium text-vz-text transition-colors hover:text-vz-orange-deep"
