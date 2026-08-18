@@ -12,10 +12,21 @@
       "binding": "VIZON_KV",
       "id": "d24307dc75364e7986bac03496378a2e"
     }
-  ],
-  "vars": {
-    "ADMIN_USERNAME": "admin",
-    "ADMIN_PASSWORD_HASH": "$2b$10$sn1zSMeSYfrk2spypKk5xuIOYhNrQZgCxyHWazuk2OfceMzoLoZEC",
-    "JWT_SECRET": "gTZbeaLWlVTxqRevmVf-LwcqfMasqAU5NV15feKK6TU"
-  }
+  ]
+
+  // ADMIN_USERNAME, ADMIN_PASSWORD_HASH and JWT_SECRET used to live here in a
+  // "vars" block. This file is committed to a public repository, so that put the
+  // admin JWT signing key where anyone could read it and sign themselves a
+  // valid admin cookie. They are now Worker secrets, set out of band:
+  //
+  //   npx wrangler secret put JWT_SECRET
+  //   npx wrangler secret put ADMIN_USERNAME
+  //   npx wrangler secret put ADMIN_PASSWORD_HASH
+  //
+  // Secrets are write-only — Cloudflare will not read them back — and they
+  // survive redeploys. Do not reintroduce any of them as "vars": a plain var
+  // with the same name shadows the secret and republishes the value.
+  //
+  // Dev reads its own copies from .env.local, which is gitignored, and the two
+  // sets are deliberately different values.
 }
