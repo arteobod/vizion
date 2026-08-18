@@ -7,16 +7,14 @@ written to make the layouts reviewable. Replace it with real material before goi
 
 | What | Where | Notes |
 |---|---|---|
-| Case studies (4) | `data/projects.json` | Clients, tasks, solutions and **all result figures** (`+62%`, `×7`, `−55%` …) are fabricated. Also the client quotes inside `testimonial`. |
-| Testimonials (3) | `data/testimonials.json` | Fabricated quotes and attributed names. |
+| Result metrics | `data/projects.json` → `results` | All three real cases ship with an empty `results` array, because nothing measurable exists yet. The block hides itself, so the pages render clean. Fill it in when there are real numbers. |
 | Price ranges | `data/pricing.json` | `priceFrom` / `priceTo` are plausible market guesses, not your rates. Also check `includes` matches what you actually deliver. |
 | Service prices | `data/services.json` | The `priceFrom` field on each service. |
-| Phone number | `data/site-content.json` | Currently `+371 20 000 000`. |
-| Email | `data/site-content.json` | Currently `hello@viz-on.net` — confirm this mailbox exists. |
 
-Publishing invented client names, quotes, or result metrics as if they were real
-is misleading to prospects. Either replace them with real projects or remove the
-entries entirely — an empty portfolio renders cleanly (the grid shows an empty state).
+The four fabricated case studies and the testimonials that quoted them are gone;
+the portfolio now holds three real projects. Keep it that way. Publishing invented
+client names, quotes, or result metrics as if they were real is misleading to
+prospects, and one prospect who checks is a lost prospect.
 
 ## Optional
 
