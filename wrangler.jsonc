@@ -11,6 +11,15 @@
     {
       "binding": "VIZON_KV",
       "id": "d24307dc75364e7986bac03496378a2e"
+    },
+    {
+      // OpenNext incremental cache (ISR). Holds pre-rendered page payloads so
+      // Cloudflare serves the public pages from the edge instead of rendering
+      // each request in the Worker. Separate namespace from VIZON_KV so cache
+      // entries never collide with the site's own data keys. See
+      // open-next.config.ts for the wiring.
+      "binding": "NEXT_INC_CACHE_KV",
+      "id": "2bf27f15367e4ff6997654c4b3fe1fcf"
     }
   ]
 

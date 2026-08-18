@@ -5,7 +5,8 @@ import {
 import ProcessSteps from '@/components/site/ProcessSteps'
 import { getServices, getProcessSteps } from '@/lib/data'
 
-export const dynamic = 'force-dynamic'
+// ISR: serve a cached render from the edge, refresh from KV every 60s.
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Services',

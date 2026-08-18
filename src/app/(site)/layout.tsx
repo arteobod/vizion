@@ -5,7 +5,8 @@ import GradualBlur from '@/components/site/GradualBlur'
 import PageFrame from '@/components/site/PageFrame'
 import { getServices, getSiteContent } from '@/lib/data'
 
-export const dynamic = 'force-dynamic'
+// ISR: serve a cached render from the edge, refresh from KV every 60s.
+export const revalidate = 60
 
 export default async function SiteLayout({
   children,

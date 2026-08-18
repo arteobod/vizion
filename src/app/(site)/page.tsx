@@ -2,7 +2,8 @@ import HomeWindows from '@/components/site/HomeWindows'
 import FloatingWindows from '@/components/site/FloatingWindows'
 import { getServices, getProjects } from '@/lib/data'
 
-export const dynamic = 'force-dynamic'
+// ISR: serve a cached render from the edge, refresh from KV every 60s.
+export const revalidate = 60
 
 export default async function HomePage() {
   const [services, projects] = await Promise.all([getServices(), getProjects()])

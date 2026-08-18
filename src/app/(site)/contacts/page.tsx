@@ -3,7 +3,8 @@ import { Suspense } from 'react'
 import { ContactsHero, ContactsBody } from '@/components/site/ContactsSections'
 import { getSiteContent } from '@/lib/data'
 
-export const dynamic = 'force-dynamic'
+// ISR: serve a cached render from the edge, refresh from KV every 60s.
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Contacts',

@@ -3,7 +3,10 @@ import { notFound } from 'next/navigation'
 import { ServiceDetail } from '@/components/site/ServicesSections'
 import { getServiceBySlug, getServices, getProjects } from '@/lib/data'
 
-export const dynamic = 'force-dynamic'
+// ISR: serve a cached render from the edge, refresh from KV every 60s.
+export const revalidate = 60
+// A slug created in the admin panel after build should still render, not 404.
+export const dynamicParams = true
 
 export async function generateStaticParams() {
   const services = await getServices()
