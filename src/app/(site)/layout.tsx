@@ -1,4 +1,5 @@
 import Header from '@/components/site/Header'
+import MobileNav from '@/components/site/MobileNav'
 import Footer from '@/components/site/Footer'
 import GradualBlur from '@/components/site/GradualBlur'
 import PageFrame from '@/components/site/PageFrame'
@@ -13,8 +14,12 @@ export default async function SiteLayout({
 }) {
   const [services, siteContent] = await Promise.all([getServices(), getSiteContent()])
 
+  // The wrapper's bottom padding is clearance for the mobile dock, which floats
+  // over the end of the page. It belongs here rather than on <main>: the footer
+  // is main's sibling, so padding inside main would leave the footer's last row
+  // sitting under the dock. Phones only - the dock is lg:hidden.
   return (
-    <div className="relative">
+    <div className="relative pb-24 lg:pb-0">
       <Header />
       <main id="main">{children}</main>
       <Footer services={services} siteContent={siteContent} />
@@ -31,6 +36,8 @@ export default async function SiteLayout({
         divCount={4}
         curve="bezier"
       />
+
+      <MobileNav siteContent={siteContent} />
 
       <PageFrame />
     </div>

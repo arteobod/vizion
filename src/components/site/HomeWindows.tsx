@@ -151,7 +151,10 @@ export default function HomeWindows({
 
       {/* Windows 2 and 3 keep their one-shot entrances — the scroll-linked
           tilt is the hero's move alone, and repeating it would wear thin. */}
-      <div className="space-y-24 px-3 pb-16 pt-20 sm:space-y-36 sm:px-5 sm:pb-24 sm:pt-28">
+      {/* Tighter rhythm on phones. Each window is already a screen and a half
+          tall there, so the desktop 96px gaps read as gaps in the page rather
+          than separation between chapters. */}
+      <div className="space-y-10 px-3 pb-16 pt-8 sm:space-y-36 sm:px-5 sm:pb-24 sm:pt-28">
       {/* ── Window 2 — Services: slides up, cards fly in from edges ── */}
       <motion.div
         initial={{ opacity: 0, y: 70 }}

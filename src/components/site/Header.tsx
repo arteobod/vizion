@@ -6,14 +6,21 @@ import { useEffect, useState } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 import Container from './Container'
 import Button from './Button'
-import Icon from './Icon'
 import LanguageSwitcher from './LanguageSwitcher'
 
+/**
+ * The top bar.
+ *
+ * On desktop it carries the full navigation. On phones it is deliberately only
+ * the wordmark and the language switch: the menu lives in `MobileNav`, a dock
+ * fixed to the bottom of the viewport, because a trigger up here is unreachable
+ * once the reader is a few screens down a long page. Putting the same menu in
+ * both places would be two controls for one job.
+ */
 export default function Header() {
   const { t } = useLanguage()
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
 
   const links = [
     { href: '/', label: t.nav.home },
@@ -30,19 +37,6 @@ export default function Header() {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
-
-  // Close the mobile menu on navigation
-  useEffect(() => {
-    setMenuOpen(false)
-  }, [pathname])
-
-  // Lock body scroll while the mobile menu is open
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [menuOpen])
 
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href)
@@ -83,45 +77,9 @@ export default function Header() {
             <Button href="/contacts">{t.nav.cta}</Button>
           </div>
 
-          <div className="flex items-center gap-2 lg:hidden">
-            <LanguageSwitcher />
-            <button
-              type="button"
-              onClick={() => setMenuOpen((v) => !v)}
-              aria-expanded={menuOpen}
-              aria-label={menuOpen ? t.nav.close : t.nav.menu}
-              className="rounded-soft p-2 text-vz-text transition-colors hover:bg-vz-soft"
-            >
-              <Icon name={menuOpen ? 'X' : 'Menu'} className="h-6 w-6" />
-            </button>
-          </div>
+          <LanguageSwitcher className="lg:hidden" />
         </div>
       </Container>
-
-      {menuOpen && (
-        <div className="border-t border-vz-border bg-white lg:hidden">
-          <Container>
-            <nav className="flex flex-col gap-1 py-4" aria-label="Mobile">
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`rounded-soft px-3 py-3 text-base font-medium transition-colors ${
-                    isActive(link.href)
-                      ? 'bg-vz-orange-soft text-vz-orange-deep'
-                      : 'text-vz-body hover:bg-vz-soft'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Button href="/contacts" size="lg" className="mt-3 w-full">
-                {t.nav.cta}
-              </Button>
-            </nav>
-          </Container>
-        </div>
-      )}
     </header>
   )
 }
