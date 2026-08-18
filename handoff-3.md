@@ -423,6 +423,23 @@ rather than exposure, but nothing in the earlier checks would have caught it. Te
 that only assert 401 for *wrong* input cannot tell a working guard from a broken
 one. Always test the positive path too.
 
+### bcrypt cost on Cloudflare Workers: keep it at 10
+
+The audit rotated the password hash to bcrypt cost 12. Under a burst of login
+attempts the endpoint then started returning intermittent 503s mixed in with the
+401s. Cause: `bcryptjs` is pure JavaScript, not the native binding, and it runs
+inside the Worker's per-request CPU budget. Cost 12 is roughly 210ms of CPU per
+`compare` versus about 52ms at cost 10 — four times the work — and several
+concurrent logins pushed past the limit.
+
+Reverted to cost 10 and verified: five correct logins in a row all return 200,
+and a burst of wrong ones steps cleanly from 401 to 429 with no 503. The hash is
+no longer public (it lives only in the Worker secret), so cost 10 — the OWASP
+floor — is the right setting here; the extra rounds bought nothing against a real
+threat and cost availability. If you ever regenerate the hash, use cost 10, not
+12. There is no cost constant in the code to change: `src/lib/auth.ts` only calls
+`bcrypt.compare`, and the cost is baked into the stored hash when you create it.
+
 ### Response headers
 
 Six headers ship from `next.config.js`: HSTS, `X-Frame-Options: DENY`, nosniff,
