@@ -48,7 +48,7 @@ export default function BrowserWindow({
   return (
     <div
       ref={ref}
-      className={`browser-window relative mx-auto flex min-h-[82vh] w-full max-w-window flex-col overflow-hidden rounded-xl2 border-2 border-vz-ink bg-white/55 shadow-window backdrop-blur-2xl ${className}`}
+      className={`browser-window relative mx-auto flex min-h-[82vh] w-full max-w-window flex-col overflow-hidden rounded-xl2 border-2 border-vz-ink bg-white/65 shadow-window backdrop-blur-md ${className}`}
     >
       {/* Light. Two decorative layers, both under the content:
           a sheen falling from the top edge, so the glass looks lit from above
@@ -64,7 +64,11 @@ export default function BrowserWindow({
       />
 
       {/* Chrome — frosted glass bar */}
-      <div className="relative flex h-12 shrink-0 items-center gap-3 border-b border-vz-ink/15 bg-white/45 px-4 backdrop-blur-md">
+      {/* No backdrop-filter of its own. This bar sits on a pane that is already
+          frosted, and a filter nested inside another filter has to sample the
+          result of the first one — paying twice for a difference nobody can
+          point to. A flat translucent white over the glass looks the same. */}
+      <div className="relative flex h-12 shrink-0 items-center gap-3 border-b border-vz-ink/15 bg-white/55 px-4">
         <div className="flex gap-2">
           <span className="h-3 w-3 rounded-full bg-vz-orange" />
           <span className="h-3 w-3 rounded-full bg-vz-blue" />
@@ -76,7 +80,7 @@ export default function BrowserWindow({
           <span className="truncate">{url}</span>
         </div>
 
-        <span className="hidden shrink-0 font-mono text-[0.6875rem] uppercase tracking-widest text-vz-muted sm:block">
+        <span className="hidden shrink-0 font-tag text-[0.6875rem] uppercase tracking-widest text-vz-muted sm:block">
           {chapter}
         </span>
 

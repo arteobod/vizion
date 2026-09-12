@@ -115,7 +115,7 @@ export function ServiceDetail({
       <Section tone="soft">
         <div className="grid gap-6 lg:grid-cols-2">
           <Reveal className="h-full">
-            <div className="h-full rounded-card border border-vz-border bg-white p-6 shadow-soft-sm sm:p-8">
+            <div className="vz-surface h-full rounded-card p-6 sm:p-8">
               <h2 className="text-h3 font-display">{labels.problems}</h2>
               <ul className="mt-5 space-y-3">
                 {locArray(service, 'problems', locale).map((item) => (
@@ -131,7 +131,7 @@ export function ServiceDetail({
           </Reveal>
 
           <Reveal delay={90} className="h-full">
-            <div className="h-full rounded-card border border-vz-blue/30 bg-white p-6 shadow-soft-sm sm:p-8">
+            <div className="vz-surface h-full rounded-card border-vz-blue/30 p-6 sm:p-8">
               <h2 className="text-h3 font-display">{labels.benefits}</h2>
               <ul className="mt-5 space-y-3">
                 {locArray(service, 'benefits', locale).map((item) => (
@@ -154,7 +154,7 @@ export function ServiceDetail({
         <ol className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {service.stages.map((stage, i) => (
             <Reveal key={stage.title} delay={i * 70} className="h-full">
-              <li className="flex h-full flex-col rounded-card border border-vz-border bg-white p-6 shadow-soft-sm">
+              <li className="vz-surface flex h-full flex-col rounded-card p-6">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-vz-orange-soft font-display text-sm font-extrabold text-vz-orange-deep">
                   {i + 1}
                 </span>

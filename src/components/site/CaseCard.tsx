@@ -1,32 +1,72 @@
 'use client'
 
 import Link from 'next/link'
+import { useRef, useState } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 import { loc } from '@/lib/i18n'
+import { cardImage } from '@/lib/media'
 import { useCardMotion } from '@/hooks/useCardMotion'
 import Icon from './Icon'
 import CountUp from './CountUp'
-import type { Project } from '@/types'
+import type { CaseCardData } from '@/lib/view'
 
-export default function CaseCard({ project }: { project: Project }) {
+// Narrowed to the fields this card renders — see `toCaseCardData`.
+export default function CaseCard({ project }: { project: CaseCardData }) {
   const { t, locale } = useLanguage()
   const motion = useCardMotion()
   const headline = project.results?.[0]
+
+  // Case images are lazy-loaded, so they arrive well after the card and used to
+  // snap in at full opacity over the placeholder — the most-looked-at element on
+  // the page was also the only one that appeared without any transition.
+  //
+  // The ref check covers the cached case: an image already in the browser cache
+  // can finish decoding before React attaches the handler, and `onLoad` never
+  // fires. Without it a returning visitor gets cards that stay blank.
+  const imgRef = useRef<HTMLImageElement>(null)
+  const [loaded, setLoaded] = useState(false)
+  const markLoaded = () => setLoaded(true)
+
+  // Start on the card-sized variant and fall back to the stored original if it
+  // is not there. Images uploaded through the admin panel have no variant, and
+  // a missing screenshot would be a far worse bug than a large one.
+  const [src, setSrc] = useState(() => cardImage(project.image))
+
+  const onImageError = () => {
+    if (src !== project.image) {
+      setSrc(project.image)
+      return
+    }
+    // The original failed too — stop hiding the frame behind a fade that will
+    // never complete.
+    markLoaded()
+  }
 
   return (
     <Link
       {...motion}
       href={`/work/${project.slug}`}
-      className="spotlight tilt group flex h-full flex-col overflow-hidden rounded-card border border-vz-border bg-white shadow-soft-sm duration-300 hover:border-vz-blue/40 hover:shadow-soft-lg"
+      className="vz-surface vz-surface-interactive spotlight tilt group flex h-full flex-col overflow-hidden rounded-card"
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-vz-tint">
         {project.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={project.image}
+            ref={(el) => {
+              imgRef.current = el
+              // Already decoded from cache before the handler existed.
+              if (el?.complete && el.naturalWidth > 0) setLoaded(true)
+            }}
+            src={src}
             alt={loc(project, 'title', locale)}
-            className="h-full w-full object-cover transition-transform duration-500 ease-soft group-hover:scale-[1.03]"
+            onLoad={markLoaded}
+            // A broken image should not leave the frame permanently blank.
+            onError={onImageError}
+            // The hover zoom lives in `.vz-img` too — see globals.css. Declaring
+            // it here as well would put two rules on one property.
+            className={`vz-img h-full w-full object-cover ${loaded ? 'vz-img-in' : ''}`}
             loading="lazy"
+            decoding="async"
           />
         ) : (
           // Placeholder until a real screenshot is uploaded via the admin panel

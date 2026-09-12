@@ -67,7 +67,7 @@ export function Values() {
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {t.about.values.items.map((item, i) => (
           <Reveal key={item.title} delay={i * 80} className="h-full">
-            <div className="flex h-full flex-col rounded-card border border-vz-border bg-white p-6 text-center shadow-soft-sm sm:text-left">
+            <div className="vz-surface flex h-full flex-col rounded-card p-6 text-center sm:text-left">
               <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-vz-orange-soft text-vz-orange-deep sm:mx-0">
                 <Icon name={VALUE_ICONS[i] ?? 'Check'} className="h-7 w-7" />
               </span>
@@ -96,7 +96,7 @@ export function Team({ members }: { members: TeamMember[] }) {
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {members.map((member, i) => (
           <Reveal key={member.id} delay={i * 70} className="h-full">
-            <div className="h-full rounded-card border border-vz-border bg-white p-6 text-center shadow-soft-sm">
+            <div className="vz-surface h-full rounded-card p-6 text-center">
               {member.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img

@@ -22,7 +22,7 @@ export default function Testimonials({ items }: { items: Testimonial[] }) {
       <div className="grid gap-6 md:grid-cols-3">
         {items.map((item, i) => (
           <Reveal key={item.id} delay={i * 80} className="h-full">
-            <figure className="flex h-full flex-col rounded-card border border-vz-border bg-white p-6 shadow-soft-sm sm:p-7">
+            <figure className="vz-surface flex h-full flex-col rounded-card p-6 sm:p-7">
               <Icon name="Quote" className="h-7 w-7 text-vz-blue" />
               <blockquote className="mt-4 flex-1 text-vz-body">
                 {loc(item, 'text', locale)}

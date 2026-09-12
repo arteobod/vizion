@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Vižon">
+  <!--
+    Tab icon. Picked up automatically by the App Router from app/icon.svg, which
+    also stops the /favicon.ico 404 every visitor was generating.
+
+    The wordmark is "Vižon" with the ž carrying the orange, so the monogram is
+    the V plus that accent — the caron, set as a bar above the letter. Colours
+    are the site's own: --vz-ink for the plate, --vz-orange for the accent.
+    Drawn on a 64px grid with heavy strokes so it survives being scaled to 16px.
+  -->
+  <rect width="64" height="64" rx="14" fill="#101318"/>
+  <path d="M16 20 L32 46 L48 20" fill="none" stroke="#ffffff"
+        stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M24 12 L40 12" stroke="#FFA500" stroke-width="6" stroke-linecap="round"/>
+</svg>

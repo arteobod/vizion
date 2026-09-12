@@ -4,6 +4,7 @@ import Footer from '@/components/site/Footer'
 import GradualBlur from '@/components/site/GradualBlur'
 import PageFrame from '@/components/site/PageFrame'
 import { getServices, getSiteContent } from '@/lib/data'
+import { toServiceLinkData } from '@/lib/view'
 
 // ISR: serve a cached render from the edge, refresh from KV every 60s.
 export const revalidate = 60
@@ -13,7 +14,11 @@ export default async function SiteLayout({
 }: {
   children: React.ReactNode
 }) {
-  const [services, siteContent] = await Promise.all([getServices(), getSiteContent()])
+  const [allServices, siteContent] = await Promise.all([getServices(), getSiteContent()])
+
+  // The footer only links to services. Projecting here keeps the full records
+  // out of the RSC payload of every single page on the site.
+  const services = allServices.map(toServiceLinkData)
 
   // The wrapper's bottom padding is clearance for the mobile dock, which floats
   // over the end of the page. It belongs here rather than on <main>: the footer

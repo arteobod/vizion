@@ -5,13 +5,16 @@ import { useLanguage } from '@/context/LanguageContext'
 import { loc } from '@/lib/i18n'
 import { useCardMotion } from '@/hooks/useCardMotion'
 import Icon from './Icon'
-import type { Service } from '@/types'
+import type { ServiceCardData } from '@/lib/view'
 
 export default function ServiceCard({
   service,
   flat = false,
 }: {
-  service: Service
+  // Narrowed to the fields this card renders — a full `Service` is still
+  // assignable, but pages should project with `toServiceCardData` so the
+  // unread half of the record never reaches the RSC payload.
+  service: ServiceCardData
   /** Drop the card's own border — used when a wrapper supplies an animated one. */
   flat?: boolean
 }) {
@@ -22,8 +25,11 @@ export default function ServiceCard({
     <Link
       {...motion}
       href={`/services/${service.slug}`}
-      className={`spotlight tilt group flex h-full flex-col rounded-card bg-white p-6 shadow-soft-sm duration-300 hover:shadow-soft-lg sm:p-7 ${
-        flat ? '' : 'border border-vz-border hover:border-vz-blue/40'
+      className={`spotlight tilt group flex h-full flex-col rounded-card p-6 sm:p-7 ${
+        // `flat` drops the card's own edge because the home page wraps it in an
+        // animated one. The lit surface stays either way — that is the material,
+        // not the border.
+        flat ? 'vz-surface vz-surface-flat' : 'vz-surface vz-surface-interactive'
       }`}
     >
       <span className="inline-flex h-12 w-12 items-center justify-center rounded-soft bg-vz-blue-soft text-vz-blue-deep transition-colors duration-300 group-hover:bg-vz-blue group-hover:text-white">

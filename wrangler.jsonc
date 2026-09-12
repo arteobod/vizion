@@ -21,6 +21,16 @@
       "binding": "NEXT_INC_CACHE_KV",
       "id": "2bf27f15367e4ff6997654c4b3fe1fcf"
     }
+  ],
+
+  // The revalidation queue re-requests a stale route through this same Worker,
+  // so the Worker needs a way to call itself. See open-next.config.ts — without
+  // this binding the queue cannot run and ISR silently stops refreshing.
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "vizion"
+    }
   ]
 
   // ADMIN_USERNAME, ADMIN_PASSWORD_HASH and JWT_SECRET used to live here in a

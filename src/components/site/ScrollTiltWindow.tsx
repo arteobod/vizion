@@ -30,6 +30,8 @@ export default function ScrollTiltWindow({
   children: React.ReactNode
 }) {
   const ref = useRef<HTMLDivElement>(null)
+  // The pane the tilt is written to — watched during the CSS→framer handover.
+  const paneRef = useRef<HTMLDivElement>(null)
   const reducedMotion = useReducedMotion()
   const [compact, setCompact] = useState(false)
   // Whether the scroll transforms are attached at all is a client-only decision,
@@ -77,6 +79,38 @@ export default function ScrollTiltWindow({
   // The tilt runs only on a mounted, non-phone viewport.
   const tilting = mounted && !compact
 
+  // Hands the resting angle over from the stylesheet to the live transform.
+  //
+  // The handover waits for evidence, not for a timer. The animation library
+  // does not write the transform during render — it writes on a later frame —
+  // so dropping the CSS angle as soon as `tilting` flipped just moved the flat
+  // flash a few milliseconds later instead of removing it. This watches the
+  // element's own inline style and only releases the stylesheet once a real
+  // transform is actually sitting on it.
+  useEffect(() => {
+    if (!tilting) return
+    const root = document.documentElement
+    let frame = 0
+    let tries = 0
+
+    const check = () => {
+      const written = paneRef.current?.style.transform
+      if (written && written !== 'none') {
+        root.setAttribute('data-vz-tilt-live', '')
+        return
+      }
+      // Give up after ~2s rather than spin forever; the CSS angle simply stays,
+      // which is the correct-looking state anyway.
+      if (++tries < 120) frame = requestAnimationFrame(check)
+    }
+
+    frame = requestAnimationFrame(check)
+    return () => {
+      if (frame) cancelAnimationFrame(frame)
+      root.removeAttribute('data-vz-tilt-live')
+    }
+  }, [tilting])
+
   // Respect the OS setting: no tall scroll container, no 3D, just the window.
   if (reducedMotion) {
     return (
@@ -113,8 +147,24 @@ export default function ScrollTiltWindow({
 
       <div className="w-full" style={{ perspective: 1100 }}>
         <motion.div
+          ref={paneRef}
           style={tilting ? { rotateX, scale } : undefined}
-          className="w-full px-3 sm:px-5"
+          // `vz-tilt-rest` carries the window's starting angle in CSS.
+          //
+          // Without it the window arrives flat and snaps into its 30° lean the
+          // moment the bundle hydrates — which is the "it appears vertical, then
+          // jumps" report. It was invisible on a warm cache because hydration
+          // beat the eye, and came back after a couple of minutes because the
+          // cache had gone cold again and the wait grew.
+          //
+          // The angle cannot be an inline style: the server has no idea whether
+          // this viewport tilts, and an inline transform that disagreed with the
+          // first client render is a hydration mismatch. A stylesheet rule is in
+          // the document from the very first paint, is identical on both sides,
+          // and is outranked by framer's inline style the instant it takes over
+          // — and framer's first value at scroll position 0 is this same angle,
+          // so the handover is invisible.
+          className="vz-tilt-rest w-full px-3 sm:px-5"
         >
           {/* The rise out of blur lives here, in CSS, on its own element. Two
               reasons. It paints without waiting for JavaScript, and a CSS

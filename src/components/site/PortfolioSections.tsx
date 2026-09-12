@@ -187,7 +187,7 @@ export function CaseDetail({ project }: { project: Project }) {
           <div className="grid gap-6 sm:grid-cols-3">
             {project.results.map((result, i) => (
               <Reveal key={result.label} delay={i * 80} className="h-full">
-                <div className="h-full rounded-card border border-vz-border bg-white p-7 text-center shadow-soft-sm">
+                <div className="vz-surface h-full rounded-card p-7 text-center">
                   <CountUp
                     value={result.value}
                     className="block font-display text-3xl font-extrabold text-vz-orange-deep sm:text-4xl"

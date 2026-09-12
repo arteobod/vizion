@@ -43,12 +43,12 @@ function PricingCard({ tier, labels }: { tier: PricingTier; labels: Record<strin
   return (
     <div
       {...motion}
-      className={`spotlight tilt ${
-        tier.popular ? 'spotlight-warm' : ''
-      } relative flex h-full flex-col rounded-card bg-white p-6 duration-300 hover:shadow-soft-lg sm:p-7 ${
-        tier.popular
-          ? 'border-2 border-vz-orange shadow-soft'
-          : 'border border-vz-border shadow-soft-sm'
+      className={`vz-surface vz-surface-interactive spotlight tilt relative flex h-full flex-col rounded-card p-6 sm:p-7 ${
+        // The recommended tier is raised out of the row rather than just
+        // outlined: it sits a little proud, carries a warmer drop, and takes the
+        // warm pointer glow. An orange border alone was doing all the work of
+        // saying "pick this one", which on a four-card row is a very quiet ask.
+        tier.popular ? 'spotlight-warm vz-tier-popular' : ''
       }`}
     >
       {tier.popular && (
@@ -134,7 +134,7 @@ export function PricingFactors() {
       <div className="grid gap-6 md:grid-cols-3">
         {t.pricing.factors.items.map((item, i) => (
           <Reveal key={item.title} delay={i * 80} className="h-full">
-            <div className="h-full rounded-card border border-vz-border bg-white p-6 shadow-soft-sm">
+            <div className="vz-surface h-full rounded-card p-6">
               <span className="flex h-11 w-11 items-center justify-center rounded-soft bg-vz-blue-soft text-vz-blue-deep">
                 <Icon name={FACTOR_ICONS[i] ?? 'Layers'} className="h-5 w-5" />
               </span>

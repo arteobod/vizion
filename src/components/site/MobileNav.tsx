@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useLanguage } from '@/context/LanguageContext'
 import { phoneList, telHref } from '@/lib/site-content'
 import Icon from './Icon'
@@ -29,14 +28,29 @@ import type { SiteContent } from '@/types'
  * Layering: the decorative page frame sits at z-[2000] and the film grain at
  * z-60, so everything here is above 2000 or the grain would mute the dock and
  * the frame's hairline would cross it.
+ *
+ * The panel and the dock move on CSS transitions, and the swipe-to-dismiss is a
+ * pointer handler, where both used to be framer-motion. This component is the
+ * one piece of the site that only ever renders on a phone, so it was the worst
+ * possible place to pull in a 125KB animation library: it put the whole thing on
+ * the critical path of exactly the devices that could least afford it.
+ *
+ * The panel stays mounted and is moved off-screen rather than unmounted, which
+ * is what makes the closing transition possible without a presence library.
+ * `visibility: hidden` while closed keeps it out of the tab order and the
+ * accessibility tree, and because `visibility` is itself transitionable it flips
+ * only once the panel has finished sliding away.
  */
 export default function MobileNav({ siteContent }: { siteContent: SiteContent }) {
   const { t } = useLanguage()
   const pathname = usePathname()
-  const reduceMotion = useReducedMotion()
   const [open, setOpen] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
+  // Live drag offset, written straight to the node so a swipe does not re-render
+  // the panel on every pointer move.
+  const dragStart = useRef<number | null>(null)
+  const dragOffset = useRef(0)
 
   const phones = phoneList(siteContent.contact)
 
@@ -91,37 +105,69 @@ export default function MobileNav({ siteContent }: { siteContent: SiteContent })
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
 
-  const ease = [0.22, 1, 0.36, 1] as const
+  // Swipe down to dismiss. Only from a touch or pen, and only when the panel is
+  // already scrolled to the top — otherwise the gesture would fight the panel's
+  // own scrolling.
+  const onPointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === 'mouse') return
+    const panel = panelRef.current
+    if (!panel || panel.scrollTop > 0) return
+    dragStart.current = e.clientY
+    dragOffset.current = 0
+    panel.style.transition = 'none'
+  }, [])
+
+  const onPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    const from = dragStart.current
+    const panel = panelRef.current
+    if (from === null || !panel) return
+    // Downward only, and eased past the halfway mark so it resists rather than
+    // tracking the finger all the way out.
+    const raw = e.clientY - from
+    if (raw <= 0) {
+      dragOffset.current = 0
+      panel.style.transform = ''
+      return
+    }
+    dragOffset.current = raw
+    panel.style.transform = `translateY(${raw}px)`
+  }, [])
+
+  const endDrag = useCallback(() => {
+    const panel = panelRef.current
+    if (dragStart.current === null || !panel) return
+    const travelled = dragOffset.current
+    dragStart.current = null
+    dragOffset.current = 0
+    panel.style.transition = ''
+    panel.style.transform = ''
+    if (travelled > 130) close()
+  }, [close])
 
   return (
     <div className="lg:hidden">
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            ref={panelRef}
-            role="dialog"
-            aria-modal="true"
-            aria-label={t.nav.menu}
-            tabIndex={-1}
-            drag={reduceMotion ? false : 'y'}
-            dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={{ top: 0, bottom: 0.35 }}
-            onDragEnd={(_, info) => {
-              if (info.offset.y > 130 || info.velocity.y > 600) close()
-            }}
-            initial={reduceMotion ? { opacity: 0 } : { y: '100%' }}
-            animate={reduceMotion ? { opacity: 1 } : { y: 0 }}
-            exit={reduceMotion ? { opacity: 0 } : { y: '100%' }}
-            transition={
-              reduceMotion
-                ? { duration: 0 }
-                : { type: 'spring', stiffness: 400, damping: 40, mass: 0.9 }
-            }
-            // 100svh rather than 100vh: on iOS Safari the large viewport unit
-            // sits behind the browser's own toolbars, which would push the last
-            // rows out of sight exactly the way the dock used to.
-            className="fixed inset-0 z-[2095] flex h-[100svh] flex-col overflow-y-auto bg-vz-white outline-none"
-          >
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={t.nav.menu}
+        aria-hidden={!open}
+        tabIndex={-1}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        // 100svh rather than 100vh: on iOS Safari the large viewport unit
+        // sits behind the browser's own toolbars, which would push the last
+        // rows out of sight exactly the way the dock used to.
+        //
+        // Kept mounted and translated away rather than unmounted, so the close
+        // transition has something to animate. `invisible` is what takes it out
+        // of the tab order while it is parked.
+        className={`vz-sheet fixed inset-0 z-[2095] flex h-[100svh] flex-col overflow-y-auto bg-vz-white outline-none ${
+          open ? 'translate-y-0' : 'invisible translate-y-full'
+        }`}
+      >
             {/* Same corner ticks and light rig the page runs on, so the panel
                 reads as this site going full-screen rather than a system sheet. */}
             <div
@@ -157,16 +203,13 @@ export default function MobileNav({ siteContent }: { siteContent: SiteContent })
                   {links.map((link, i) => {
                     const active = isActive(link.href)
                     return (
-                      <motion.li
+                      <li
                         key={link.href}
-                        initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          delay: reduceMotion ? 0 : 0.05 + i * 0.05,
-                          duration: 0.45,
-                          ease,
-                        }}
-                        className="border-b border-vz-border last:border-0"
+                        // Rows rise in behind the panel. Driven off the panel's
+                        // open state in CSS, so the stagger costs one class and
+                        // a custom property instead of a component per row.
+                        style={{ '--vz-rd': `${50 + i * 50}ms` } as React.CSSProperties}
+                        className="vz-sheet-row border-b border-vz-border last:border-0"
                       >
                         <Link
                           href={link.href}
@@ -178,7 +221,7 @@ export default function MobileNav({ siteContent }: { siteContent: SiteContent })
                               windows, reused so the menu belongs to the same
                               object rather than reading as a stock drawer. */}
                           <span
-                            className={`font-mono text-[0.6875rem] tabular-nums tracking-widest transition-colors ${
+                            className={`font-tag text-[0.6875rem] tabular-nums tracking-widest transition-colors ${
                               active ? 'text-vz-orange' : 'text-vz-muted'
                             }`}
                           >
@@ -200,7 +243,7 @@ export default function MobileNav({ siteContent }: { siteContent: SiteContent })
                             />
                           )}
                         </Link>
-                      </motion.li>
+                      </li>
                     )
                   })}
                 </ul>
@@ -208,11 +251,9 @@ export default function MobileNav({ siteContent }: { siteContent: SiteContent })
 
               {/* Pushed to the bottom of whatever height is left, so the panel
                   fills the screen instead of leaving a gap under short content. */}
-              <motion.div
-                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: reduceMotion ? 0 : 0.36, duration: 0.45, ease }}
-                className="mt-auto pt-6"
+              <div
+                style={{ '--vz-rd': '360ms' } as React.CSSProperties}
+                className="vz-sheet-row mt-auto pt-6"
               >
                 <Link
                   href="/contacts"
@@ -253,25 +294,19 @@ export default function MobileNav({ siteContent }: { siteContent: SiteContent })
                 <div className="mt-5 border-t border-vz-border pt-5">
                   <LanguageSwitcher />
                 </div>
-              </motion.div>
+              </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </div>
 
       {/* The dock. Fixed, so the menu is reachable from anywhere on the page.
           It drops away while the panel is up — the panel carries its own close
           control, and leaving the dock on top of it is what buried the phone
           numbers and the language switch. */}
-      <AnimatePresence>
-        {!open && (
-          <motion.div
-            initial={reduceMotion ? { opacity: 0 } : { y: 90, opacity: 0 }}
-            animate={reduceMotion ? { opacity: 1 } : { y: 0, opacity: 1 }}
-            exit={reduceMotion ? { opacity: 0 } : { y: 90, opacity: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.32, ease }}
-            className="pointer-events-none fixed inset-x-0 bottom-0 z-[2100] flex justify-center px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))]"
-          >
+      <div
+        className={`vz-dock pointer-events-none fixed inset-x-0 bottom-0 z-[2100] flex justify-center px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] ${
+          open ? 'vz-dock-away' : ''
+        }`}
+      >
             <div className="pointer-events-auto relative flex items-center gap-1 rounded-full border-2 border-vz-ink bg-white/80 p-1.5 shadow-window backdrop-blur-xl">
               <div
                 aria-hidden="true"
@@ -304,9 +339,7 @@ export default function MobileNav({ siteContent }: { siteContent: SiteContent })
                 <Icon name="ArrowUpRight" className="h-[1.15rem] w-[1.15rem]" strokeWidth={2.25} />
               </Link>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </div>
     </div>
   )
 }

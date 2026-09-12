@@ -58,6 +58,32 @@
     0 120px 140px rgba(20, 24, 31, 0.1);
   --vz-shadow-orange: 0 6px 20px rgba(255, 165, 0, 0.32);
   --vz-shadow-blue: 0 6px 20px rgba(66, 184, 235, 0.26);
+
+  /* ── Motion ─────────────────────────────────────────────────
+     One vocabulary for every transition on the site. The durations were
+     previously picked per component — 200ms here, 300ms there, 500ms
+     somewhere else — which is why interactions felt like they belonged to
+     different products. Pace is part of a brand: these three cover
+     everything, and `--vz-ease` is the same soft curve the entrances run on.
+
+     `--vz-ease-out` is fractionally sharper, for things that must feel
+     answered rather than eased: presses, toggles, focus. */
+  --vz-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --vz-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --vz-dur-fast: 170ms;
+  --vz-dur: 280ms;
+  --vz-dur-slow: 520ms;
+
+  /* The card-level version of the window's drop. Lighter, same direction. */
+  --vz-shadow-card:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 1px 2px rgba(20, 24, 31, 0.04),
+    0 4px 12px rgba(20, 24, 31, 0.06);
+  --vz-shadow-card-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 2px 6px rgba(20, 24, 31, 0.06),
+    0 12px 28px rgba(20, 24, 31, 0.1),
+    0 24px 48px rgba(20, 24, 31, 0.07);
 }
 
 /* ═══════════════════════════════════════════════
@@ -93,22 +119,35 @@
     color: rgb(var(--vz-text));
   }
 
-  /* Film grain over the whole page. A faint tactile layer is what keeps the
-     reference sites from looking like clean flat vector — subtle, fixed, and
-     never intercepting clicks. */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: 60;
-    pointer-events: none;
-    opacity: 0.5;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-    background-size: 140px 140px;
-  }
+  /*
+   * The film grain that used to live here is gone, and it is worth saying why
+   * so nobody reinstates it by reflex.
+   *
+   * It was a fixed, full-viewport `::after` with `mix-blend-mode: multiply`.
+   * A blended layer of that size forces the browser to flatten everything
+   * beneath it into a single texture on every frame, because the blend has to
+   * read what it is multiplying against. That defeats layer separation for the
+   * entire page at once — which is why it was not a home-page problem but a
+   * whole-site tax, and why it made every entrance animation and every scrolled
+   * section worse rather than any one of them in particular.
+   *
+   * Measured over two windows entering view: 76 dropped frames with it, 54
+   * without. It cost more than the frosted glass, the oversized case images and
+   * the animated blur put together.
+   *
+   * Dropping only `mix-blend-mode` and keeping the layer recovered about half
+   * (62 frames) — a fixed full-screen overlay still has to be composited every
+   * frame whether or not it blends.
+   *
+   * And it bought almost nothing: measured against a build without it, the mean
+   * per-channel difference across the page was 7.8/255, roughly a 3% darkening.
+   * The studio owner, looking at both side by side, could not tell them apart.
+   *
+   * If the texture is ever wanted back, the cheap way is to bake the noise into
+   * the background images that already paint — no extra layer, no blending —
+   * never as an overlay across the viewport.
+   */
   @media (prefers-reduced-motion: reduce) {
-    body::after { opacity: 0.35; }
     /* The background panes stay — they are composition, not motion. Only the
        drifting stops. */
     .animate-drift,
@@ -195,6 +234,207 @@
   @keyframes auroraDrift3 {
     0%, 100% { transform: translate3d(0, 0, 0) scale(1.05); }
     50%      { transform: translate3d(7%, -7%, 0) scale(0.9); }
+  }
+
+  /* ── Surface ──────────────────────────────────────────────
+     The card-level expression of the material the browser windows are made of.
+
+     The home page went to real trouble over its windows — lit from above, a
+     white bevel just inside the edge, a layered drop — and then every card on
+     every other page was a flat white box with a 1px grey border and a hint of
+     shadow. Two different products sharing a logo. This is the same material at
+     card scale: a sheen falling from the top edge, the bevel carried in the
+     inset highlight, and a drop built from stacked casts rather than one blur.
+
+     The bevel lives in `box-shadow` rather than a pseudo-element on purpose:
+     `.spotlight` already owns `::before` for the pointer glow, and stacking a
+     second one under `.spotlight > *` is how you end up with a ring painted
+     over your own text. */
+  .vz-surface {
+    background-color: rgb(var(--vz-white));
+    background-image: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0) 42%
+    );
+    border: 1px solid rgb(var(--vz-border));
+    box-shadow: var(--vz-shadow-card);
+    transition:
+      box-shadow var(--vz-dur) var(--vz-ease),
+      border-color var(--vz-dur) var(--vz-ease);
+  }
+
+  /*
+   * Hover deepens the drop and warms the edge — it deliberately does NOT move
+   * the card. Cards that respond to the pointer already carry `.tilt`, which
+   * owns `transform`; adding a lift here would mean two rules writing the same
+   * property and the tilt losing, which is exactly the sort of fight that reads
+   * to a visitor as "the animation is broken".
+   */
+  .vz-surface-interactive:hover {
+    box-shadow: var(--vz-shadow-card-hover);
+    border-color: rgb(var(--vz-blue) / 0.35);
+  }
+
+  /* Borderless variant, for a card sitting inside a frame that draws its own
+     edge. Keeps the sheen and the bevel, drops the outline. */
+  .vz-surface-flat {
+    border-color: transparent;
+  }
+
+  /* The recommended pricing tier, lifted out of the row. */
+  .vz-tier-popular {
+    border-color: rgb(var(--vz-orange));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 1),
+      0 2px 6px rgba(20, 24, 31, 0.06),
+      0 14px 32px rgba(20, 24, 31, 0.12),
+      0 0 0 1px rgb(var(--vz-orange) / 0.25);
+  }
+  .vz-tier-popular:hover {
+    border-color: rgb(var(--vz-orange));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 1),
+      0 4px 10px rgba(20, 24, 31, 0.08),
+      0 20px 44px rgba(20, 24, 31, 0.14),
+      0 0 0 1px rgb(var(--vz-orange) / 0.35);
+  }
+  /* Only where there is room for it — on a phone the tiers are a single
+     column and a raised card just breaks the rhythm of the stack.
+
+     Raised with margin, not `transform`: this card carries `.tilt`, which owns
+     `transform` and is declared further down the sheet, so a transform here
+     would simply be overwritten the moment a pointer entered the card. Margin
+     is the property nothing else in this stack is competing for. */
+  @media (min-width: 768px) {
+    .vz-tier-popular {
+      margin-top: -10px;
+    }
+  }
+
+  /* ── Buttons ──────────────────────────────────────────────
+     Lift on hover, sink on press, and an arrow that leans the way it is about
+     to take you. The nudge is the cheapest possible signal that a control leads
+     somewhere rather than doing something in place. */
+  .vz-btn {
+    transition:
+      transform var(--vz-dur-fast) var(--vz-ease-out),
+      box-shadow var(--vz-dur) var(--vz-ease),
+      background-color var(--vz-dur) var(--vz-ease),
+      border-color var(--vz-dur) var(--vz-ease),
+      color var(--vz-dur) var(--vz-ease);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .vz-btn:hover {
+      transform: translateY(-2px);
+    }
+  }
+  /* Presses register on touch too, where there is no hover to fall back on. */
+  .vz-btn:active {
+    transform: translateY(1px);
+    transition-duration: 60ms;
+  }
+  .vz-btn:disabled:active,
+  .vz-btn[aria-disabled='true']:active {
+    transform: none;
+  }
+
+  /* The trailing arrow inside any button or card link. */
+  .vz-btn svg:last-child,
+  .group:hover .vz-arrow {
+    transition: transform var(--vz-dur) var(--vz-ease);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .vz-btn:hover svg:last-child {
+      transform: translateX(3px);
+    }
+  }
+
+  /* ── Lazy images ──────────────────────────────────────────
+     Resolves in rather than snapping on. Scale and opacity only, so the whole
+     thing stays on the compositor; the tint underneath shows through while it
+     arrives, which is why there is no flash of empty frame.
+
+     `transform` is shared with the card's hover zoom, so both live in one
+     declaration — two rules writing `transform` would mean whichever lost the
+     cascade silently stopped working. */
+  .vz-img {
+    opacity: 0;
+    transform: scale(1.04);
+    transition:
+      opacity var(--vz-dur-slow) var(--vz-ease),
+      transform var(--vz-dur-slow) var(--vz-ease);
+  }
+  .vz-img-in {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .group:hover .vz-img-in {
+    transform: scale(1.03);
+  }
+
+  /* ── Nav links ────────────────────────────────────────────
+     A rule that grows from the centre, rather than a background tint appearing
+     behind the label. The current page keeps its rule permanently, so the nav
+     shows where you are without relying on the orange alone to carry it —
+     colour by itself is not a distinction everyone can see. */
+  .vz-navlink {
+    position: relative;
+    transition: color var(--vz-dur) var(--vz-ease);
+  }
+  .vz-navlink::after {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.25rem;
+    height: 2px;
+    border-radius: 999px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: 50% 50%;
+    transition: transform var(--vz-dur) var(--vz-ease);
+  }
+  .vz-navlink:hover::after,
+  .vz-navlink-active::after {
+    transform: scaleX(1);
+  }
+  .vz-navlink-active::after {
+    background: rgb(var(--vz-orange));
+  }
+
+  /* ── Accordion ────────────────────────────────────────────
+     Opening animates a grid track from 0fr to 1fr, which is the only way to
+     transition to a height the content decides for itself. The child needs its
+     own `overflow: hidden` for the collapsed track to actually clip it. */
+  .vz-faq-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--vz-dur-slow) var(--vz-ease);
+  }
+  .vz-faq-open .vz-faq-panel {
+    grid-template-rows: 1fr;
+  }
+  .vz-faq-open {
+    border-color: rgb(var(--vz-blue) / 0.4);
+    box-shadow: var(--vz-shadow-card-hover);
+  }
+
+  .vz-faq-mark {
+    transition:
+      transform var(--vz-dur) var(--vz-ease),
+      background-color var(--vz-dur) var(--vz-ease),
+      color var(--vz-dur) var(--vz-ease);
+  }
+  /* Plus turns into a cross: same glyph, 45°, no swap. */
+  .vz-faq-open .vz-faq-mark {
+    transform: rotate(135deg);
+  }
+  .vz-faq-trigger:hover .vz-faq-mark {
+    background-color: rgb(var(--vz-blue-soft));
+  }
+  .vz-faq-open .vz-faq-trigger:hover .vz-faq-mark {
+    background-color: rgb(var(--vz-orange-deep));
   }
 
   /* ── Cursor spotlight ─────────────────────────────────────
@@ -306,8 +546,55 @@
     animation: vz-hero-in 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
+  /*
+   * The hero window's resting angle, in the stylesheet so it is there at first
+   * paint rather than applied once JavaScript has booted.
+   *
+   * Matched to the scroll-linked tilt's value at progress 0 (see
+   * ScrollTiltWindow): 30 degrees back, scaled to 0.96. When the bundle
+   * hydrates, framer writes the identical transform inline and takes over, so
+   * there is nothing to see at the handover.
+   *
+   * Only from `md` up, because only there does the section get the extra height
+   * the rotation needs — phones never tilt.
+   *
+   * Deliberately NOT excluded when the `data-vz-reveal-all` fallback fires.
+   * Tying it to that attribute is what caused the last remaining flat frame: on
+   * a slow connection the ten-second fallback fires before hydration finishes,
+   * the rule stopped matching, and the window dropped flat while still waiting
+   * for the bundle — the exact symptom this was meant to cure, just later.
+   *
+   * And the exclusion was never earning its keep. Thirty degrees back *is* the
+   * designed appearance at the top of the page; it is what the reader is
+   * supposed to see before scrolling. It is a resting state, not a broken one,
+   * so there is nothing to rescue them from. With JavaScript switched off
+   * entirely the fallback script never runs either, so that case was never
+   * covered by it in the first place.
+   *
+   * `!important`, and dropped again via `data-vz-tilt-live`, because of a third
+   * state nobody sees in the source: on hydration the animation library stamps
+   * `transform: none` inline before it has a scroll position to work from, and
+   * an inline style beats a stylesheet. That was the remaining flat frame —
+   * the window came up correctly angled, went flat for a moment, then tilted
+   * again. So this rule outranks that placeholder, and `ScrollTiltWindow` sets
+   * `data-vz-tilt-live` only *after* the render that puts the real transform
+   * inline, which hands over with no gap in either direction.
+   */
+  @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+    html:not([data-vz-tilt-live]) .vz-tilt-rest {
+      transform: rotateX(30deg) scale(0.96) !important;
+    }
+  }
+
   .vz-banner-in {
     animation: vz-banner-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  }
+
+  /* Inner-page header entrance. Same reasoning as the two above: it is the
+     first thing on the page, so it runs from the stylesheet and needs no
+     JavaScript to become visible. */
+  .vz-page-in {
+    animation: vz-banner-in 0.7s var(--vz-ease) both;
   }
 
   /*
@@ -342,46 +629,78 @@
   .vz-stagger > *:nth-child(6) { animation-delay: 0.75s; }
 
   /*
-   * Phones do not hide anything behind an observer.
+   * Scroll reveal.
    *
-   * The windows below the hero were revealed by framer `whileInView`, and on a
-   * phone that broke in the field: only the first window ever appeared, and
-   * navigating away and back was what fixed it — the signature of the reveal
-   * depending on hydration and on an IntersectionObserver threshold that a
-   * 2000px-tall element inside an 844px viewport can barely satisfy. Whatever the
-   * exact trigger, a phone is the last place to gate content on JavaScript
-   * geometry.
+   * Every scroll-triggered entrance on the site runs through this one rule.
+   * `components/site/Reveal.tsx` only adds `data-shown`; the offsets come in as
+   * custom properties, so a caller describes its own entrance without needing a
+   * new class.
    *
-   * So below `md` the hidden state is simply overruled and the windows are there
-   * from first paint. The attribute selectors are live: they match while framer
-   * has an element parked at opacity 0 and stop matching once it animates, so
-   * this cannot freeze anything that does run. Tablet and up keep the entrances.
+   * This used to be framer-motion `whileInView`, which is what made the phone
+   * bug so hard to pin down: the element shipped from the server at
+   * `opacity: 0` and stayed that way until the bundle had downloaded, parsed and
+   * hydrated — so on a slow connection the windows below the hero were simply
+   * missing, and the workaround was a blanket rule that switched every phone
+   * entrance off. Both are gone. The hidden state now lives in the stylesheet
+   * next to the rule that clears it, and the only thing JavaScript contributes
+   * is the timing.
+   *
+   * Gated on `scripting: enabled` so content is never hidden unless JavaScript
+   * is actually available to reveal it. Browsers without the media feature skip
+   * the block and show everything — the safe direction to fail in.
    */
-  @media (max-width: 767px) {
-    .vz-fx,
-    .vz-fx [style*='opacity:0'],
-    .vz-fx [style*='opacity: 0'],
-    /* Same reasoning for the inner pages, which reveal through `Reveal` and its
-       own observer. `scripting: enabled` above only protects against JavaScript
-       being switched off, never against it being slow, and slow is the case that
-       actually happens on a phone. */
-    .reveal,
-    .reveal-3d {
-      opacity: 1 !important;
-      transform: none !important;
-      filter: none !important;
+  @media (scripting: enabled) {
+    .vz-reveal {
+      opacity: 0;
+      /* The scale is the point of this rule. A block that only slides reads as
+         a layer being dragged into position; the same block arriving fractionally
+         under size reads as coming toward the reader, which is the language the
+         hero's 3D tilt already speaks. 0.985 is deliberately almost nothing —
+         enough to feel, not enough to notice as a zoom. */
+      transform: translate3d(var(--vz-rx, 0px), var(--vz-ry, 28px), 0) scale(var(--vz-rs, 0.985));
+      filter: blur(var(--vz-rb, 0px));
+      transition:
+        opacity var(--vz-rt, 800ms) var(--vz-ease) var(--vz-rd, 0ms),
+        transform var(--vz-rt, 800ms) var(--vz-ease) var(--vz-rd, 0ms),
+        filter var(--vz-rt, 800ms) var(--vz-ease) var(--vz-rd, 0ms);
+    }
+
+    /* Depth variant: rises out of the page rather than up it. The parent
+       supplies the perspective (`.reveal-3d-scene`) so siblings share a
+       vanishing point and read as one scene. */
+    .vz-reveal-3d {
+      transform: translate3d(0, 48px, -140px) rotateX(14deg);
+      transform-origin: 50% 100%;
+    }
+    .reveal-3d-scene {
+      perspective: 1200px;
+      perspective-origin: 50% 30%;
+    }
+
+    .vz-reveal[data-shown] {
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+
+    /* The animated hairline on the home page's service cards: present while the
+       card flies in, gone once it has settled, so the grid resolves into open
+       space instead of staying boxed. */
+    .vz-card-edge {
+      border-color: rgb(var(--vz-border-strong));
+      transition: border-color 500ms ease 700ms;
+    }
+    .vz-card-edge[data-shown] {
+      border-color: transparent;
     }
   }
 
   /*
-   * Escape hatch for everything still animated in JavaScript.
-   *
-   * The scroll-triggered entrances further down the page need an observer, so
-   * they genuinely depend on the bundle. If it is slow or never arrives, a small
-   * inline script in the document flips this attribute a few seconds in and the
-   * page gives up on the choreography rather than staying blank. `!important` is
-   * what lets it win against framer's inline styles.
+   * Escape hatch. If the bundle is slow or never lands, a small inline script in
+   * the document flips this attribute a few seconds in and the page gives up on
+   * the choreography rather than staying blank.
    */
+  html[data-vz-reveal-all] .vz-reveal,
   html[data-vz-reveal-all] .vz-fx,
   html[data-vz-reveal-all] .vz-fx [style*='opacity:0'],
   html[data-vz-reveal-all] .vz-fx [style*='opacity: 0'] {
@@ -391,43 +710,98 @@
   }
 
   /*
-   * Scroll-reveal. Gated on `scripting: enabled` so content is never hidden
-   * unless JavaScript is actually available to reveal it again. Browsers that
-   * don't support the media feature skip the block entirely and show the
-   * content — the safe direction to fail in, since the animation is decoration.
+   * The home page's windows are animated by framer-motion again (`.vz-fx`), and
+   * these are the rules that arrangement depends on.
+   *
+   * Below `md` the hidden state is overruled outright and the windows are
+   * present from first paint. framer ships them from the server at `opacity: 0`
+   * and only clears it once the bundle has hydrated, which on a phone over a
+   * weak signal is seconds of blank page — the attribute selectors match while
+   * an element is parked at zero and stop matching the moment it animates, so
+   * this cannot freeze anything that does run.
+   *
+   * The cost is that phones get no entrance animation on the home page at all.
+   * That is the trade the framer version forces.
    */
-  @media (scripting: enabled) {
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-                  transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  @media (max-width: 767px) {
+    .vz-fx,
+    .vz-fx [style*='opacity:0'],
+    .vz-fx [style*='opacity: 0'] {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
     }
-    .reveal.is-visible {
-      opacity: 1;
-      transform: none;
-    }
+  }
 
-    /* Depth variant: elements rise out of the page as they enter view.
-       The parent supplies the perspective so siblings share a vanishing
-       point and the group reads as one scene rather than separate cards. */
-    .reveal-3d-scene {
-      perspective: 1200px;
-      perspective-origin: 50% 30%;
+  /* ── Glass, dialled back on phones ────────────────────────
+     Each window carries a 40px backdrop blur over roughly 82vh, and there are
+     four of them stacked down the page. Backdrop blur is the most expensive
+     thing on this site per pixel: cost scales with both the radius and the area
+     sampled, and it is recomputed whenever anything behind it moves — which,
+     on a page whose background is a fixed layer of drifting panes, is every
+     scrolled frame.
+
+     This turned out not to be a phone problem — it is a GPU-headroom problem,
+     and plenty of laptops have no more headroom than a phone. Measured over the
+     works window on a run where the page was actually stuttering, removing the
+     window glass took the 95th-percentile frame from 50ms to 17ms: from roughly
+     20fps to a solid 60. On a run where the machine had capacity to spare the
+     same change measured as nothing at all, which is exactly the signature of a
+     cost that only bites once the GPU is saturated — and why this was so hard to
+     pin down from a fast desktop.
+
+     So the radius came down everywhere, not just on phones: 40px to 12px, with
+     the pane picking up extra opacity so it still reads as frosted glass rather
+     than as a window someone left open. Phones go lower still. */
+  @media (max-width: 767px) {
+    .browser-window {
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      background-color: rgb(var(--vz-white) / 0.82);
     }
-    .reveal-3d {
-      opacity: 0;
-      transform: translate3d(0, 48px, -140px) rotateX(14deg);
-      transform-origin: 50% 100%;
-      transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-                  transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: transform, opacity;
-    }
-    .reveal-3d.is-visible {
-      opacity: 1;
-      transform: none;
-      will-change: auto;
-    }
+  }
+
+  /* ── Mobile navigation sheet ──────────────────────────────
+     The full-screen panel behind the dock (components/site/MobileNav.tsx).
+     It is never unmounted, only parked below the fold, so both the opening and
+     the closing move are plain transitions.
+
+     `visibility` is in the transition list on purpose: it is a discrete
+     property, so it flips to hidden only after the slide has finished, but back
+     to visible immediately on the way in. That is what lets a parked panel stay
+     out of the tab order without cutting the closing animation short. */
+  .vz-sheet {
+    transition:
+      transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 320ms;
+    /* Vertical panning is the panel's own scrolling; the swipe handler only
+       claims the gesture when the panel is already at the top. */
+    touch-action: pan-y;
+  }
+
+  /* Rows rise in once the sheet is open, staggered by --vz-rd. */
+  .vz-sheet-row {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 450ms cubic-bezier(0.22, 1, 0.36, 1) var(--vz-rd, 0ms),
+      transform 450ms cubic-bezier(0.22, 1, 0.36, 1) var(--vz-rd, 0ms);
+  }
+  .vz-sheet:not(.invisible) .vz-sheet-row {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── Mobile dock ──────────────────────────────────────────
+     Drops out of the way while the sheet is up. */
+  .vz-dock {
+    transition:
+      transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .vz-dock-away {
+    transform: translateY(90px);
+    opacity: 0;
   }
 }
 
@@ -440,10 +814,10 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .reveal,
-  .reveal-3d {
+  .vz-reveal {
     opacity: 1 !important;
     transform: none !important;
+    filter: none !important;
   }
   /* No pointer lean, no drifting colour fields */
   .tilt {

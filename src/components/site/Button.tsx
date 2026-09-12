@@ -3,21 +3,28 @@ import Link from 'next/link'
 type Variant = 'primary' | 'secondary' | 'ghost' | 'white'
 type Size = 'md' | 'lg'
 
+// `vz-btn` carries the shared motion: an explicit transition list rather than
+// `transition-all`. All-properties transitions are a standing invitation to
+// animate `width` or `border-width` by accident, which drags layout onto the
+// compositor's critical path for what should be a colour change.
+//
+// Every variant now answers a press, not just a hover. A control that lifts
+// toward the cursor but does nothing at all when clicked feels unfinished on a
+// phone, where hover does not exist and the press is the only feedback there is.
 const BASE =
-  'inline-flex items-center justify-center gap-2 font-medium rounded-soft ' +
-  'transition-all duration-200 ease-soft select-none ' +
-  'disabled:opacity-60 disabled:cursor-not-allowed'
+  'vz-btn inline-flex items-center justify-center gap-2 font-medium rounded-soft ' +
+  'select-none disabled:opacity-60 disabled:cursor-not-allowed'
 
 // Orange carries the primary action; blue and outlines support it.
 const VARIANTS: Record<Variant, string> = {
   primary:
-    'bg-vz-orange text-white shadow-soft-sm hover:bg-vz-orange-deep hover:shadow-cta hover:-translate-y-0.5 active:translate-y-0',
+    'bg-vz-orange text-white shadow-soft-sm hover:bg-vz-orange-deep hover:shadow-cta',
   secondary:
     'bg-white text-vz-text border border-vz-border-strong hover:border-vz-blue hover:text-vz-blue-deep hover:shadow-soft-sm',
   ghost:
     'text-vz-blue-deep hover:text-vz-orange-deep hover:bg-vz-orange-soft',
   white:
-    'bg-white text-vz-orange-deep shadow-soft hover:-translate-y-0.5 hover:shadow-soft-lg active:translate-y-0',
+    'bg-white text-vz-orange-deep shadow-soft hover:shadow-soft-lg',
 }
 
 const SIZES: Record<Size, string> = {

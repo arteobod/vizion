@@ -48,6 +48,12 @@ module.exports = {
         display: ['var(--font-nunito)', 'Nunito', 'system-ui', 'sans-serif'],
         sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
         mono: ['var(--font-jetbrains)', 'JetBrains Mono', 'monospace'],
+        // System monospace, for the public site's few tabular labels — the
+        // window chapter captions and the nav's row numbers. Deliberately not
+        // `font-mono`: that is the webfont, and pulling 31KB of JetBrains Mono
+        // for a caption and six two-digit numbers was landing on phones. The
+        // admin panel keeps the webfont, where the monospace look is the design.
+        tag: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
       },
       fontSize: {
         // Fluid display sizes — soft, large, never shouty

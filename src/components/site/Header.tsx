@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 import Container from './Container'
 import Button from './Button'
@@ -39,22 +39,65 @@ export default function Header() {
     document.documentElement.setAttribute('data-vz-hydrated', '')
   }, [])
 
+  /*
+   * The header gains a shadow once the page has moved off the top.
+   *
+   * That is one boolean, and it was the most expensive thing on the site while
+   * scrolling — 48ms of main thread across a single scroll, more than every
+   * visual effect on the page combined and more than the animation library.
+   * It was written the obvious way: `setScrolled(window.scrollY > 8)` on every
+   * scroll event.
+   *
+   * Two costs hid in that line. Scroll events fire far more often than frames,
+   * so React's dispatch ran repeatedly per frame to re-decide a value that
+   * changes once per visit. Worse, reading `scrollY` forces the browser to
+   * flush layout — and the hero's scroll-linked tilt is writing inline styles
+   * on the same frames, so the two took turns invalidating and re-measuring the
+   * page. That is layout thrashing, and it is why the stutter was worst on the
+   * first screen, where the tilt lives.
+   *
+   * There is no scroll listener here at all now. A zero-width sentinel sits at
+   * the top of the document and an IntersectionObserver reports when it leaves
+   * the viewport. The browser does that work off the main thread and tells us
+   * twice per visit instead of a thousand times: no listener, no `scrollY`, no
+   * forced layout.
+   */
+  const sentinelRef = useRef<HTMLSpanElement>(null)
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    const node = sentinelRef.current
+    if (!node || typeof IntersectionObserver === 'undefined') return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setScrolled(!entry.isIntersecting),
+      { threshold: 0 }
+    )
+    observer.observe(node)
+    return () => observer.disconnect()
   }, [])
 
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   return (
-    <header
-      className={`sticky top-0 z-50 bg-white/90 backdrop-blur-md transition-shadow duration-300 ${
-        scrolled ? 'shadow-soft-sm' : 'border-b border-vz-border'
-      }`}
-    >
+    <>
+      {/*
+        The sentinel the observer above watches. Absolutely positioned so it
+        takes no space in flow — the header is `sticky`, so anything that
+        occupied real height here would push the whole page down by that much.
+        9px tall to match the 8px threshold this used to compare `scrollY`
+        against, so the shadow still appears at exactly the same point.
+      */}
+      <span
+        ref={sentinelRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute left-0 top-0 h-[9px] w-px"
+      />
+      <header
+        className={`sticky top-0 z-50 bg-white/90 backdrop-blur-md transition-shadow duration-300 ${
+          scrolled ? 'shadow-soft-sm' : 'border-b border-vz-border'
+        }`}
+      >
       <Container>
         <div className="flex h-16 items-center justify-between gap-4 lg:h-20">
           <Link
@@ -69,10 +112,11 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`rounded-soft px-3 py-2 text-[0.9375rem] font-medium transition-colors duration-200 ${
+                aria-current={isActive(link.href) ? 'page' : undefined}
+                className={`vz-navlink rounded-soft px-3 py-2 text-[0.9375rem] font-medium ${
                   isActive(link.href)
-                    ? 'text-vz-orange-deep'
-                    : 'text-vz-body hover:bg-vz-soft hover:text-vz-text'
+                    ? 'vz-navlink-active text-vz-orange-deep'
+                    : 'text-vz-body hover:text-vz-text'
                 }`}
               >
                 {link.label}
@@ -88,6 +132,7 @@ export default function Header() {
           <LanguageSwitcher className="lg:hidden" />
         </div>
       </Container>
-    </header>
+      </header>
+    </>
   )
 }

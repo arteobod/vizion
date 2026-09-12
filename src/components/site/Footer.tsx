@@ -6,13 +6,16 @@ import { loc } from '@/lib/i18n'
 import { phoneList, telHref } from '@/lib/site-content'
 import Container from './Container'
 import Icon from './Icon'
-import type { Service, SiteContent } from '@/types'
+import type { SiteContent } from '@/types'
+import type { ServiceLinkData } from '@/lib/view'
 
 export default function Footer({
   services,
   siteContent,
 }: {
-  services: Service[]
+  // Just the link and its label. The footer is on every page, so a full
+  // `Service[]` here put the entire services file into every document.
+  services: ServiceLinkData[]
   siteContent: SiteContent
 }) {
   const { t, locale } = useLanguage()
