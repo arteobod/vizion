@@ -108,7 +108,7 @@
     "hero": {
       "eyebrow": "About us",
       "title": "A digital partner that speaks your language",
-      "subtitle": "We are a small web studio in Riga. We build digital tools that make businesses work faster and earn more — and we explain every step along the way."
+      "subtitle": "We are a web studio in Riga. We build digital tools that make businesses work faster and earn more — and we explain every step along the way."
     },
     "mission": {
       "title": "Our mission",
@@ -141,7 +141,7 @@
     },
     "team": {
       "title": "The people you will work with",
-      "subtitle": "Small team, direct communication. No account managers relaying messages."
+      "subtitle": "Direct communication with the team. No account managers relaying messages."
     },
     "approach": {
       "title": "How we work",
@@ -252,8 +252,8 @@
     },
     "hero": {
       "eyebrow": "Pricing",
-      "title": "Clear price ranges, no hidden extras",
-      "subtitle": "Below are realistic budgets for typical projects. After a short call we replace the range with a fixed number — and that number does not change unless you change the scope."
+      "title": "Clear price ranges",
+      "subtitle": "Below are realistic budgets for typical projects. After a short call we replace the range with a fixed number."
     },
     "intro": {
       "title": "How we price work",

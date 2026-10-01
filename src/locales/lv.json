@@ -108,7 +108,7 @@
     "hero": {
       "eyebrow": "Par mums",
       "title": "Digitālais partneris, kas runā jūsu valodā",
-      "subtitle": "Mēs esam neliela tīmekļa studija Rīgā. Veidojam digitālus rīkus, kas ļauj uzņēmumiem strādāt ātrāk un nopelnīt vairāk — un izskaidrojam katru soli."
+      "subtitle": "Mēs esam tīmekļa studija Rīgā. Veidojam digitālus rīkus, kas ļauj uzņēmumiem strādāt ātrāk un nopelnīt vairāk — un izskaidrojam katru soli."
     },
     "mission": {
       "title": "Mūsu misija",
@@ -141,7 +141,7 @@
     },
     "team": {
       "title": "Ar ko jūs strādāsiet",
-      "subtitle": "Neliela komanda un tieša saziņa. Bez menedžeriem, kas pārstāsta jūsu vārdus."
+      "subtitle": "Tieša saziņa ar komandu. Bez menedžeriem, kas pārstāsta jūsu vārdus."
     },
     "approach": {
       "title": "Kā mēs strādājam",
@@ -252,8 +252,8 @@
     },
     "hero": {
       "eyebrow": "Cenas",
-      "title": "Skaidri cenu diapazoni, bez slēptām piemaksām",
-      "subtitle": "Zemāk — reāli tipisku projektu budžeti. Pēc īsas sarunas diapazons pārtop fiksētā summā, kas nemainās, kamēr jūs nemaināt darbu apjomu."
+      "title": "Skaidri cenu diapazoni",
+      "subtitle": "Zemāk — reāli tipisku projektu budžeti. Pēc īsas sarunas diapazons pārtop fiksētā summā."
     },
     "intro": {
       "title": "Kā mēs aprēķinām izmaksas",

@@ -11,7 +11,7 @@ export const revalidate = 60
 export const metadata: Metadata = {
   title: 'About us',
   description:
-    'A small web studio in Riga. We build websites and business tools, and explain every step in plain language.',
+    'A web studio in Riga. We build websites and business tools, and explain every step in plain language.',
   alternates: { canonical: 'https://viz-on.net/about' },
 }
 
