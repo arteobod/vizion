@@ -108,9 +108,17 @@ export function PricingTable({ tiers }: { tiers: PricingTier[] }) {
 
   return (
     <Section tone="white">
-      <div className="reveal-3d-scene grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+      {/* Flex rather than a fixed-column grid: the tier count comes from the
+          admin panel, and a short last row should sit centred instead of
+          hugging the left edge. */}
+      <div className="reveal-3d-scene flex flex-wrap justify-center gap-6">
         {tiers.map((tier, i) => (
-          <Reveal key={tier.id} variant="3d" delay={i * 90} className="h-full">
+          <Reveal
+            key={tier.id}
+            variant="3d"
+            delay={i * 90}
+            className="w-full md:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]"
+          >
             <PricingCard tier={tier} labels={labels} />
           </Reveal>
         ))}
