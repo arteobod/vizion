@@ -12,7 +12,6 @@ import type { SiteContent } from '@/types'
 // Service slugs used across the site map onto the form's project types.
 const SERVICE_TO_TYPE: Record<string, string> = {
   'website-development': 'website',
-  redesign: 'redesign',
   'b2b-tools': 'utility',
 }
 
