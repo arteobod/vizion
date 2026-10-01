@@ -11,7 +11,7 @@ export const revalidate = 60
 export const metadata: Metadata = {
   title: 'Services',
   description:
-    'Website development, redesign, and B2B tools that automate business processes. Clear pricing and fixed timelines.',
+    'Website development and B2B tools that automate business processes. Clear pricing and fixed timelines.',
   alternates: { canonical: 'https://viz-on.net/services' },
 }
 

@@ -10,7 +10,7 @@ export const revalidate = 60
 export const metadata: Metadata = {
   title: 'Our work',
   description:
-    'Projects we have delivered, with the business results they produced — websites, redesigns, and B2B tools.',
+    'Projects we have delivered, with the business results they produced — websites and B2B tools.',
   alternates: { canonical: 'https://viz-on.net/work' },
 }
 

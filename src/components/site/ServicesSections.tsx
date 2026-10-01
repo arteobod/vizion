@@ -41,12 +41,17 @@ export function ServicesGrid({ services }: { services: Service[] }) {
 export function ServicesFaq() {
   const { t } = useLanguage()
   return (
-    <Faq
-      title={t.services.faq.title}
-      subtitle={t.services.faq.subtitle}
-      items={t.services.faq.items}
-      tone="soft"
-    />
+    // The header links straight here, so the block needs an anchor — and a
+    // scroll margin, because the header is fixed and would otherwise sit on
+    // top of the heading it has just jumped to.
+    <div id="faq" className="scroll-mt-28">
+      <Faq
+        title={t.services.faq.title}
+        subtitle={t.services.faq.subtitle}
+        items={t.services.faq.items}
+        tone="soft"
+      />
+    </div>
   )
 }
 

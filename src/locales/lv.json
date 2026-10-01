@@ -9,7 +9,8 @@
     "cta": "Sākt projektu",
     "menu": "Izvēlne",
     "close": "Aizvērt",
-    "call": "Zvanīt"
+    "call": "Zvanīt",
+    "faq": "Biežākie jautājumi"
   },
   "common": {
     "learnMore": "Uzzināt vairāk",
@@ -42,14 +43,13 @@
     "hero": {
       "eyebrow": "Tīmekļa studija Rīgā",
       "title": "Jūsu bizness aug — mēs veidojam tam digitālos risinājumus",
-      "subtitle": "Izstrādājam mājaslapas, atjaunojam novecojušas un veidojam B2B rīkus, kas pārņem rutīnas darbus. Saprotamā valodā, ar skaidru cenu un noteiktiem termiņiem.",
+      "subtitle": "Izstrādājam mājaslapas un veidojam B2B rīkus, kas pārņem rutīnas darbus. Saprotamā valodā, ar skaidru cenu un noteiktiem termiņiem.",
       "ctaPrimary": "Sākt projektu",
       "ctaSecondary": "Saņemt bezmaksas konsultāciju",
       "trust": "Pirmā konsultācija bez maksas · Atbilde 24 stundu laikā · Fiksēta tāme",
       "est": "Kopš 2026",
       "index": [
         "Mājaslapas",
-        "Pārveidošana",
         "B2B rīki"
       ],
       "dragHint": "Velc, lai pagrieztu ↔"
@@ -69,15 +69,15 @@
         },
         {
           "title": "Runājam biznesa, nevis koda valodā",
-          "text": "Skaidrojam katru lēmumu jūsu valodā, ne kodā."
+          "text": "Par darbu stāstām vienkārši: ko darām, kāpēc un ko tas jums dos."
         },
         {
           "title": "Individuāla pieeja",
           "text": "Sākam no jūsu klientiem, nevis no šablona."
         },
         {
-          "title": "Atbalsts pēc palaišanas",
-          "text": "Paliekam pēc palaišanas — uzturam un vērojam."
+          "title": "Vienmēr esam sasniedzami",
+          "text": "Pēc palaišanas nepazūdam: atbildam, labojam, atjaunojam."
         }
       ]
     },
@@ -156,7 +156,7 @@
   "services": {
     "meta": {
       "title": "Pakalpojumi",
-      "description": "Mājaslapu izstrāde, pārveidošana un B2B rīki biznesa procesu automatizācijai."
+      "description": "Mājaslapu izstrāde un B2B rīki biznesa procesu automatizācijai."
     },
     "hero": {
       "eyebrow": "Pakalpojumi",
@@ -203,7 +203,7 @@
         },
         {
           "q": "Ko darīt, ja mājaslapa jau ir un to vajag tikai uzlabot?",
-          "a": "Tieši tam ir paredzēta pārveidošana. Sākam ar esošā audita, atrodam, kas traucē rezultātam, un piedāvājam mazāko izmaiņu, kas dos efektu."
+          "a": "Tad sākam ar auditu: paskatāmies, kas jau strādā, atrodam, kas traucē rezultātam, un piedāvājam optimālo izmaiņu, kas dos efektu. Bieži pietiek uzlabot esošo, nevis veidot jaunu mājaslapu."
         }
       ]
     },
@@ -247,7 +247,7 @@
   "pricing": {
     "meta": {
       "title": "Cenas",
-      "description": "Caurskatāmi cenu diapazoni mājaslapām, pārveidošanai un B2B rīkiem."
+      "description": "Caurskatāmi cenu diapazoni mājaslapām un B2B rīkiem."
     },
     "hero": {
       "eyebrow": "Cenas",
@@ -324,7 +324,6 @@
       "projectTypePlaceholder": "Izvēlieties…",
       "types": {
         "website": "Jauna mājaslapa",
-        "redesign": "Mājaslapas pārveidošana",
         "utility": "B2B rīks / automatizācija",
         "other": "Kaut kas cits"
       },
@@ -348,7 +347,7 @@
   },
   "footer": {
     "tagline": "Digitāli risinājumi, kas palīdz jūsu biznesam augt.",
-    "description": "Mājaslapas, pārveidošana un B2B rīki. Rīga, Latvija — strādājam visā Eiropā.",
+    "description": "Mājaslapas un B2B rīki. Rīga, Latvija — strādājam visā Eiropā.",
     "navigation": "Navigācija",
     "servicesTitle": "Pakalpojumi",
     "contactTitle": "Kontakti",

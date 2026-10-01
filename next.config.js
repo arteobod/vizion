@@ -41,6 +41,14 @@ const nextConfig = {
     ]
   },
 
+  // The redesign service was retired; send its old page to the services list
+  // rather than a 404, so links and search results still land somewhere useful.
+  async redirects() {
+    return [
+      { source: '/services/redesign', destination: '/services', permanent: true },
+    ]
+  },
+
   async rewrites() {
     return [
       {

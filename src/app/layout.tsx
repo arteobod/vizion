@@ -38,25 +38,25 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://viz-on.net'),
   title: {
-    default: 'Vižon — Websites, redesign and business tools for growing companies',
+    default: 'Vižon — Websites and business tools for growing companies',
     template: '%s | Vižon',
   },
   description:
-    'We build websites, redesign outdated ones, and create B2B tools that automate routine work. Clear pricing, plain language, fixed timelines. Riga, Latvia.',
+    'We build websites and B2B tools that automate routine work. Clear pricing, plain language, fixed timelines. Riga, Latvia.',
   keywords: [
     'website development', 'website development Riga', 'web studio Latvia',
-    'website redesign', 'business automation', 'B2B tools', 'internal tools',
-    'корпоративный сайт', 'разработка сайтов Рига', 'редизайн сайта',
+    'business automation', 'B2B tools', 'internal tools',
+    'корпоративный сайт', 'разработка сайтов Рига',
     'веб студия Латвия', 'автоматизация бизнеса', 'B2B утилиты',
     'mājaslapu izstrāde', 'mājaslapu izstrāde Rīgā', 'tīmekļa studija Latvijā',
-    'mājaslapas pārveidošana', 'biznesa automatizācija',
+    'biznesa automatizācija',
   ],
   authors: [{ name: 'Vižon', url: 'https://viz-on.net' }],
   creator: 'Vižon',
   publisher: 'Vižon',
   alternates: { canonical: 'https://viz-on.net' },
   openGraph: {
-    title: 'Vižon — Websites, redesign and business tools',
+    title: 'Vižon — Websites and business tools',
     description:
       'Digital solutions that help your business grow. Clear pricing, plain language, fixed timelines.',
     type: 'website',
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vižon — Websites, redesign and business tools',
+    title: 'Vižon — Websites and business tools',
     description:
       'Digital solutions that help your business grow. Clear pricing, plain language, fixed timelines.',
     images: ['/og.png'],
@@ -99,10 +99,10 @@ const jsonLd = {
   alternateName: 'viz-on',
   url: 'https://viz-on.net',
   description:
-    'Web studio in Riga, Latvia. Website development, redesign, and B2B tools that automate business processes.',
+    'Web studio in Riga, Latvia. Website development and B2B tools that automate business processes.',
   areaServed: ['Latvia', 'Europe'],
   knowsAbout: [
-    'Website development', 'Website redesign', 'Business process automation',
+    'Website development', 'Business process automation',
     'B2B tools', 'Admin dashboards', 'CRM systems',
   ],
   address: {

@@ -9,7 +9,8 @@
     "cta": "Start a project",
     "menu": "Menu",
     "close": "Close",
-    "call": "Call"
+    "call": "Call",
+    "faq": "FAQ"
   },
   "common": {
     "learnMore": "Learn more",
@@ -42,14 +43,13 @@
     "hero": {
       "eyebrow": "Web studio in Riga",
       "title": "Your business grows — we build the digital tools for it",
-      "subtitle": "We create websites, redesign outdated ones, and build B2B tools that automate routine work. In plain language, with clear pricing and fixed deadlines.",
+      "subtitle": "We create websites and build B2B tools that automate routine work. In plain language, with clear pricing and fixed deadlines.",
       "ctaPrimary": "Start a project",
       "ctaSecondary": "Get a free consultation",
       "trust": "Free first consultation · Reply within 24 hours · Fixed-price estimate",
       "est": "Est. 2026",
       "index": [
         "Websites",
-        "Redesign",
         "B2B tools"
       ],
       "dragHint": "Drag to spin ↔"
@@ -69,15 +69,15 @@
         },
         {
           "title": "We speak business, not code",
-          "text": "We explain every decision in your terms, not code."
+          "text": "We talk about the work plainly: what we are doing, why, and what it gives you."
         },
         {
           "title": "An individual approach",
           "text": "We start from your customers, never a template."
         },
         {
-          "title": "Support after launch",
-          "text": "We stay on after launch — maintained and monitored."
+          "title": "Always in touch",
+          "text": "We do not vanish after launch: we answer, fix, and keep things current."
         }
       ]
     },
@@ -156,7 +156,7 @@
   "services": {
     "meta": {
       "title": "Services",
-      "description": "Website development, redesign, and B2B tools that automate business processes."
+      "description": "Website development and B2B tools that automate business processes."
     },
     "hero": {
       "eyebrow": "Services",
@@ -203,7 +203,7 @@
         },
         {
           "q": "What if I already have a site and just want it improved?",
-          "a": "That is exactly what the redesign service is for. We start with an audit of what you have, identify what is holding results back, and propose the smallest change that will move the needle."
+          "a": "Then we start with an audit: we look at what already works, find what is holding results back, and propose the optimal change that will move the needle. Often it is enough to improve what you have rather than build a new site."
         }
       ]
     },
@@ -247,7 +247,7 @@
   "pricing": {
     "meta": {
       "title": "Pricing",
-      "description": "Transparent price ranges for websites, redesign, and B2B tools."
+      "description": "Transparent price ranges for websites and B2B tools."
     },
     "hero": {
       "eyebrow": "Pricing",
@@ -324,7 +324,6 @@
       "projectTypePlaceholder": "Choose one…",
       "types": {
         "website": "New website",
-        "redesign": "Website redesign",
         "utility": "B2B tool / automation",
         "other": "Something else"
       },
@@ -348,7 +347,7 @@
   },
   "footer": {
     "tagline": "Digital solutions that help your business grow.",
-    "description": "Websites, redesign, and B2B tools. Riga, Latvia — working across Europe.",
+    "description": "Websites and B2B tools. Riga, Latvia — working across Europe.",
     "navigation": "Navigation",
     "servicesTitle": "Services",
     "contactTitle": "Contact",

@@ -58,6 +58,7 @@ export default function MobileNav({ siteContent }: { siteContent: SiteContent })
     { href: '/', label: t.nav.home },
     { href: '/about', label: t.nav.about },
     { href: '/services', label: t.nav.services },
+    { href: '/services#faq', label: t.nav.faq },
     { href: '/work', label: t.nav.portfolio },
     { href: '/pricing', label: t.nav.pricing },
     { href: '/contacts', label: t.nav.contacts },

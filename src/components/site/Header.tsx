@@ -26,6 +26,7 @@ export default function Header() {
     { href: '/', label: t.nav.home },
     { href: '/about', label: t.nav.about },
     { href: '/services', label: t.nav.services },
+    { href: '/services#faq', label: t.nav.faq },
     { href: '/work', label: t.nav.portfolio },
     { href: '/pricing', label: t.nav.pricing },
     { href: '/contacts', label: t.nav.contacts },
@@ -113,7 +114,7 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 aria-current={isActive(link.href) ? 'page' : undefined}
-                className={`vz-navlink rounded-soft px-3 py-2 text-[0.9375rem] font-medium ${
+                className={`vz-navlink whitespace-nowrap rounded-soft px-2 py-2 text-sm font-medium xl:px-3 xl:text-[0.9375rem] ${
                   isActive(link.href)
                     ? 'vz-navlink-active text-vz-orange-deep'
                     : 'text-vz-body hover:text-vz-text'

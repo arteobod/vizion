@@ -75,7 +75,6 @@ export default function ContactForm({ preset }: { preset?: string }) {
 
   const typeOptions = [
     { value: 'website', label: t.contacts.form.types.website },
-    { value: 'redesign', label: t.contacts.form.types.redesign },
     { value: 'utility', label: t.contacts.form.types.utility },
     { value: 'other', label: t.contacts.form.types.other },
   ]

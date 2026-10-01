@@ -82,45 +82,6 @@
     "popular": true
   },
   {
-    "id": "tier-03",
-    "serviceSlug": "redesign",
-    "name": "Redesign",
-    "name_ru": "Редизайн",
-    "name_lv": "Pārveidošana",
-    "description": "A rebuild of your existing site: new design, clearer structure, faster loading — with search positions preserved.",
-    "description_ru": "Переработка существующего сайта: новый дизайн, понятная структура, быстрая загрузка — с сохранением позиций в поиске.",
-    "description_lv": "Esošās mājaslapas pārveide: jauns dizains, skaidrāka struktūra, ātrāka ielāde — saglabājot meklētāju pozīcijas.",
-    "priceFrom": "€900",
-    "priceTo": "€4 500",
-    "timeline": "3–6 weeks",
-    "timeline_ru": "3–6 недель",
-    "timeline_lv": "3–6 nedēļas",
-    "includes": [
-      "Audit of the current site and its analytics",
-      "New design across all existing pages",
-      "Migration with redirects, so rankings are kept",
-      "Speed and mobile improvements",
-      "Admin panel if the old site lacked one",
-      "1 month of monitoring after migration"
-    ],
-    "includes_ru": [
-      "Аудит текущего сайта и его аналитики",
-      "Новый дизайн для всех существующих страниц",
-      "Перенос с перенаправлениями, позиции сохраняются",
-      "Улучшение скорости и мобильной версии",
-      "Админ-панель, если на старом сайте её не было",
-      "1 месяц наблюдения после переноса"
-    ],
-    "includes_lv": [
-      "Esošās mājaslapas un tās analītikas audits",
-      "Jauns dizains visām esošajām lapām",
-      "Pārcelšana ar pāradresācijām, pozīcijas saglabājas",
-      "Ātruma un mobilās versijas uzlabojumi",
-      "Administrācijas panelis, ja vecajai lapai tāda nebija",
-      "1 mēnesis novērošanas pēc pārcelšanas"
-    ]
-  },
-  {
     "id": "tier-04",
     "serviceSlug": "b2b-tools",
     "name": "B2B tool",

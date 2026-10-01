@@ -10,7 +10,7 @@ export const revalidate = 60
 export const metadata: Metadata = {
   title: 'Pricing',
   description:
-    'Transparent price ranges for websites, redesign, and B2B tools. Fixed estimates agreed before work starts.',
+    'Transparent price ranges for websites and B2B tools. Fixed estimates agreed before work starts.',
   alternates: { canonical: 'https://viz-on.net/pricing' },
 }
 
