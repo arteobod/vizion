@@ -150,8 +150,7 @@
   @media (prefers-reduced-motion: reduce) {
     /* The background panes stay — they are composition, not motion. Only the
        drifting stops. */
-    .animate-drift,
-    .animate-sway { animation: none; }
+    .animate-drift { animation: none; }
   }
 
   html {
@@ -200,6 +199,28 @@
 }
 
 @layer components {
+  /* ── Background panes ───────────────────────
+     The drifting browser panes behind the home page (FloatingWindows).
+
+     `will-change` is here because a transform animation is only composited if
+     the browser agrees to it, and on this page it often did not: the panes then
+     animated on the main thread, recalculating style every frame for as long as
+     the tab was open. In the trace they were the most-invalidated nodes on the
+     page by a wide margin.
+
+     Whether it happened varied run to run on the same machine - the page sits
+     near whatever budget decides it, so it falls to the slow path under memory
+     pressure, which is exactly the condition a weaker laptop is always in. That
+     is the reported symptom: fine on one machine, unusable on another.
+
+     Declaring the intent up front settles it, and it is a cheap promise to keep
+     here - six small panes, none larger than about 340px across, on a layer
+     that never scrolls - unlike the viewport-sized windows, where a standing
+     `will-change` would be the thing making it slower. */
+  .animate-drift {
+    will-change: transform;
+  }
+
   /* ── Aurora ───────────────────────────────────────────────
      Slow drifting colour fields behind the hero. Animates only
      transform and opacity, so it stays on the compositor and
@@ -700,10 +721,28 @@
    * the document flips this attribute a few seconds in and the page gives up on
    * the choreography rather than staying blank.
    */
+  /*
+   * Matched on the subtree, not on the `style` attribute.
+   *
+   * This used to reach the parked elements with `[style*='opacity:0']`. That
+   * reads as a precise way to find exactly the elements framer has hidden, and
+   * it is - but an attribute-substring selector puts the `style` attribute into
+   * the page's invalidation set, and framer rewrites `style` on every element
+   * it animates on every frame. So each frame of every entrance invalidated the
+   * match and forced a style recalculation across the whole `.vz-fx` subtree:
+   * 785 recalcs over one pass down the page, with `.vz-fx` the second
+   * most-invalidated node in the trace, all in service of a rule that only ever
+   * applies when the bundle has already failed. Replacing it took that count
+   * to 12.
+   *
+   * A plain descendant does the same job. It is broader, which costs nothing:
+   * the rule sits behind an attribute on <html> that is set only when hydration
+   * has not happened within a few seconds, so on a normal load it matches
+   * nothing at all and is never evaluated.
+   */
   html[data-vz-reveal-all] .vz-reveal,
   html[data-vz-reveal-all] .vz-fx,
-  html[data-vz-reveal-all] .vz-fx [style*='opacity:0'],
-  html[data-vz-reveal-all] .vz-fx [style*='opacity: 0'] {
+  html[data-vz-reveal-all] .vz-fx * {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
@@ -723,10 +762,16 @@
    * The cost is that phones get no entrance animation on the home page at all.
    * That is the trade the framer version forces.
    */
+  /*
+   * Matched on the subtree rather than on the `style` attribute, for the reason
+   * given on the fallback rule above: `[style*=...]` puts the `style` attribute
+   * into the invalidation set, and framer rewrites it every frame. The effect
+   * is unchanged - this block already forces everything in `.vz-fx` visible and
+   * keeps it that way, so "every descendant" is what it was always describing.
+   */
   @media (max-width: 767px) {
     .vz-fx,
-    .vz-fx [style*='opacity:0'],
-    .vz-fx [style*='opacity: 0'] {
+    .vz-fx * {
       opacity: 1 !important;
       transform: none !important;
       filter: none !important;

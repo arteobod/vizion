@@ -236,7 +236,8 @@
       "keyResult": "Key result",
       "taskOwn": "The problem",
       "resultsOwn": "What was built",
-      "built": "Own project"
+      "built": "Own project",
+      "concept": "Concept"
     },
     "cta": {
       "title": "Want a similar result?",

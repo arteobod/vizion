@@ -95,25 +95,32 @@ module.exports = {
           '0%': { opacity: '0', transform: 'translateY(16px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        // Ambient drift for the background browser panes. translate3d keeps it
-        // on the compositor; the sideways nudge stops it reading as a lift.
+        // Ambient drift for the background browser panes: position and rotation
+        // in one animation, on one element.
+        //
+        // These used to be two animations on two nested elements, given
+        // different periods so position and rotation never came back into sync.
+        // That mismatch is worth keeping, but it was costing an animated element
+        // per pane - twelve in total, and the compositor does not always take
+        // them. When it declines, all twelve run on the main thread and
+        // recalculate style every frame for as long as the page is open;
+        // measured over one pass down the home page that was the difference
+        // between ~550ms and ~1450ms of renderer time.
+        //
+        // Merging them keeps the effect and halves the element count: translate
+        // peaks at 50% of the cycle, rotation at 33% and again at 72%, so the
+        // two still never line up inside a single period.
         drift: {
-          '0%, 100%': { transform: 'translate3d(0, 0, 0)' },
-          '50%': { transform: 'translate3d(10px, -30px, 0)' },
-        },
-        // Paired with `drift` on a separate element and given a different
-        // period, so position and rotation never come back into sync — that
-        // mismatch is what stops the motion reading as a loop.
-        sway: {
-          '0%, 100%': { transform: 'rotate(-0.9deg)' },
-          '50%': { transform: 'rotate(0.9deg)' },
+          '0%, 100%': { transform: 'translate3d(0, 0, 0) rotate(-0.9deg)' },
+          '33%': { transform: 'translate3d(6px, -18px, 0) rotate(0.9deg)' },
+          '50%': { transform: 'translate3d(10px, -30px, 0) rotate(0.35deg)' },
+          '72%': { transform: 'translate3d(4px, -14px, 0) rotate(-0.6deg)' },
         },
       },
       animation: {
         'float': 'floatY 6s ease-in-out infinite',
         'fade-in-up': 'fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards',
         'drift': 'drift 18s ease-in-out infinite',
-        'sway': 'sway 23s ease-in-out infinite',
       },
     },
   },

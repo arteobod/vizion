@@ -62,15 +62,26 @@ export interface Project {
   title_ru?: string
   title_lv?: string
   /**
-   * Client work or the studio's own. Absent means `'client'`, so every case
+   * What kind of engagement this was. Absent means `'client'`, so every case
    * written before this existed keeps its wording.
    *
-   * An own project has no commissioning client and never ran in production, so
-   * the case page swaps the labels that would otherwise assert both — see
-   * PortfolioSections. Calling a self-initiated build a delivered engagement is
-   * the kind of thing a prospect checks.
+   * The distinction is not bookkeeping — the case page prints different
+   * headings for each, and the wrong one makes a claim the work does not
+   * support. Calling a self-initiated build a delivered engagement is the kind
+   * of thing a prospect checks.
+   *
+   * - `client`  — commissioned, delivered, running for them. Names the client,
+   *               and the headings read "The client's task" / "Results achieved".
+   * - `own`     — the studio's own product. No commissioning client, so the
+   *               labels that would assert one are swapped out.
+   * - `concept` — designed and built for a named company, but not running for
+   *               them. Shows "Concept" in place of a client name and takes the
+   *               same neutral headings as `own`: "The problem", "What was
+   *               built". Naming a company as a client here would assert a
+   *               delivered engagement; calling it the studio's own product
+   *               would be equally untrue in the other direction.
    */
-  kind?: 'client' | 'own'
+  kind?: 'client' | 'own' | 'concept'
   /** Empty for own projects — nobody commissioned them. */
   client: string
   /** Matches Service.slug — powers portfolio filtering */

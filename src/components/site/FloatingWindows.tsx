@@ -23,12 +23,15 @@
  * draws them exactly and costs nothing next to the backdrop blur already on
  * the page.
  *
- * Four nested elements per pane, because each owns a transform that would
- * otherwise overwrite the others: position drift → rotation sway → its own
- * perspective → the resting 3D angle. The perspective has to sit on the
- * immediate parent; inherited from further up it gets flattened by the
- * transforms in between, and a rotateY with no perspective just looks like a
- * horizontal squash.
+ * Three nested elements per pane, because each owns a transform that would
+ * otherwise overwrite the others: the drift → its own perspective → the resting
+ * 3D angle. The perspective has to sit on the immediate parent; inherited from
+ * further up it gets flattened by the transforms in between, and a rotateY with
+ * no perspective just looks like a horizontal squash.
+ *
+ * The drift used to be two animated elements, position and rotation on separate
+ * periods. They are one animation now — see the `drift` keyframes in the
+ * Tailwind config for why, and for how the out-of-sync feel survives the merge.
  */
 
 type Depth = 'near' | 'mid' | 'far'
@@ -38,10 +41,11 @@ type Pane = {
   place: string
   layout: Layout
   depth: Depth
-  /** Resting 3D angle, before drift and sway. */
+  /** Resting 3D angle, before the drift. */
   angle: string
+  /** Period of the drift, in seconds. Every pane gets its own so they never
+      move together. */
   drift: number
-  sway: number
   delay: number
 }
 
@@ -59,32 +63,32 @@ const PANES: Pane[] = [
     // strength a coloured chart this size wins the first screen outright.
     place: 'hidden md:block md:right-[3%] md:top-[11%] md:w-[18rem]',
     layout: 'dashboard', depth: 'mid',
-    angle: 'rotateX(9deg) rotateY(-18deg)', drift: 19, sway: 26, delay: -4,
+    angle: 'rotateX(9deg) rotateY(-18deg)', drift: 19, delay: -4,
   },
   {
     place: 'hidden md:block md:right-[23%] md:top-[35%] md:w-[13rem]',
     layout: 'form', depth: 'far',
-    angle: 'rotateX(-7deg) rotateY(-11deg)', drift: 15, sway: 21, delay: 0,
+    angle: 'rotateX(-7deg) rotateY(-11deg)', drift: 15, delay: 0,
   },
   {
     place: 'hidden md:block md:right-[1%] md:top-[59%] md:w-[21rem]',
     layout: 'table', depth: 'near',
-    angle: 'rotateX(8deg) rotateY(-15deg)', drift: 22, sway: 29, delay: -9,
+    angle: 'rotateX(8deg) rotateY(-15deg)', drift: 22, delay: -9,
   },
   {
     place: 'hidden md:block md:right-[35%] md:top-[-7%] md:w-[12rem]',
     layout: 'article', depth: 'far',
-    angle: 'rotateX(13deg) rotateY(10deg)', drift: 24, sway: 19, delay: -6,
+    angle: 'rotateX(13deg) rotateY(10deg)', drift: 24, delay: -6,
   },
   {
     place: '-left-10 top-[86%] w-[11rem] md:left-[1%] md:top-[69%] md:w-[17rem]',
     layout: 'landing', depth: 'mid',
-    angle: 'rotateX(-8deg) rotateY(16deg)', drift: 17, sway: 24, delay: -13,
+    angle: 'rotateX(-8deg) rotateY(16deg)', drift: 17, delay: -13,
   },
   {
     place: 'left-[42%] top-[95%] w-[9rem] md:left-[26%] md:top-[89%] md:w-[14rem]',
     layout: 'dashboard', depth: 'mid',
-    angle: 'rotateX(-11deg) rotateY(7deg)', drift: 16, sway: 27, delay: -2,
+    angle: 'rotateX(-11deg) rotateY(7deg)', drift: 16, delay: -2,
   },
 ]
 
@@ -119,20 +123,15 @@ export default function FloatingWindows() {
             className={`absolute animate-drift ${pane.place}`}
             style={{ animationDuration: `${pane.drift}s`, animationDelay: `${pane.delay}s` }}
           >
-            <div
-              className="animate-sway"
-              style={{ animationDuration: `${pane.sway}s`, animationDelay: `${pane.delay}s` }}
-            >
-              <div style={{ perspective: 900 }}>
-                <div
-                  style={{
-                    transform: `${pane.angle} scale(${d.scale})`,
-                    filter: d.blur ? `blur(${d.blur}px)` : undefined,
-                    opacity: d.opacity,
-                  }}
-                >
-                  <MiniWindow layout={pane.layout} edge={d.edge} shadow={d.shadow} />
-                </div>
+            <div style={{ perspective: 900 }}>
+              <div
+                style={{
+                  transform: `${pane.angle} scale(${d.scale})`,
+                  filter: d.blur ? `blur(${d.blur}px)` : undefined,
+                  opacity: d.opacity,
+                }}
+              >
+                <MiniWindow layout={pane.layout} edge={d.edge} shadow={d.shadow} />
               </div>
             </div>
           </div>

@@ -98,10 +98,13 @@ export function CaseDetail({ project }: { project: Project }) {
   const { t, locale } = useLanguage()
   const labels = t.portfolio.labels
 
-  // An own project has no client and never ran for one, so the headings that
-  // would claim both are swapped. "The client's task" and "Results achieved"
-  // over a self-initiated build are a quiet lie in the furniture.
-  const own = project.kind === 'own'
+  // Neither an own product nor a concept has a client the work was delivered
+  // to, so the headings that would claim one are swapped. "The client's task"
+  // and "Results achieved" over a build that never ran for anybody are a quiet
+  // lie in the furniture.
+  const own = project.kind === 'own' || project.kind === 'concept'
+  // The two differ only in what stands in for the client's name.
+  const standIn = project.kind === 'concept' ? labels.concept : labels.built
 
   return (
     <>
@@ -116,7 +119,7 @@ export function CaseDetail({ project }: { project: Project }) {
               {own ? t.common.projectType : t.common.client}
             </dt>
             <dd className="font-semibold text-vz-text">
-              {own ? labels.built : project.client}
+              {own ? standIn : project.client}
             </dd>
           </div>
           <div>

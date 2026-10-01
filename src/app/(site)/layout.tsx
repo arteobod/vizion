@@ -45,12 +45,18 @@ export default async function SiteLayout({
           padding/gutter zone, below where any window's text sits. Kept short on
           purpose so it never covers readable content, only softens the seam
           where a window meets the page edge. */}
+      {/* `divCount` is 2, not 4. Each layer is a separate fixed, full-width
+          element with its own `backdrop-filter`, so the count is a count of
+          composited layers the browser carries on every page - and this effect
+          is 3rem tall, at the very bottom edge, below anything readable. Four
+          ramp steps over 48px is a smoothness nobody can resolve; two is the
+          same edge for half the layers. */}
       <GradualBlur
         target="page"
         position="bottom"
         height="3rem"
         strength={1.4}
-        divCount={4}
+        divCount={2}
         curve="bezier"
       />
 

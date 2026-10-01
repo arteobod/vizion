@@ -7,9 +7,8 @@ import BrowserWindow from './BrowserWindow'
 import ScrollTiltWindow from './ScrollTiltWindow'
 import Button from './Button'
 import Icon from './Icon'
-import CaseCard from './CaseCard'
 import ServiceCard from './ServiceCard'
-import type { Service, Project } from '@/types'
+import type { Service } from '@/types'
 
 const WHY_ICONS = ['ShieldCheck', 'MessagesSquare', 'UserRoundCheck', 'LifeBuoy']
 const EASE = [0.22, 1, 0.36, 1] as const
@@ -86,27 +85,30 @@ function EntranceWindow({ children }: { children: React.ReactNode }) {
 }
 
 /**
- * The home page as four full-screen browser windows, animated with Framer
+ * The home page as three full-screen browser windows, animated with Framer
  * Motion:
  *  - Window 1 lies back in 3D and un-tilts as the reader scrolls through it
  *    (see ScrollTiltWindow) — the reader drives that one, not a timer.
  *  - Window 2 slides up straight; its three cards fly in from the far edges out
  *    settle into the grid, and their borders fade to transparent.
- *  - Window 3 is the case grid, and drops out entirely when there is no case
- *    data to show.
- *  - Window 4 closes with the call to action.
+ *  - Window 3 closes with the call to action.
+ *
+ * There were four. The case grid sat between services and the close, and it is
+ * gone deliberately: each of these windows is a full viewport of frosted,
+ * shadowed, sometimes 3D-transformed surface, and the page carried four of them
+ * down 5.6 screens. Nothing smaller moved the needle — the glass, the shadows,
+ * the drifting panes and the scroll-linked tilt were each measured out and each
+ * came back at or under the noise floor. The weight was the count, so the count
+ * came down.
+ *
+ * The work is still one click away: the closing window links to /work, and so
+ * does the nav.
  *
  * Nothing here animates `filter: blur()` any more — see the note on `rise`.
  * The windows still carry a static `backdrop-filter`; that is the glass, and it
  * is not animated. What was removed is blur that changed value every frame.
  */
-export default function HomeWindows({
-  services,
-  projects,
-}: {
-  services: Service[]
-  projects: Project[]
-}) {
+export default function HomeWindows({ services }: { services: Service[] }) {
   const { t } = useLanguage()
 
   // Narrow screens get gentler entrances — see cardVariants below.
@@ -119,11 +121,6 @@ export default function HomeWindows({
     return () => mq.removeEventListener('change', sync)
   }, [])
 
-  // Window 3 shows four cases in one row. With none in the data the window is
-  // dropped rather than rendered empty — an empty portfolio window would read
-  // as broken, and the case data ships as placeholder (see CONTENT_TODO.md).
-  const cases = projects.slice(0, 4)
-
   // Window 2 card entrances: left card from the left edge, middle from below,
   // right card from the right edge, borders fading out as they settle.
   //
@@ -133,24 +130,31 @@ export default function HomeWindows({
   // screen-tall hole under the heading. There they just rise a little instead.
   const OFFSET = compact ? 0 : 280
   const RISE = compact ? 40 : 200
+
+  // The card itself moves: opacity and transform only, both compositor-only
+  // properties, so the fly-in costs the main thread nothing.
   const settle = {
-    opacity: 1, x: 0, y: 0, borderColor: 'rgba(0,0,0,0)',
-    transition: { duration: 0.9, ease: EASE, borderColor: { delay: 0.7, duration: 0.5 } },
+    opacity: 1, x: 0, y: 0,
+    transition: { duration: 0.9, ease: EASE },
   }
   const cardVariants: Variants[] = [
-    {
-      hidden: { opacity: 0, x: -OFFSET, y: compact ? RISE : 0, borderColor: 'rgba(216, 221, 228, 1)' },
-      show: settle,
-    },
-    {
-      hidden: { opacity: 0, y: RISE, borderColor: 'rgba(216, 221, 228, 1)' },
-      show: settle,
-    },
-    {
-      hidden: { opacity: 0, x: OFFSET, y: compact ? RISE : 0, borderColor: 'rgba(216, 221, 228, 1)' },
-      show: settle,
-    },
+    { hidden: { opacity: 0, x: -OFFSET, y: compact ? RISE : 0 }, show: settle },
+    { hidden: { opacity: 0, y: RISE }, show: settle },
+    { hidden: { opacity: 0, x: OFFSET, y: compact ? RISE : 0 }, show: settle },
   ]
+
+  // The border that outlines a card in flight and is gone once it lands.
+  //
+  // It used to be `borderColor` tweened on the card. Colour is not a
+  // compositor property: every frame of that fade repainted the card and
+  // recalculated its style, and the three of them were among the most
+  // frequently invalidated nodes in the whole trace. The line is now drawn by
+  // an overlay that fades on `opacity` instead - same border, same timing,
+  // nothing repainted.
+  const cardBorder: Variants = {
+    hidden: { opacity: 1 },
+    show: { opacity: 0, transition: { delay: 0.7, duration: 0.5, ease: EASE } },
+  }
 
   return (
     <>
@@ -240,9 +244,13 @@ export default function HomeWindows({
                 // percentage threshold, so it waits forever for the entrance
                 // that would have brought it into view. Deadlock by geometry.
                 viewport={{ once: true, amount: 'some' }}
-                className="h-full rounded-card border"
-                style={{ borderColor: 'rgba(216, 221, 228, 1)' }}
+                className="relative h-full rounded-card"
               >
+                <motion.span
+                  aria-hidden="true"
+                  variants={cardBorder}
+                  className="pointer-events-none absolute inset-0 rounded-card border border-vz-border-strong"
+                />
                 <ServiceCard service={service} flat />
               </motion.div>
             ))}
@@ -270,73 +278,9 @@ export default function HomeWindows({
         </BrowserWindow>
       </EntranceWindow>
 
-      {/* ── Window 3 — Work: the case grid itself ── */}
-      {cases.length > 0 && (
-        <EntranceWindow>
-          <BrowserWindow url="viz-on.net/work" chapter="03 — Work">
-            <motion.span
-              variants={rise}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              className="inline-flex rounded-full bg-vz-orange-soft px-3 py-1 text-sm font-medium text-vz-orange-deep"
-            >
-              {t.home.cases.eyebrow}
-            </motion.span>
-            <motion.h2
-              variants={rise}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              className="mt-4 max-w-2xl text-h2 font-display"
-            >
-              {t.home.cases.title}
-            </motion.h2>
-            <motion.p
-              variants={rise}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              className="mt-4 max-w-xl text-vz-body"
-            >
-              {t.home.cases.subtitle}
-            </motion.p>
-
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {cases.map((project, i) => (
-                <motion.div
-                  key={project.id}
-                  variants={rise}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, amount: 'some' }}
-                  transition={{ delay: i * 0.09 }}
-                  className="h-full"
-                >
-                  <CaseCard project={project} />
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.div
-              variants={rise}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              className="mt-10"
-            >
-              <Button href="/work" variant="secondary" size="lg">
-                {t.common.allCases}
-                <Icon name="ArrowRight" className="h-4 w-4" />
-              </Button>
-            </motion.div>
-          </BrowserWindow>
-        </EntranceWindow>
-      )}
-
-      {/* ── Window 4 — Social proof: metric cards + CTA ── */}
+      {/* ── Window 3 — Close: the call to action ── */}
       <EntranceWindow>
-        <BrowserWindow url="viz-on.net/contacts" chapter="04 — Start">
+        <BrowserWindow url="viz-on.net/contacts" chapter="03 — Start">
           {/* This window used to open with three headline metrics. They were
               invented, and they named the four placeholder cases that have
               since been deleted — so they went with them. Nothing real has

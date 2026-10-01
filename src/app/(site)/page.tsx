@@ -1,12 +1,16 @@
 import HomeWindows from '@/components/site/HomeWindows'
 import FloatingWindows from '@/components/site/FloatingWindows'
-import { getServices, getProjects } from '@/lib/data'
+import { getServices } from '@/lib/data'
 
 // ISR: serve a cached render from the edge, refresh from KV every 60s.
 export const revalidate = 60
 
 export default async function HomePage() {
-  const [services, projects] = await Promise.all([getServices(), getProjects()])
+  // Projects are no longer fetched here. The case grid left the page with its
+  // window, and every project record was crossing the server/client boundary
+  // twice over — once as markup and again in the RSC flight payload — to fill
+  // it. Dropping the window drops that too.
+  const services = await getServices()
 
   // The page gradient runs light at the top to deeper at the bottom, so the
   // whole surface has one direction of light instead of sitting flat.
@@ -42,7 +46,7 @@ export default async function HomePage() {
       </div>
 
       <div className="relative">
-        <HomeWindows services={services} projects={projects} />
+        <HomeWindows services={services} />
       </div>
     </div>
   )
