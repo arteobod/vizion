@@ -27,9 +27,14 @@ export function ServicesHero() {
 export function ServicesGrid({ services }: { services: Service[] }) {
   return (
     <Section tone="white">
-      <div className="reveal-3d-scene grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="reveal-3d-scene flex flex-wrap justify-center gap-6">
         {services.map((service, i) => (
-          <Reveal key={service.id} variant="3d" delay={i * 110} className="h-full">
+          <Reveal
+            key={service.id}
+            variant="3d"
+            delay={i * 110}
+            className="w-full md:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]"
+          >
             <ServiceCard service={service} />
           </Reveal>
         ))}

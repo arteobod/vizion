@@ -137,6 +137,12 @@ export default function HomeWindows({ services }: { services: Service[] }) {
     opacity: 1, x: 0, y: 0,
     transition: { duration: 0.9, ease: EASE },
   }
+  // The outer cards come in from their own side and any middle one rises, so
+  // a pair still enters symmetrically instead of left-then-up.
+  const shown = services.slice(0, 3)
+  const entranceFor = (i: number) =>
+    shown.length === 1 ? 1 : i === 0 ? 0 : i === shown.length - 1 ? 2 : 1
+
   const cardVariants: Variants[] = [
     { hidden: { opacity: 0, x: -OFFSET, y: compact ? RISE : 0 }, show: settle },
     { hidden: { opacity: 0, y: RISE }, show: settle },
@@ -228,15 +234,17 @@ export default function HomeWindows({ services }: { services: Service[] }) {
             {t.home.services.title}
           </motion.h2>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {services.slice(0, 3).map((service, i) => (
+          {/* Centred flex, not a three-column grid: with fewer than three
+              services a grid leaves the row hugging the left edge. */}
+          <div className="mt-10 flex flex-wrap justify-center gap-6">
+            {shown.map((service, i) => (
               <motion.div
                 // Remounts when the breakpoint resolves. `initial` is applied
                 // once and never re-read, so a card mounted with the desktop
                 // variant would keep its 280px offset even after `compact`
                 // flips — the effect that sets it runs after the first render.
                 key={`${service.id}-${compact ? 'c' : 'w'}`}
-                variants={cardVariants[i] ?? cardVariants[1]}
+                variants={cardVariants[entranceFor(i)]}
                 initial="hidden"
                 whileInView="show"
                 // `some`, not a fraction: an element that starts translated off
@@ -244,7 +252,7 @@ export default function HomeWindows({ services }: { services: Service[] }) {
                 // percentage threshold, so it waits forever for the entrance
                 // that would have brought it into view. Deadlock by geometry.
                 viewport={{ once: true, amount: 'some' }}
-                className="relative h-full rounded-card"
+                className="relative w-full rounded-card md:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]"
               >
                 <motion.span
                   aria-hidden="true"

@@ -56,7 +56,7 @@
     },
     "services": {
       "eyebrow": "What we do",
-      "title": "Three ways we help your business",
+      "title": "Two ways we help your business",
       "subtitle": "Every service starts from a business problem — not a technical one."
     },
     "why": {
@@ -161,7 +161,7 @@
     "hero": {
       "eyebrow": "Services",
       "title": "Digital solutions for concrete business tasks",
-      "subtitle": "Three core services. Each one starts from a problem you already have, and ends with something measurable."
+      "subtitle": "Two core services. Each one starts from a problem you already have, and ends with something measurable."
     },
     "labels": {
       "whatItIs": "What it is",
